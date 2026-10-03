@@ -1,0 +1,5 @@
+# Every search engine may read the whole site.
+User-agent: *
+Allow: /
+
+Sitemap: https://miguel-adan.com/sitemap.xml

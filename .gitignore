@@ -1,0 +1,31 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.pyc
+
+# Cloudflare / Wrangler local cache and temporary files (includes your account ID)
+.wrangler/
+.deploy-staging/
+
+# Original product media: large (one video is over GitHub's 100 MB limit) and
+# unedited (shows branding and screens removed from the site)
+MyProducts-Recordings-And-Screenshots/
+
+# In case you ever keep a token in a file
+.env
+*.env
+# Files waiting to be deleted by hand
+_to_delete/
+
+# Original artwork and résumé notes: kept on this Mac only, never in the public repository
+source assets/
+avatar-*.jpg
+avatar-*.png
+avatar_*.png
+stylized-avatar-*.png
+MA-Website-*
+
+# Backup of the Git history taken before removing the originals from it
+_git-backup-before-cleanup.bundle
