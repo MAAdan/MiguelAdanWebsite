@@ -21,6 +21,7 @@ MiguelAdanWebsite/
 │   ├── index.html          English page   (generated, don't edit)
 │   ├── es/index.html       Spanish page   (generated, don't edit)
 │   ├── assets/             Images, videos, favicon and link-preview images
+│   │   └── mads.css        The MADS design system (downloaded by deploy.py, don't edit)
 │   ├── robots.txt          Tells search engines they may index the site
 │   └── sitemap.xml         Lists both pages for search engines
 └── source assets/          Original artwork (logo, palette, avatar images, résumé notes).
@@ -32,6 +33,7 @@ Not in Git (see `.gitignore`): the original product recordings, the Wrangler cac
 ## Requirements
 
 - **Python 3.** It's already installed on macOS. No extra packages are needed.
+- **Internet access to GitHub**, only for publishing. The deploy script downloads the design system from [github.com/MAAdan/MADS](https://github.com/MAAdan/MADS).
 - **Node.js**, only for publishing. Install it from [nodejs.org](https://nodejs.org) or run `brew install node`. The deploy script uses Cloudflare's own tool, Wrangler, through `npx`, so nothing else needs installing.
 - **A Cloudflare account** with the Pages project `miguel-adan`.
 
@@ -59,6 +61,8 @@ The build stops and lists any key that's missing from either language, so the si
 
 Edit `src/index.html` only. Never edit `website/index.html` or `website/es/index.html`, because the build overwrites them. Then run `python3 scripts/build.py`.
 
+Colours, fonts, type sizes, spacing, motion and most components come from the MA Design System (MADS), which lives in its own repository: [github.com/MAAdan/MADS](https://github.com/MAAdan/MADS). The page loads it from `website/assets/mads.css`. Don't edit that file: change MADS on GitHub, and the next deploy picks it up. `src/index.html` only holds what MADS doesn't cover, such as the page layout and the background animations.
+
 ### Add or replace an image
 
 1. Keep the original in `source assets/` (it stays on your Mac; Git ignores it).
@@ -84,18 +88,21 @@ Then open <http://localhost:8000>. The automatic switch to Spanish only runs on 
 python3 scripts/deploy.py
 ```
 
-This does four things, and stops at the first problem:
+This does five things, and stops at the first problem:
 
-1. Builds both pages from `src/` and `translations/`.
-2. Checks every image, video and icon the pages use exists, and lists unused files.
-3. Signs in to Cloudflare if needed. The first time, a browser window opens; after that the sign-in is remembered.
-4. Uploads the `website/` folder (without `.DS_Store` files) to the `miguel-adan` Pages project. The live site updates within a minute.
+1. Downloads the latest MADS stylesheet (`css/mads.css` on the `main` branch of [MAAdan/MADS](https://github.com/MAAdan/MADS)) into `website/assets/mads.css`. The first line of the copy says which MADS commit it came from.
+2. Builds both pages from `src/` and `translations/`.
+3. Checks every image, video and icon the pages use exists, and lists unused files.
+4. Signs in to Cloudflare if needed. The first time, a browser window opens; after that the sign-in is remembered.
+5. Uploads the `website/` folder (without `.DS_Store` files) to the `miguel-adan` Pages project. The live site updates within a minute.
 
 Other options:
 
 | Command | What it does |
 |---|---|
-| `python3 scripts/deploy.py --check` | Build and check only; publish nothing |
+| `python3 scripts/deploy.py --check` | Download MADS, build and check only; publish nothing |
+| `python3 scripts/deploy.py --mads-ref NAME` | Use a MADS tag, branch or commit instead of the latest on `main` |
+| `python3 scripts/deploy.py --keep-mads` | Don't download MADS; publish with the copy already in `website/assets` |
 | `python3 scripts/deploy.py --project NAME` | Publish to a differently named Pages project |
 | `python3 scripts/deploy.py --workers` | Publish as a Worker with static assets instead of Pages |
 
@@ -134,6 +141,7 @@ Never commit a token. `.env` files are already ignored by Git.
 
 | Problem | What to do |
 |---|---|
+| `Couldn't download MADS …` | Check your internet connection and that the MADS repository is still public. To publish anyway with the copy you have, add `--keep-mads`. |
 | `Missing translation …` when building | Add the listed keys to the JSON file named in the message. |
 | `The pages refer to files that are missing` | Add the file to `website/assets/`, or fix its name in `src/index.html`. |
 | `Node.js isn't installed` | Install it from nodejs.org or with `brew install node`. |

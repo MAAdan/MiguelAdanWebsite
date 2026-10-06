@@ -7,6 +7,13 @@ Usage (from the MiguelAdanWebsite folder):
     python3 scripts/deploy.py --check         # build and check only, publish nothing
     python3 scripts/deploy.py --project NAME  # use a different Cloudflare project name
     python3 scripts/deploy.py --workers       # the site lives in a Worker instead of Pages
+    python3 scripts/deploy.py --mads-ref v1.2 # use a MADS tag, branch or commit instead of the latest
+    python3 scripts/deploy.py --keep-mads     # don't download MADS, use the copy already in website/assets
+
+Before building, it downloads the latest MA Design System (MADS) stylesheet from
+https://github.com/MAAdan/MADS (css/mads.css) into website/assets/mads.css, so the
+site always goes out with the current design system. Don't edit that copy: change
+MADS on GitHub instead and deploy again.
 
 It uses Wrangler, Cloudflare's official command-line tool, through `npx`, so the
 only requirement is Node.js (https://nodejs.org, or `brew install node`).
@@ -19,11 +26,14 @@ machine without a browser), set these before running the script:
 """
 
 import argparse
+import json
 import os
 import re
 import shutil
 import subprocess
 import sys
+import urllib.error
+import urllib.request
 from pathlib import Path
 
 PROJECT_NAME = "miguel-adan"          # the Cloudflare Pages project name
@@ -31,6 +41,11 @@ SITE_URL = "https://miguel-adan.com"
 SCRIPTS_DIR = Path(__file__).resolve().parent       # this folder (scripts/)
 SITE_DIR = SCRIPTS_DIR.parent / "website"           # MiguelAdanWebsite/website
 WRANGLER = ["npx", "--yes", "wrangler@4"]
+
+MADS_REPO = "MAAdan/MADS"                            # the design system's GitHub repository
+MADS_FILES = {"css/mads.css": "assets/mads.css"}     # file in MADS → where it goes in website/
+MADS_RAW = "https://raw.githubusercontent.com/{repo}/{ref}/{path}"
+MADS_API = "https://api.github.com/repos/{repo}/commits/{ref}"
 
 
 def say(msg, kind="info"):
@@ -41,6 +56,56 @@ def say(msg, kind="info"):
 def fail(msg):
     say(msg, "err")
     sys.exit(1)
+
+
+def download(url, accept=None):
+    """Fetch a URL and return its bytes. Falls back to curl, which uses the system's
+    certificates, for Python installs on macOS that can't verify HTTPS by themselves."""
+    headers = {"User-Agent": "miguel-adan-deploy"}
+    if accept:
+        headers["Accept"] = accept
+    try:
+        with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=20) as r:
+            return r.read()
+    except (urllib.error.URLError, OSError) as e:
+        if shutil.which("curl") is None:
+            raise
+        cmd = ["curl", "-fsSL", "--max-time", "20"] + sum((["-H", f"{k}: {v}"] for k, v in headers.items()), []) + [url]
+        out = subprocess.run(cmd, capture_output=True)
+        if out.returncode != 0:
+            raise OSError(out.stderr.decode(errors="replace").strip() or str(e))
+        return out.stdout
+
+
+def update_mads(ref):
+    """Copy the design system from GitHub into website/assets, pinned to one commit."""
+    # Find the exact commit, so every file comes from the same version and the copy says which one it is.
+    try:
+        sha = json.loads(download(MADS_API.format(repo=MADS_REPO, ref=ref)))["sha"]
+    except Exception:
+        sha = None  # GitHub's API can be rate limited; the files themselves are still reachable
+    version = sha or ref
+    for src, dest in MADS_FILES.items():
+        url = MADS_RAW.format(repo=MADS_REPO, ref=version, path=src)
+        try:
+            text = download(url).decode("utf-8")
+        except Exception as e:
+            fail(f"Couldn't download MADS from {url}\n  ({e})\n"
+                 "  Check your internet connection and that the repository and file still exist.\n"
+                 "  To publish with the copy already in website/assets, run again with --keep-mads.")
+        if "--mads-" not in text:
+            fail(f"The file downloaded from {url} doesn't look like the MADS stylesheet. Nothing was changed.")
+        stamp = (f"/* MADS {src} from https://github.com/{MADS_REPO}"
+                 f" at {sha[:7] if sha else ref}. Downloaded by scripts/deploy.py: don't edit, change MADS instead. */\n")
+        target = SITE_DIR / dest
+        old = target.read_text(encoding="utf-8") if target.is_file() else None
+        new = stamp + text
+        # ignore the stamp line when deciding whether the design system itself changed
+        same = old is not None and old.split("\n", 1)[-1] == text
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(new, encoding="utf-8")
+        where = f"{MADS_REPO}@{sha[:7]}" if sha else f"{MADS_REPO} ({ref})"
+        say(f"MADS {src} is up to date ({where})." if same else f"MADS {src} updated from {where}.", "ok")
 
 
 def build_pages():
@@ -148,8 +213,14 @@ def main():
     ap.add_argument("--project", default=PROJECT_NAME, help=f"Cloudflare project name (default: {PROJECT_NAME})")
     ap.add_argument("--workers", action="store_true", help="deploy as a Worker with static assets instead of Pages")
     ap.add_argument("--check", action="store_true", help="only check the site, don't publish")
+    ap.add_argument("--mads-ref", default="main", help="MADS branch, tag or commit to use (default: main, the latest)")
+    ap.add_argument("--keep-mads", action="store_true", help="don't download MADS; use the copy already in website/assets")
     a = ap.parse_args()
 
+    if a.keep_mads:
+        say("Using the MADS copy already in website/assets (--keep-mads).", "warn")
+    else:
+        update_mads(a.mads_ref)
     build_pages()
     check_site()
     if a.check:
