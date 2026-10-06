@@ -42,7 +42,7 @@
   "facts.99_9": "99.9%",
   "facts.crashfree_users_every_app": "crash‑free users on every app I have owned",
   "evo.one_logo_three_chapters": "One logo, three chapters",
-  "evo.heading": "From the <span style=\"color:var(--azure-text)\">pointer</span>, to the <span style=\"color:var(--pink-text)\">people</span>, to the <span style=\"color:var(--amber-text)\">product</span>.",
+  "evo.heading": "From the <span style=\"color:var(--mads-theme-text-azure-blue)\">pointer</span>, to the <span style=\"color:var(--mads-theme-text-neon-pink)\">people</span>, to the <span style=\"color:var(--mads-theme-text-amber-gold)\">product</span>.",
   "evo.career_has_moved_handson": "My career has moved from hands‑on engineering to leading teams and owning a product. The shapes in my MA logo move with it. Pick a stage to see it change.",
   "evo.career_focus": "Career focus",
   "evo.engineering": "Engineering",

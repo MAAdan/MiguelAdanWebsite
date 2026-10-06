@@ -42,7 +42,7 @@
   "facts.99_9": "99,9 %",
   "facts.crashfree_users_every_app": "de usuarios sin cierres inesperados en todas las apps de las que he sido responsable",
   "evo.one_logo_three_chapters": "Un logotipo, tres capítulos",
-  "evo.heading": "Del <span style=\"color:var(--azure-text)\">cursor</span> a las <span style=\"color:var(--pink-text)\">personas</span> y al <span style=\"color:var(--amber-text)\">producto</span>.",
+  "evo.heading": "Del <span style=\"color:var(--mads-theme-text-azure-blue)\">cursor</span> a las <span style=\"color:var(--mads-theme-text-neon-pink)\">personas</span> y al <span style=\"color:var(--mads-theme-text-amber-gold)\">producto</span>.",
   "evo.career_has_moved_handson": "Mi carrera ha pasado de la ingeniería práctica a liderar equipos y ser responsable de un producto. Las formas de mi logotipo MA cambian con ella. Elige una etapa para verlo.",
   "evo.career_focus": "Enfoque profesional",
   "evo.engineering": "Ingeniería",

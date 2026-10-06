@@ -28,58 +28,45 @@
 <meta name="twitter:image" content="https://miguel-adan.com/assets/og-image-es.jpg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Unbounded:wght@300;500;700;800&family=Onest:wght@400;500;600&family=JetBrains+Mono:wght@400;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Onest:wght@100..900&family=Unbounded:wght@200..900&display=swap">
+<!-- MA Design System (MADS): tokens and components. Copied from the MADS folder; keep it in sync. -->
+<link rel="stylesheet" href="../assets/mads.css">
 <style>
-/* Layout: a sticky "stage" holds the MA monogram, which morphs (Kanban notes → people → pointer) as the career is scrolled backwards; content chapters scroll past it. Dark-first, single committed look. */
+/* Layout: a sticky "stage" holds the MA monogram, which morphs (Kanban notes → people → pointer) as the career is scrolled backwards; content chapters scroll past it.
+   Colours, type, shape, motion and components come from MADS (the mads.css file in the assets folder). This block holds only what MADS doesn't cover: page layout, the animated
+   backgrounds, the emblem, the timeline stage and a few site-only components. */
 :root{
-  --ink:#100c20; --ink-2:#1a1433; --ink-3:#241c45;
-  --fg:#f4f0fb; --muted:#b4abc9; --faint:#7d7497; --line:rgba(236,228,255,.10);
-  --amber:#ffbe0b; --orange:#fb5607; --pink:#ff006e; --violet:#8338ec; --azure:#3a86ff;
-  --glow-a:#ffbe0b; --glow-b:#fb5607;
-  --f-display:"Unbounded","Arial Rounded MT Bold","Trebuchet MS",sans-serif;
-  --f-body:"Onest","Segoe UI",system-ui,-apple-system,sans-serif;
-  --f-mono:"JetBrains Mono",ui-monospace,"SF Mono",Menlo,Consolas,monospace;
-  --amber-text:#ffbe0b; --azure-text:#5b9bff; --pink-text:#ff3d8b; --violet-text:#a878ff;
-  --soft:rgba(255,255,255,.05); --ghost:rgba(255,255,255,.07); --dots-d:1; --dots-l:0;
-  --board:rgba(255,255,255,.035); --board-line:rgba(236,228,255,.14); --tab-idle:#1e1b29; --tab-idle-hover:#25212f;
-  --cx-a:rgba(58,134,255,.28); --cx-b:rgba(131,56,236,.34); --cx-chip:rgba(20,16,44,.9); --cx-chip-line:rgba(131,56,236,.45); --cx-pulse:rgba(160,200,255,.95); --cx-o:.9;
-  --glow-mix:22%;
+  /* site-only tokens (no MADS equivalent): animated backgrounds, map, layout */
+  --dots-d:0; --dots-l:1;
+  --board:rgba(40,20,90,.035); --board-line:rgba(40,20,90,.16);
+  --cx-a:rgba(58,134,255,.30); --cx-b:rgba(131,56,236,.28); --cx-chip:rgba(255,255,255,.92); --cx-chip-line:rgba(131,56,236,.40); --cx-pulse:rgba(58,134,255,.9); --cx-o:.75;
   --gutter:clamp(16px,4vw,56px);
   --maxw:1280px;
-  color-scheme:dark;
+  color-scheme:light;
 }
-@media (prefers-color-scheme: light){ :root:not([data-theme="dark"]){ --ink:#f6f4fb; --ink-2:#ffffff; --ink-3:#e9e4f6;
-    --fg:#17122b; --muted:#544d74; --faint:#8a83a6; --line:rgba(40,20,90,.12);
-    --amber-text:#a86400; --azure-text:#1d5fd0; --pink-text:#cc0058; --violet-text:#6a25d1;
-    --soft:rgba(40,20,90,.05); --ghost:rgba(40,20,90,.09); --dots-d:0; --dots-l:1;
-    --board:rgba(40,20,90,.035); --board-line:rgba(40,20,90,.16); --tab-idle:#eeecf3; --tab-idle-hover:#e6e3ee;
-    --cx-a:rgba(58,134,255,.30); --cx-b:rgba(131,56,236,.28); --cx-chip:rgba(255,255,255,.92); --cx-chip-line:rgba(131,56,236,.40); --cx-pulse:rgba(58,134,255,.9); --cx-o:.75;
-    --glow-mix:16%;
-    color-scheme:light; } }
-:root[data-theme="light"]{ --ink:#f6f4fb; --ink-2:#ffffff; --ink-3:#e9e4f6;
-    --fg:#17122b; --muted:#544d74; --faint:#8a83a6; --line:rgba(40,20,90,.12);
-    --amber-text:#a86400; --azure-text:#1d5fd0; --pink-text:#cc0058; --violet-text:#6a25d1;
-    --soft:rgba(40,20,90,.05); --ghost:rgba(40,20,90,.09); --dots-d:0; --dots-l:1;
-    --board:rgba(40,20,90,.035); --board-line:rgba(40,20,90,.16); --tab-idle:#eeecf3; --tab-idle-hover:#e6e3ee;
-    --cx-a:rgba(58,134,255,.30); --cx-b:rgba(131,56,236,.28); --cx-chip:rgba(255,255,255,.92); --cx-chip-line:rgba(131,56,236,.40); --cx-pulse:rgba(58,134,255,.9); --cx-o:.75;
-    --glow-mix:16%;
-    color-scheme:light; }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){
+    --dots-d:1; --dots-l:0;
+    --board:rgba(255,255,255,.035); --board-line:rgba(236,228,255,.14);
+    --cx-a:rgba(58,134,255,.28); --cx-b:rgba(131,56,236,.34); --cx-chip:rgba(20,16,44,.9); --cx-chip-line:rgba(131,56,236,.45); --cx-pulse:rgba(160,200,255,.95); --cx-o:.9;
+    color-scheme:dark; } }
+:root[data-theme="dark"]{
+    --dots-d:1; --dots-l:0;
+    --board:rgba(255,255,255,.035); --board-line:rgba(236,228,255,.14);
+    --cx-a:rgba(58,134,255,.28); --cx-b:rgba(131,56,236,.34); --cx-chip:rgba(20,16,44,.9); --cx-chip-line:rgba(131,56,236,.45); --cx-pulse:rgba(160,200,255,.95); --cx-o:.9;
+    color-scheme:dark; }
 *{box-sizing:border-box}
 html{scroll-behavior:smooth}
-body{margin:0;background:var(--ink);color:var(--fg);font:400 17px/1.6 var(--f-body);overflow-x:hidden;-webkit-font-smoothing:antialiased}
+body{margin:0;background:var(--mads-theme-background);color:var(--mads-theme-text);font:var(--mads-text-xlarge);overflow-x:hidden;-webkit-font-smoothing:antialiased}
 img,video{max-width:100%;display:block}
 a{color:inherit}
-:focus-visible{outline:2px solid var(--amber);outline-offset:3px;border-radius:6px}
-h1,h2,h3{font-family:var(--f-display);font-weight:700;line-height:1.08;margin:0;text-wrap:balance;letter-spacing:-.01em}
+:focus-visible{outline:2px solid var(--mads-theme-focus);outline-offset:3px;border-radius:6px}
+h1,h2,h3{margin:0;text-wrap:balance}
 p{margin:0}
 .wrap{max-width:var(--maxw);margin:0 auto;padding-inline:var(--gutter)}
-.eyebrow{font:600 12px/1.4 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--muted)}
-.grad-text{background:linear-gradient(90deg,var(--amber),var(--orange) 35%,var(--pink) 70%,var(--violet));-webkit-background-clip:text;background-clip:text;color:transparent}
+.eyebrow{font:var(--mads-label-xsmall);letter-spacing:.14em;text-transform:uppercase;color:var(--mads-theme-text-muted)}
 
 /* ambient layers */
-#glow{--glow-a:#ffbe0b;--glow-b:#fb5607;position:fixed;inset:0;z-index:-2;pointer-events:none;will-change:transform;
-  background:radial-gradient(60vw 50vh at 85% 10%, color-mix(in srgb,var(--glow-a) var(--glow-mix),transparent), transparent 70%),
-             radial-gradient(50vw 60vh at 5% 90%, color-mix(in srgb,var(--glow-b) var(--glow-mix),transparent), transparent 70%);}
+#glow{position:fixed;inset:0;z-index:-2;pointer-events:none;will-change:transform}
 #circuits{position:fixed;inset:0;z-index:-1;pointer-events:none}
 
 /* nav */
@@ -87,50 +74,35 @@ p{margin:0}
 .nav .wrap{max-width:none;display:flex;align-items:center;justify-content:space-between;height:64px}
 .nav .mark{width:58px;display:block}
 .nav-right{display:flex;align-items:center;gap:14px}
-.mode{all:unset;cursor:pointer;position:relative;flex:none;width:54px;height:36px;border-radius:999px;
-  background:linear-gradient(90deg,#fb5608,#ff006e);opacity:.9;box-shadow:0 6px 18px -8px rgba(255,0,110,.6);transition:opacity .2s,transform .2s}
-.mode:hover{opacity:1;transform:translateY(-1px)}
-.mode:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
-.mode .knob{position:absolute;top:4px;left:4px;width:28px;height:28px;border-radius:50%;background:#fff;display:grid;place-items:center;transition:transform .35s cubic-bezier(.3,1.4,.5,1);box-shadow:0 2px 6px rgba(0,0,0,.25)}
-.mode[aria-checked="true"] .knob{transform:translateX(18px)}
-.mode svg{width:16px;height:16px;position:absolute;transition:opacity .25s,transform .35s}
-.mode .sun{color:#fb5607}.mode .moon{color:#8338ec}
-.mode[aria-checked="true"] .sun,.mode[aria-checked="false"] .moon{opacity:0;transform:rotate(-60deg) scale(.6)}
 .nav .links{display:flex;gap:6px;flex-wrap:nowrap;align-items:center}
-.nav .links a{font:500 13px/1 var(--f-mono);text-decoration:none;color:var(--muted);padding:9px 12px;border-radius:99px;border:1px solid transparent}
-.nav .links a.li{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:36px;min-width:118px;padding:0 12px;color:var(--fg);border-color:var(--line)}
-.nav .links a.li:hover{border-color:var(--azure-text);color:var(--azure-text)}
+/* LinkedIn and language pills: site-only component built on MADS tokens */
+.nav .links a.li{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:36px;min-width:118px;padding:0 12px;border-radius:var(--mads-radius-full);border:1px solid var(--mads-theme-line);font:500 var(--mads-text-default-size)/1 var(--mads-font-mono);text-decoration:none;color:var(--mads-theme-text);transition:color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard),border-color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard)}
+.nav .links a.li:hover{border-color:var(--mads-theme-text-azure-blue);color:var(--mads-theme-text-azure-blue)}
 .nav .links a.li svg{width:15px;height:15px;flex:none}
-.nav .links a.lang .flag{width:16px;height:16px;border-radius:50%;overflow:hidden;flex:none;display:block;box-shadow:0 0 0 1px var(--line)}
+.nav .links a.lang .flag{width:16px;height:16px;border-radius:50%;overflow:hidden;flex:none;display:block;box-shadow:0 0 0 1px var(--mads-theme-line)}
 .nav .links a.lang .flag svg{width:16px;height:16px;display:block}
 @media (max-width:1279px){.nav .links a.li span:not(.flag){display:none}.nav .links a.li{width:36px;min-width:36px;padding:0}}
-.nav .links a:hover{color:var(--fg);border-color:var(--line)}
-.nav::before{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--ink) 94%,transparent);border-bottom:1px solid var(--line);z-index:-1}
+.nav::before{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--mads-theme-background) 94%,transparent);border-bottom:1px solid var(--mads-theme-line);z-index:-1}
 
 /* hero */
 .hero{padding-block:clamp(110px,16vh,170px) clamp(56px,8vh,96px)}
 .hero .wrap{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,5vw,80px);align-items:center}
-.hero h1{font-size:clamp(46px,8.4vw,120px);font-weight:800;letter-spacing:-.03em;line-height:.95}
+.hero h1{margin-top:18px}
 .hero h1 span{display:block}
-.hero .role{margin-top:22px;font:500 clamp(15px,1.6vw,19px)/1.4 var(--f-mono);color:var(--amber-text)}
-.hero .lede{margin-top:22px;font-size:clamp(17px,1.5vw,19px);max-width:60ch;color:var(--fg)}
-.hero .lede em{font-style:normal;color:var(--amber-text)}
-.hero .cta{margin-top:34px;display:flex;gap:12px;flex-wrap:wrap}
-.btn{display:inline-flex;align-items:center;gap:10px;font:600 15px/1 var(--f-body);text-decoration:none;padding:15px 22px;border-radius:99px;border:1px solid var(--line);background:var(--soft);color:var(--fg);cursor:pointer}
-.btn.primary{background:linear-gradient(90deg,var(--orange),var(--pink));border-color:transparent;color:#fff}
-.btn:hover{transform:translateY(-2px)}
-.btn{transition:transform .2s}
+.hero .role{margin-top:22px;font:var(--mads-label-default);color:var(--mads-theme-text-amber-gold)}
+.hero .lede{margin-top:22px;font:var(--mads-text-xlarge);max-width:60ch;color:var(--mads-theme-text)}
+.hero .lede em{font-style:normal;color:var(--mads-theme-text-amber-gold)}
+.cta{margin-top:34px;display:flex;gap:12px;flex-wrap:wrap}
 .hero-art{position:relative;display:flex;align-items:flex-end;justify-content:flex-end;gap:clamp(10px,2vw,22px);min-width:0}
 .hero-art .emblem{flex:0 1 auto;min-width:0;width:clamp(240px,30vw,560px);height:auto;overflow:visible}
-.capsule{position:relative;border-radius:999px;overflow:hidden;background:linear-gradient(180deg,var(--ink-3),var(--ink-2));flex:none}
-.capsule::after{content:"";position:absolute;inset:0;border-radius:inherit;border:2px solid transparent;background:linear-gradient(180deg,var(--amber),var(--pink)) border-box;-webkit-mask:linear-gradient(#000 0 0) padding-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude}
+.capsule{position:relative;border-radius:var(--mads-radius-full);overflow:hidden;background:var(--mads-gradient-surface-raised);flex:none}
 .capsule img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 38%}
 .capsule img.blink{opacity:0;transition:opacity 40ms linear}
 .capsule.blinking img.blink{opacity:1}
 .hero .capsule{width:clamp(110px,12vw,220px);aspect-ratio:9/15}
 
 /* assembly animation for hero emblem */
-.assemble .p{animation:drop 1s cubic-bezier(.2,.9,.25,1.15) both}
+.assemble .p{animation:drop 1s var(--mads-motion-easing-entrance) both}
 .assemble .p1{animation-delay:.05s}.assemble .p2{animation-delay:.18s}.assemble .p3{animation-delay:.34s;animation-name:swing}
 .assemble .p4{animation-delay:.5s;animation-name:slide}.assemble .p5{animation-delay:.7s;animation-name:slidex}
 @keyframes drop{from{transform:translateY(-60px);opacity:0}}
@@ -139,41 +111,25 @@ p{margin:0}
 @keyframes slidex{from{transform:translateX(60px);opacity:0}}
 .assemble .p3{transform-origin:92px 30px;transform-box:view-box}
 
-/* facts */
-.facts{border-block:1px solid var(--line);background:color-mix(in srgb,var(--ink-2) 70%,transparent)}
+/* facts (mads-stat) */
+.facts{border-block:1px solid var(--mads-theme-line);background:color-mix(in srgb,var(--mads-theme-surface) 70%,transparent)}
 .facts .wrap{max-width:none;display:grid;grid-template-columns:repeat(4,1fr);gap:0}
-.fact{padding:28px 22px;border-left:1px solid var(--line);min-width:0}
+.fact{padding:28px 22px;border-left:1px solid var(--mads-theme-line)}
 .fact:first-child{border-left:0}
-.fact b{display:block;font:700 clamp(30px,3.4vw,46px)/1 var(--f-display);letter-spacing:-.02em}
-.fact span{display:block;margin-top:10px;color:var(--muted);font-size:14.5px;line-height:1.45}
-.fact:nth-child(1) b{color:var(--amber-text)}.fact:nth-child(2) b{color:var(--orange)}.fact:nth-child(3) b{color:var(--pink-text)}.fact:nth-child(4) b{color:var(--azure-text)}
 
 section{position:relative}
 .sec{padding-block:clamp(80px,12vh,140px)}
 .sec-head{max-width:760px;display:grid;gap:18px;margin-bottom:clamp(36px,5vh,56px)}
-.sec-head h2{font-size:clamp(30px,4.2vw,56px)}
-.sec-head p{color:var(--muted);font-size:clamp(17px,1.5vw,19px);max-width:60ch}
+.sec-head h2{font:var(--mads-heading-xxlarge)}
+.sec-head p{color:var(--mads-theme-text-muted);font:var(--mads-text-xlarge);max-width:60ch}
 
-/* evolution */
+/* evolution (mads-card-selectable) */
 .evo .wrap{display:grid;grid-template-columns:1fr 1fr;gap:clamp(28px,5vw,80px);align-items:center}
-.evo-stage{position:relative;aspect-ratio:16/10;border-radius:28px;background:linear-gradient(160deg,var(--ink-2),var(--ink));border:1px solid var(--line);display:grid;place-items:center;overflow:hidden;max-width:100%}
+.evo-stage{position:relative;aspect-ratio:16/10;border-radius:var(--mads-radius-xlarge);background:var(--mads-gradient-surface);border:1px solid var(--mads-theme-line);display:grid;place-items:center;overflow:hidden;max-width:100%}
 .evo-stage .emblem{width:78%;height:auto;overflow:visible}
-.evo-stage .caption{position:absolute;left:20px;bottom:16px;font:500 12px/1 var(--f-mono);color:var(--faint);letter-spacing:.08em}
+.evo-stage .caption{position:absolute;left:20px;bottom:16px;font:var(--mads-label-xsmall);color:var(--mads-theme-text-faint);letter-spacing:.08em}
 .evo-tabs{display:grid;gap:12px}
-.evo-tab{all:unset;cursor:pointer;display:grid;grid-template-columns:auto 1fr;gap:4px 16px;padding:18px 20px;border-radius:18px;border:1px solid var(--line);transition:background .3s,border-color .3s}
-.evo-tab[aria-pressed="false"]{background:var(--tab-idle)}
-.evo-tab[aria-pressed="false"]:hover{background:var(--tab-idle-hover)}
-.evo-tab:focus-visible{outline:2px solid var(--amber);outline-offset:3px}
-.evo-tab .n{grid-row:span 2;font:600 12px/1 var(--f-mono);color:var(--faint);padding-top:5px}
-.evo-tab h3{font-size:19px;font-weight:500}
-.evo-tab p{color:var(--muted);font-size:15px}
-.evo-tab[aria-pressed="true"]{background:var(--ink-2);border-color:color-mix(in srgb,var(--tab) 60%,transparent)}
-.evo-tab[aria-pressed="true"] h3{color:var(--tab)}
-.evo-tab .bar{grid-column:2;height:3px;border-radius:3px;background:var(--line);overflow:hidden;margin-top:8px}
-.evo-tab .bar i{display:block;height:100%;width:0;background:var(--tab)}
-.evo-tab[aria-pressed="true"] .bar i{animation:fill 8s linear forwards}
-.evo.paused .evo-tab .bar i{animation:none;width:100%}
-@keyframes fill{to{width:100%}}
+.evo.paused .mads-card-selectable .mads-progress-thin i{animation:none;width:100%}
 
 /* map */
 .map .wrap{display:grid;grid-template-columns:.85fr 1.15fr;gap:clamp(28px,5vw,72px);align-items:center}
@@ -182,111 +138,83 @@ section{position:relative}
 .dots-d{opacity:var(--dots-d)}.dots-l{opacity:var(--dots-l)}
 .arc{fill:none;stroke-width:1.6;stroke-dasharray:4 6;animation:dash 1.8s linear infinite}
 @keyframes dash{to{stroke-dashoffset:-20}}
-.city circle.core{stroke:var(--ink);stroke-width:2}
+.city circle.core{stroke:var(--mads-theme-background);stroke-width:2}
 .city .ping{fill:none;stroke-width:1.5;transform-box:fill-box;transform-origin:center;animation:ping 2.4s ease-out infinite}
 @keyframes ping{from{transform:scale(.6);opacity:1}to{transform:scale(3.2);opacity:0}}
-.city text{font:600 11px var(--f-mono);fill:var(--fg);letter-spacing:.04em}
-.city text.sub{font-weight:400;fill:var(--muted);font-size:9px}
+.city text{font:var(--mads-label-weight) var(--mads-label-xsmall-size) var(--mads-font-mono);fill:var(--mads-theme-text);letter-spacing:.04em}
+.city text.sub{font-weight:400;fill:var(--mads-theme-text-muted);font-size:9px}
 .cities{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:28px}
-.cities div{padding:14px 16px;border-radius:14px;background:var(--ink-2);border:1px solid var(--line)}
 .cities .home{grid-column:1/-1}
-.cities b{display:block;font:600 14px var(--f-mono)}
-.cities span{font-size:14px;color:var(--muted)}
 
 /* timeline */
 .tl-intro{padding-bottom:clamp(20px,4vh,40px)}
 .timeline .wrap{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(24px,5vw,80px)}
 .stage{position:sticky;top:0;height:100vh;display:flex;flex-direction:column;justify-content:center;gap:22px;padding-block:80px 40px}
-.stage .ghost-year{position:absolute;left:-2%;top:50%;transform:translateY(-50%);font:800 clamp(120px,15vw,230px)/.8 var(--f-display);color:transparent;-webkit-text-stroke:1px var(--ghost);pointer-events:none;letter-spacing:-.04em;z-index:-1;white-space:nowrap}
+.stage .ghost-year{position:absolute;left:-2%;top:50%;transform:translateY(-50%);font:800 clamp(120px,15vw,230px)/.8 var(--mads-font-display);color:transparent;-webkit-text-stroke:1px var(--mads-theme-fill-ghost);pointer-events:none;letter-spacing:-.04em;z-index:-1;white-space:nowrap}
 .stage .emblem{width:100%;max-width:480px;height:auto;overflow:visible}
 .stage-info{display:flex;gap:20px;align-items:center}
 .stage .capsule{width:92px;aspect-ratio:9/13}
-.stage .capsule img{transition:opacity .6s}
+.stage .capsule img{transition:opacity var(--mads-motion-duration-slow)}
 .stage-meta{min-width:0}
-.stage-years{font:600 14px/1.2 var(--f-mono);color:var(--amber-text);letter-spacing:.06em}
-.stage-role{font:600 clamp(20px,2vw,28px)/1.15 var(--f-display);margin-top:8px}
-.stage-org{color:var(--muted);font-size:15px;margin-top:6px}
-.stage-place{display:inline-flex;gap:8px;align-items:center;margin-top:10px;font:500 12px/1.3 var(--f-mono);color:var(--fg);padding:6px 10px;border-radius:99px;background:var(--soft);border:1px solid var(--line)}
-.stage-place::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--pink);box-shadow:0 0 0 3px color-mix(in srgb,var(--pink) 30%,transparent)}
+.stage-years{font:var(--mads-label-small);color:var(--mads-theme-text-amber-gold);letter-spacing:.06em}
+.stage-role{font:var(--mads-heading-xlarge);margin-top:8px}
+.stage-org{color:var(--mads-theme-text-muted);font:var(--mads-text-large);margin-top:6px}
+.stage-place{margin-top:10px;white-space:normal;line-height:1.3;max-width:100%}
 .mix{display:grid;gap:9px;max-width:440px}
-.mix-title{font:600 11px/1 var(--f-mono);letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
-.mix-row{display:grid;grid-template-columns:96px 1fr 38px;gap:12px;align-items:center;font:500 13px/1 var(--f-mono);color:var(--muted)}
-.mix-row .track{height:8px;border-radius:8px;background:var(--soft);overflow:hidden}
-.mix-row .track i{display:block;height:100%;border-radius:8px;width:100%;transform-origin:left;transform:scaleX(0)}
-.mix-row output{text-align:right;font-variant-numeric:tabular-nums;color:var(--fg)}
-.mix-row.t i{background:linear-gradient(90deg,var(--violet),var(--azure))}
-.mix-row.p i{background:linear-gradient(90deg,var(--pink),var(--violet))}
-.mix-row.d i{background:linear-gradient(90deg,var(--orange),var(--amber))}
+.mix-title{font:var(--mads-label-xsmall);letter-spacing:.14em;text-transform:uppercase;color:var(--mads-theme-text-faint)}
 
 .chapters{display:grid;padding-block:10vh 20vh}
-.chapter{min-height:110vh;padding-block:12vh;display:flex;flex-direction:column;gap:22px;justify-content:center;min-width:0}
+.chapter{--accent:var(--c);min-height:110vh;padding-block:12vh;display:flex;flex-direction:column;gap:22px;justify-content:center;min-width:0}
 .ch-head{display:grid;grid-template-columns:auto minmax(0,1fr);gap:clamp(16px,2vw,28px);align-items:center}
 .ch-avatar{width:clamp(76px,7vw,108px);aspect-ratio:9/13}
 .ch-text{display:grid;gap:10px;min-width:0}
 /* two-column layout: the side panel already shows the avatar, so the stage header drops it */
 @media (min-width:981px){.ch-head{grid-template-columns:minmax(0,1fr)}.ch-avatar{display:none}}
-.chapter .kicker{font:600 13px/1.4 var(--f-mono);color:var(--ct,var(--c));letter-spacing:.08em}
-.chapter h3{font-size:clamp(30px,3.6vw,50px);font-weight:700}
-.chapter h3 small{display:block;font:500 clamp(16px,1.4vw,19px)/1.4 var(--f-body);color:var(--muted);margin-top:12px;letter-spacing:0}
-.chapter .lede{font-size:clamp(17px,1.4vw,19px);max-width:62ch}
+.chapter .kicker{font:var(--mads-label-small);color:var(--ct,var(--c));letter-spacing:.08em}
+.chapter h3{font:var(--mads-heading-xxlarge)}
+.chapter h3 small{display:block;font:var(--mads-text-xlarge);color:var(--mads-theme-text-muted);margin-top:12px}
+.chapter .lede{font:var(--mads-text-xlarge);max-width:62ch}
 .chapter .lede strong{color:var(--ct,var(--c));font-weight:600}
-.did{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.did li{padding:14px 16px 14px 40px;position:relative;background:color-mix(in srgb,var(--ink-2) 85%,transparent);border:1px solid var(--line);border-radius:14px;font-size:15px;line-height:1.45;min-width:0}
-.did li::before{content:"";position:absolute;left:16px;top:19px;width:10px;height:10px;border-radius:3px;background:var(--c,var(--amber));transform:rotate(45deg)}
-.quote{border-left:3px solid var(--c,var(--amber));padding:4px 0 4px 18px;font:500 clamp(17px,1.5vw,20px)/1.5 var(--f-body);color:var(--fg);max-width:56ch}
 .big-stat{display:flex;align-items:baseline;gap:14px;flex-wrap:wrap}
-.big-stat b{font:800 clamp(48px,6vw,84px)/1 var(--f-display);letter-spacing:-.03em}
-.big-stat span{color:var(--muted);max-width:28ch}
+.big-stat b{font:var(--mads-heading-xxlarge);letter-spacing:-.02em}
+.big-stat span{font:var(--mads-text-default);color:var(--mads-theme-text-muted);max-width:28ch}
 .chip-row{display:flex;flex-wrap:wrap;gap:8px}
-.chip{font:500 12.5px/1 var(--f-mono);padding:8px 11px;border-radius:99px;border:1px solid var(--line);color:var(--muted)}
 
 /* product rail */
 .rail-wrap{margin-top:8px}
 .rail-head{display:flex;justify-content:space-between;align-items:end;gap:12px;margin-bottom:14px}
-.rail-head p{font:600 12px/1.4 var(--f-mono);letter-spacing:.12em;text-transform:uppercase;color:var(--muted)}
+.rail-head p{font:var(--mads-label-xsmall);letter-spacing:.12em;text-transform:uppercase;color:var(--mads-theme-text-muted)}
 .rail-btns{display:flex;gap:8px}
-.rail-btns button{all:unset;cursor:pointer;width:38px;height:38px;border-radius:50%;border:1px solid var(--line);display:grid;place-items:center;color:var(--fg)}
-.rail-btns button:hover{background:var(--ink-2)}
-.rail-btns button:focus-visible{outline:2px solid var(--amber)}
-.rail{display:flex;gap:18px;overflow-x:auto;padding-top:12px;scroll-snap-type:x mandatory;padding-bottom:14px;scrollbar-width:thin;scrollbar-color:var(--ink-3) transparent}
+.rail{display:flex;gap:18px;overflow-x:auto;padding-top:12px;scroll-snap-type:x mandatory;padding-bottom:14px;scrollbar-width:thin;scrollbar-color:var(--mads-theme-surface-raised) transparent}
 .phone{flex:none;width:clamp(170px,17vw,220px);scroll-snap-align:start;margin:0}
-.phone .frame{position:relative;aspect-ratio:1206/2622;border-radius:30px;padding:7px;background:linear-gradient(160deg,#2c2450,#120e24);box-shadow:0 20px 50px -20px rgba(0,0,0,.8),inset 0 0 0 1px rgba(255,255,255,.08)}
+.phone .frame{position:relative;aspect-ratio:1206/2622;border-radius:30px;padding:7px;background:linear-gradient(160deg,#2c2450,#120e24);box-shadow:var(--mads-shadow-raised),inset 0 0 0 1px rgba(255,255,255,.08)}
 .phone .frame>video,.phone .frame>img{width:100%;height:100%;object-fit:cover;border-radius:24px;background:#000}
-.phone .tag{position:absolute;top:-9px;right:18px;z-index:1;box-shadow:0 0 0 3px var(--ink);font:600 10px/1 var(--f-mono);padding:5px 7px;border-radius:99px;background:var(--pink);color:#fff;letter-spacing:.08em}
-.phone figcaption{margin-top:12px;font-size:14px;line-height:1.4;color:var(--muted)}
-.phone figcaption b{display:block;color:var(--fg);font-weight:600;margin-bottom:2px}
+.phone .tag{position:absolute;top:-9px;right:18px;z-index:1;box-shadow:0 0 0 3px var(--mads-theme-background)}
+.phone figcaption{margin-top:12px;font:var(--mads-text-default);color:var(--mads-theme-text-muted)}
+.phone figcaption b{display:block;color:var(--mads-theme-text);font-weight:600;margin-bottom:2px}
 
-/* skills */
+/* skills (mads-card) */
 .skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.skill{padding:24px;border-radius:20px;background:var(--ink-2);border:1px solid var(--line);display:grid;gap:14px;align-content:start;min-width:0}
-.skill h3{font-size:17px;font-weight:500;display:flex;align-items:center;gap:10px}
-.skill h3 i{width:10px;height:10px;border-radius:3px;transform:rotate(45deg);background:var(--k)}
-.skill p{font-size:15px;color:var(--muted)}
 .skill.wide{grid-column:span 2}.skill.full{grid-column:1/-1}
 
 /* contact */
 .contact{padding-block:clamp(90px,14vh,160px)}
 .contact .wrap{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,72px);align-items:center}
 .contact .emblem{width:clamp(160px,22vw,300px);height:auto;overflow:visible}
-.contact h2{font-size:clamp(34px,5vw,68px)}
-.contact p{color:var(--muted);margin-top:16px;max-width:52ch;font-size:18px}
-.contact .cta{margin-top:28px;display:flex;flex-wrap:wrap;gap:12px}
-footer{border-top:1px solid var(--line);padding-block:26px;color:var(--faint);font:500 12px/1.5 var(--f-mono)}
+.contact h2{font:var(--mads-heading-xxlarge);margin-top:14px}
+.contact p{color:var(--mads-theme-text-muted);margin-top:16px;max-width:52ch;font:var(--mads-text-xlarge)}
+.contact .cta{margin-top:28px}
+footer{border-top:1px solid var(--mads-theme-line);padding-block:26px;color:var(--mads-theme-text-faint);font:var(--mads-label-xsmall)}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 /* emblem internals */
-.emblem .click circle{fill:none;stroke:var(--amber);stroke-width:1.4;transform-box:fill-box;transform-origin:center;animation:ping 1.8s ease-out infinite}
+.emblem .click circle{fill:none;stroke:var(--mads-color-amber-gold);stroke-width:1.4;transform-box:fill-box;transform-origin:center;animation:ping 1.8s ease-out infinite}
 .emblem .click circle+circle{animation-delay:.6s}
 .emblem .mover{animation:move 6s cubic-bezier(.6,0,.3,1) infinite}
 @keyframes move{0%,18%{transform:translateX(0);opacity:1}40%,58%{transform:translateX(62px)}80%,92%{transform:translateX(124px);opacity:1}100%{transform:translateX(124px);opacity:0}}
 
 /* pause decorative loops while off screen */
 .offscreen *,.offscreen *::before,.offscreen *::after{animation-play-state:paused!important}
-/* scroll-driven reveal where supported (content is visible without it) */
-@supports (animation-timeline: view()){
-  .reveal{animation:rise linear both;animation-timeline:view();animation-range:entry 5% entry 45%}
-  @keyframes rise{from{opacity:.0;transform:translateY(48px)}}
-}
 
 @media (max-width:980px){
   .hero .wrap,.evo .wrap,.map .wrap{grid-template-columns:1fr}
@@ -295,15 +223,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .hero-art .emblem{width:min(62vw,340px)}
   .facts .wrap{grid-template-columns:1fr 1fr}
   .fact:nth-child(3){border-left:0}
-  .fact:nth-child(n+3){border-top:1px solid var(--line)}
+  .fact:nth-child(n+3){border-top:1px solid var(--mads-theme-line)}
   .timeline .wrap{grid-template-columns:1fr;gap:0}
-  .stage{height:auto;top:env(safe-area-inset-top,0px);z-index:5;flex-direction:row;align-items:center;gap:14px;padding:72px 0 12px;background:linear-gradient(var(--ink) 82%,transparent)}
+  .stage{height:auto;top:env(safe-area-inset-top,0px);z-index:5;flex-direction:row;align-items:center;gap:14px;padding:72px 0 12px;background:var(--mads-gradient-scrim)}
   .stage .ghost-year,.stage .mix,.stage .capsule{display:none}
   .stage .emblem{width:118px;flex:none}
   .stage-info{gap:12px}
-  .stage-role{font-size:17px;margin-top:4px}
+  .stage-role{font:var(--mads-heading-small);margin-top:4px}
   .stage-org{display:none}
-  .stage-place{margin-top:6px;font-size:11px}
+  .stage-place{margin-top:6px;font-size:var(--mads-label-xsmall-size)}
   .chapter{min-height:auto;padding-block:8vh}
   .ch-avatar{width:68px}
   .skills-grid{grid-template-columns:1fr 1fr}
@@ -315,8 +243,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .nav .links a.li{width:36px;min-width:36px;padding:0}
   .nav-right{gap:6px}
   .nav .links{gap:2px}
-  .nav .links a.keep:not(.li){padding:9px 7px}
-  .did{grid-template-columns:1fr}
+  .nav .links a.keep:not(.li){padding-inline:7px}
   .skills-grid{grid-template-columns:1fr}
   .skill.wide{grid-column:auto}
   .cities{grid-template-columns:1fr 1fr}
@@ -339,7 +266,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 </head>
 <body>
-<div id="glow" aria-hidden="true"></div>
+<div id="glow" class="mads-ambient" aria-hidden="true"></div>
 <canvas id="circuits" aria-hidden="true"></canvas>
 
 <header class="nav">
@@ -347,15 +274,15 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <a href="#top" aria-label="Miguel Adan, volver arriba"><svg class="mark" data-emblem="ma" data-static="1" viewBox="36 12 200 116"></svg></a>
     <div class="nav-right">
     <nav class="links" aria-label="Secciones">
-      <a href="#evolution">Evolución</a>
-      <a href="#teams">Equipos</a>
-      <a href="#story" class="keep">Trayectoria</a>
-      <a href="#toolkit">Habilidades</a>
-      <a href="#contact" class="keep">Contacto</a>
-      <a href="https://www.linkedin.com/in/miguel-angel-adan/" class="keep li" target="_blank" rel="noopener" aria-label="Perfil de LinkedIn (se abre en una pestaña nueva)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="4.5" fill="currentColor"/><text x="12" y="17.2" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="12.5" style="fill:var(--ink)">in</text></svg><span>LinkedIn</span></a>
+      <a href="#evolution" class="mads-button-ghost">Evolución</a>
+      <a href="#teams" class="mads-button-ghost">Equipos</a>
+      <a href="#story" class="mads-button-ghost keep">Trayectoria</a>
+      <a href="#toolkit" class="mads-button-ghost">Habilidades</a>
+      <a href="#contact" class="mads-button-ghost keep">Contacto</a>
+      <a href="https://www.linkedin.com/in/miguel-angel-adan/" class="keep li" target="_blank" rel="noopener" aria-label="Perfil de LinkedIn (se abre en una pestaña nueva)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="4.5" fill="currentColor"/><text x="12" y="17.2" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="12.5" style="fill:var(--mads-theme-background)">in</text></svg><span>LinkedIn</span></a>
       <a href="../index.html" class="keep li lang" id="langSwitch" data-lang="en" hreflang="en" lang="en" aria-label="View this page in English"><span class="flag"><svg viewBox="15 0 30 30" aria-hidden="true"><defs><clipPath id="ukc"><path d="M30,15h30v15zv15h-30zh-30v-15zv-15h30z"/></clipPath></defs><rect width="60" height="30" fill="#012169"/><path d="M0,0L60,30M60,0L0,30" stroke="#fff" stroke-width="6"/><path d="M0,0L60,30M60,0L0,30" clip-path="url(#ukc)" stroke="#C8102E" stroke-width="4"/><path d="M30,0v30M0,15h60" stroke="#fff" stroke-width="10"/><path d="M30,0v30M0,15h60" stroke="#C8102E" stroke-width="6"/></svg></span><span>English</span></a>
     </nav>
-    <button type="button" class="mode" id="modeToggle" role="switch" aria-checked="true" aria-label="Modo oscuro" title="Cambiar entre modo claro y oscuro">
+    <button type="button" class="mads-toggle-theme" id="modeToggle" role="switch" aria-checked="true" aria-label="Modo oscuro" title="Cambiar entre modo claro y oscuro">
       <span class="knob">
         <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M5.3 18.7l1.5-1.5M17.2 6.8l1.5-1.5"/></svg>
         <svg class="moon" viewBox="0 0 24 24"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="currentColor"/></svg>
@@ -370,27 +297,27 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
     <div class="wrap">
       <div>
         <p class="eyebrow">Product Manager · Líder técnico · Madrid</p>
-        <h1 style="margin-top:18px"><span>Miguel</span><span class="grad-text">Adan</span></h1>
+        <h1 class="mads-heading-hero"><span>Miguel</span><span class="mads-text-gradient">Adan</span></h1>
         <p class="role">Ingeniero informático → Tech Lead → Product Manager</p>
         <p class="lede">Llevo veinte años creando productos digitales que la gente usa cada día. Empecé escribiendo el código. Después aprendí a liderar a las personas que lo escriben. Hoy decido <em>qué se construye y por qué</em>, para equipos internacionales repartidos por cinco ciudades europeas.</p>
         <div class="cta">
-          <a class="btn primary" href="#story">Recorre mi trayectoria <span aria-hidden="true">↓</span></a>
-          <a class="btn" href="#contact">Contacta conmigo</a>
+          <a class="mads-button" href="#story">Recorre mi trayectoria <svg class="mads-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M5 9.5 12 14.5 19 9.5"/></svg></a>
+          <a class="mads-button-secondary" href="#contact">Contacta conmigo</a>
         </div>
       </div>
       <div class="hero-art">
         <svg class="emblem assemble" id="heroEmblem" data-emblem="ma" data-static="1" viewBox="36 12 200 116" role="img" aria-label="Logotipo MA"></svg>
-        <div class="capsule" id="heroAvatar"><img src="../assets/avatar-main.webp" alt="Retrato ilustrado de Miguel Adan" width="768" height="768"><img class="blink" src="../assets/avatar-main-blink.webp" alt="" aria-hidden="true" width="768" height="768"></div>
+        <div class="mads-frame-gradient capsule" id="heroAvatar"><img src="../assets/avatar-main.webp" alt="Retrato ilustrado de Miguel Adan" width="768" height="768"><img class="blink" src="../assets/avatar-main-blink.webp" alt="" aria-hidden="true" width="768" height="768"></div>
       </div>
     </div>
   </section>
 
   <div class="facts">
     <div class="wrap">
-      <div class="fact"><b>20+</b><span>años creando apps nativas y webs de alto tráfico</span></div>
-      <div class="fact"><b>5</b><span>ciudades, un único equipo distribuido: Estocolmo, Londres, París, Gibraltar, Madrid</span></div>
-      <div class="fact"><b>6</b><span>puestos, de desarrollador iOS a Product Manager</span></div>
-      <div class="fact"><b>99,9 %</b><span>de usuarios sin cierres inesperados en todas las apps de las que he sido responsable</span></div>
+      <div class="fact mads-stat" style="--accent:var(--mads-theme-text-amber-gold)"><b>20+</b><span>años creando apps nativas y webs de alto tráfico</span></div>
+      <div class="fact mads-stat" style="--accent:var(--mads-color-blaze-orange)"><b>5</b><span>ciudades, un único equipo distribuido: Estocolmo, Londres, París, Gibraltar, Madrid</span></div>
+      <div class="fact mads-stat" style="--accent:var(--mads-theme-text-neon-pink)"><b>6</b><span>puestos, de desarrollador iOS a Product Manager</span></div>
+      <div class="fact mads-stat" style="--accent:var(--mads-theme-text-azure-blue)"><b>99,9 %</b><span>de usuarios sin cierres inesperados en todas las apps de las que he sido responsable</span></div>
     </div>
   </div>
 
@@ -399,13 +326,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div>
         <div class="sec-head">
           <p class="eyebrow">Un logotipo, tres capítulos</p>
-          <h2>Del <span style="color:var(--azure-text)">cursor</span> a las <span style="color:var(--pink-text)">personas</span> y al <span style="color:var(--amber-text)">producto</span>.</h2>
+          <h2>Del <span style="color:var(--mads-theme-text-azure-blue)">cursor</span> a las <span style="color:var(--mads-theme-text-neon-pink)">personas</span> y al <span style="color:var(--mads-theme-text-amber-gold)">producto</span>.</h2>
           <p>Mi carrera ha pasado de la ingeniería práctica a liderar equipos y ser responsable de un producto. Las formas de mi logotipo MA cambian con ella. Elige una etapa para verlo.</p>
         </div>
         <div class="evo-tabs" role="group" aria-label="Enfoque profesional">
-          <button class="evo-tab" data-to="pointer" style="--tab:var(--azure-text)" aria-pressed="true"><span class="n">2012</span><h3>Ingeniería</h3><p>Desarrollador iOS y web y, después, desarrollador principal de todas las apps que publicaba la empresa. Creé el framework iOS compartido en Objective‑C y Swift y alcancé un 99,9 % de usuarios sin cierres inesperados.</p><span class="bar"><i></i></span></button>
-          <button class="evo-tab" data-to="people" style="--tab:var(--pink-text)" aria-pressed="false"><span class="n">2016</span><h3>Liderazgo</h3><p>Mobile Technical Manager, Project Manager y Tech Lead. Revisiones de código, contratación, coordinación de proveedores y equipos distribuidos hasta producción.</p><span class="bar"><i></i></span></button>
-          <button class="evo-tab" data-to="tickets" style="--tab:var(--amber-text)" aria-pressed="false"><span class="n">2021</span><h3>Producto</h3><p>Product Manager de apps nativas, web y backend. Responsable del backlog, de las prioridades y de la estrategia del Sportsbook con equipos en cinco ciudades.</p><span class="bar"><i></i></span></button>
+          <button type="button" class="evo-tab mads-card-selectable" data-to="pointer" style="--accent:var(--mads-theme-text-azure-blue)" aria-pressed="true"><span class="n">2012</span><span class="t">Ingeniería</span><span class="d">Desarrollador iOS y web y, después, desarrollador principal de todas las apps que publicaba la empresa. Creé el framework iOS compartido en Objective‑C y Swift y alcancé un 99,9 % de usuarios sin cierres inesperados.</span><span class="mads-progress-thin"><i></i></span></button>
+          <button type="button" class="evo-tab mads-card-selectable" data-to="people" style="--accent:var(--mads-theme-text-neon-pink)" aria-pressed="false"><span class="n">2016</span><span class="t">Liderazgo</span><span class="d">Mobile Technical Manager, Project Manager y Tech Lead. Revisiones de código, contratación, coordinación de proveedores y equipos distribuidos hasta producción.</span><span class="mads-progress-thin"><i></i></span></button>
+          <button type="button" class="evo-tab mads-card-selectable" data-to="tickets" style="--accent:var(--mads-theme-text-amber-gold)" aria-pressed="false"><span class="n">2021</span><span class="t">Producto</span><span class="d">Product Manager de apps nativas, web y backend. Responsable del backlog, de las prioridades y de la estrategia del Sportsbook con equipos en cinco ciudades.</span><span class="mads-progress-thin"><i></i></span></button>
         </div>
       </div>
       <div class="evo-stage">
@@ -420,16 +347,16 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <div>
         <div class="sec-head" style="margin-bottom:0">
           <p class="eyebrow">Equipos internacionales</p>
-          <h2>Un producto. <span class="grad-text">Cinco ciudades.</span></h2>
+          <h2>Un producto. <span class="mads-text-gradient">Cinco ciudades.</span></h2>
           <p>Desde que me incorporé a mi empresa actual en 2019, las personas con las que construyo producto han estado repartidas entre Estocolmo, Londres, Gibraltar y Madrid y, más recientemente, París: ingenieros, diseñadores y responsables de negocio con distintos idiomas, culturas y formas de trabajar.</p>
           <p>Consigo que todos remen en la misma dirección con un único backlog visible, prioridades claras y un contexto por escrito que se entiende en cualquier sitio. Y me aseguro de que cada ciudad tenga voz en lo que construimos a continuación.</p>
         </div>
         <div class="cities">
-          <div><b>Estocolmo</b><span>Suecia · CET</span></div>
-          <div><b>Londres</b><span>Reino Unido · GMT</span></div>
-          <div><b>París</b><span>Francia · CET</span></div>
-          <div><b>Gibraltar</b><span>Gibraltar · CET</span></div>
-          <div class="home"><b>Madrid</b><span>España · CET · mi base</span></div>
+          <div class="mads-card-compact"><b>Estocolmo</b><span>Suecia · CET</span></div>
+          <div class="mads-card-compact"><b>Londres</b><span>Reino Unido · GMT</span></div>
+          <div class="mads-card-compact"><b>París</b><span>Francia · CET</span></div>
+          <div class="mads-card-compact"><b>Gibraltar</b><span>Gibraltar · CET</span></div>
+          <div class="mads-card-compact home"><b>Madrid</b><span>España · CET · mi base</span></div>
         </div>
       </div>
       <div class="map-art">
@@ -440,7 +367,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
           </defs>
           <image class="dots-d" href="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20415%20315%22%3E%3Cpath%20d%3D%22M42%202h0M48%202h0M52%202h0M58%202h0M62%202h0M68%202h0M72%202h0M78%202h0M82%202h0M258%202h0M262%202h0M268%202h0M272%202h0M278%202h0M282%202h0M288%202h0M292%202h0M298%202h0M302%202h0M308%202h0M312%202h0M318%202h0M322%202h0M328%202h0M348%202h0M352%202h0M358%202h0M362%202h0M368%202h0M372%202h0M378%202h0M382%202h0M388%202h0M392%202h0M398%202h0M402%202h0M408%202h0M412%202h0M52%208h0M58%208h0M62%208h0M68%208h0M252%208h0M258%208h0M262%208h0M268%208h0M272%208h0M278%208h0M282%208h0M288%208h0M292%208h0M298%208h0M302%208h0M308%208h0M312%208h0M318%208h0M322%208h0M342%208h0M348%208h0M352%208h0M358%208h0M362%208h0M368%208h0M372%208h0M378%208h0M382%208h0M388%208h0M392%208h0M398%208h0M402%208h0M408%208h0M412%208h0M242%2012h0M248%2012h0M252%2012h0M258%2012h0M262%2012h0M268%2012h0M272%2012h0M278%2012h0M282%2012h0M288%2012h0M292%2012h0M298%2012h0M302%2012h0M308%2012h0M312%2012h0M338%2012h0M342%2012h0M348%2012h0M352%2012h0M358%2012h0M362%2012h0M368%2012h0M372%2012h0M378%2012h0M382%2012h0M388%2012h0M392%2012h0M398%2012h0M402%2012h0M408%2012h0M412%2012h0M232%2018h0M238%2018h0M242%2018h0M248%2018h0M252%2018h0M258%2018h0M262%2018h0M268%2018h0M272%2018h0M278%2018h0M282%2018h0M288%2018h0M292%2018h0M298%2018h0M302%2018h0M308%2018h0M332%2018h0M338%2018h0M342%2018h0M348%2018h0M352%2018h0M358%2018h0M362%2018h0M368%2018h0M372%2018h0M378%2018h0M382%2018h0M388%2018h0M392%2018h0M398%2018h0M402%2018h0M408%2018h0M412%2018h0M142%2022h0M228%2022h0M232%2022h0M238%2022h0M242%2022h0M248%2022h0M252%2022h0M258%2022h0M262%2022h0M268%2022h0M272%2022h0M278%2022h0M282%2022h0M288%2022h0M292%2022h0M298%2022h0M302%2022h0M332%2022h0M338%2022h0M342%2022h0M348%2022h0M352%2022h0M358%2022h0M362%2022h0M368%2022h0M372%2022h0M378%2022h0M382%2022h0M388%2022h0M392%2022h0M398%2022h0M402%2022h0M408%2022h0M412%2022h0M222%2028h0M228%2028h0M232%2028h0M238%2028h0M242%2028h0M248%2028h0M252%2028h0M258%2028h0M262%2028h0M268%2028h0M272%2028h0M278%2028h0M282%2028h0M288%2028h0M292%2028h0M298%2028h0M302%2028h0M332%2028h0M338%2028h0M342%2028h0M348%2028h0M352%2028h0M358%2028h0M362%2028h0M368%2028h0M372%2028h0M378%2028h0M382%2028h0M388%2028h0M392%2028h0M398%2028h0M402%2028h0M408%2028h0M412%2028h0M222%2032h0M228%2032h0M232%2032h0M238%2032h0M242%2032h0M248%2032h0M252%2032h0M258%2032h0M262%2032h0M268%2032h0M272%2032h0M278%2032h0M282%2032h0M288%2032h0M292%2032h0M298%2032h0M332%2032h0M338%2032h0M342%2032h0M348%2032h0M352%2032h0M358%2032h0M362%2032h0M368%2032h0M372%2032h0M378%2032h0M382%2032h0M388%2032h0M392%2032h0M398%2032h0M402%2032h0M408%2032h0M412%2032h0M222%2038h0M228%2038h0M232%2038h0M238%2038h0M242%2038h0M248%2038h0M252%2038h0M258%2038h0M262%2038h0M268%2038h0M272%2038h0M278%2038h0M282%2038h0M288%2038h0M292%2038h0M298%2038h0M302%2038h0M332%2038h0M338%2038h0M342%2038h0M348%2038h0M352%2038h0M358%2038h0M362%2038h0M368%2038h0M372%2038h0M378%2038h0M382%2038h0M388%2038h0M392%2038h0M398%2038h0M402%2038h0M408%2038h0M412%2038h0M178%2042h0M222%2042h0M228%2042h0M232%2042h0M238%2042h0M242%2042h0M248%2042h0M252%2042h0M258%2042h0M262%2042h0M268%2042h0M272%2042h0M278%2042h0M282%2042h0M288%2042h0M292%2042h0M298%2042h0M302%2042h0M308%2042h0M322%2042h0M342%2042h0M348%2042h0M352%2042h0M382%2042h0M388%2042h0M392%2042h0M398%2042h0M402%2042h0M408%2042h0M412%2042h0M222%2048h0M228%2048h0M232%2048h0M238%2048h0M242%2048h0M248%2048h0M252%2048h0M258%2048h0M262%2048h0M268%2048h0M272%2048h0M278%2048h0M282%2048h0M288%2048h0M292%2048h0M298%2048h0M302%2048h0M308%2048h0M312%2048h0M378%2048h0M382%2048h0M388%2048h0M392%2048h0M398%2048h0M402%2048h0M408%2048h0M412%2048h0M222%2052h0M228%2052h0M232%2052h0M238%2052h0M242%2052h0M248%2052h0M252%2052h0M262%2052h0M268%2052h0M272%2052h0M278%2052h0M282%2052h0M288%2052h0M292%2052h0M298%2052h0M302%2052h0M308%2052h0M348%2052h0M352%2052h0M358%2052h0M362%2052h0M368%2052h0M372%2052h0M378%2052h0M382%2052h0M388%2052h0M392%2052h0M398%2052h0M402%2052h0M408%2052h0M412%2052h0M168%2058h0M228%2058h0M232%2058h0M238%2058h0M242%2058h0M248%2058h0M262%2058h0M268%2058h0M272%2058h0M278%2058h0M282%2058h0M288%2058h0M292%2058h0M298%2058h0M348%2058h0M352%2058h0M358%2058h0M362%2058h0M368%2058h0M372%2058h0M378%2058h0M382%2058h0M388%2058h0M392%2058h0M398%2058h0M402%2058h0M408%2058h0M412%2058h0M142%2062h0M152%2062h0M158%2062h0M162%2062h0M232%2062h0M238%2062h0M242%2062h0M268%2062h0M272%2062h0M278%2062h0M282%2062h0M288%2062h0M292%2062h0M298%2062h0M338%2062h0M352%2062h0M358%2062h0M362%2062h0M368%2062h0M372%2062h0M378%2062h0M382%2062h0M388%2062h0M392%2062h0M398%2062h0M402%2062h0M408%2062h0M412%2062h0M152%2068h0M158%2068h0M268%2068h0M272%2068h0M278%2068h0M282%2068h0M288%2068h0M292%2068h0M298%2068h0M312%2068h0M352%2068h0M358%2068h0M362%2068h0M368%2068h0M372%2068h0M378%2068h0M382%2068h0M388%2068h0M392%2068h0M398%2068h0M402%2068h0M408%2068h0M412%2068h0M138%2072h0M148%2072h0M152%2072h0M158%2072h0M162%2072h0M168%2072h0M172%2072h0M252%2072h0M258%2072h0M272%2072h0M278%2072h0M282%2072h0M288%2072h0M292%2072h0M298%2072h0M332%2072h0M338%2072h0M352%2072h0M358%2072h0M362%2072h0M368%2072h0M372%2072h0M378%2072h0M382%2072h0M388%2072h0M392%2072h0M398%2072h0M402%2072h0M408%2072h0M412%2072h0M148%2078h0M152%2078h0M158%2078h0M162%2078h0M168%2078h0M248%2078h0M252%2078h0M272%2078h0M278%2078h0M282%2078h0M288%2078h0M292%2078h0M332%2078h0M338%2078h0M342%2078h0M348%2078h0M352%2078h0M358%2078h0M362%2078h0M368%2078h0M372%2078h0M378%2078h0M382%2078h0M388%2078h0M392%2078h0M398%2078h0M402%2078h0M408%2078h0M412%2078h0M152%2082h0M158%2082h0M162%2082h0M168%2082h0M242%2082h0M248%2082h0M252%2082h0M258%2082h0M272%2082h0M278%2082h0M282%2082h0M288%2082h0M292%2082h0M298%2082h0M332%2082h0M338%2082h0M342%2082h0M348%2082h0M352%2082h0M358%2082h0M362%2082h0M368%2082h0M372%2082h0M378%2082h0M382%2082h0M388%2082h0M392%2082h0M398%2082h0M402%2082h0M408%2082h0M412%2082h0M158%2088h0M162%2088h0M168%2088h0M172%2088h0M242%2088h0M248%2088h0M252%2088h0M262%2088h0M268%2088h0M278%2088h0M332%2088h0M338%2088h0M342%2088h0M348%2088h0M352%2088h0M358%2088h0M362%2088h0M368%2088h0M372%2088h0M378%2088h0M382%2088h0M388%2088h0M392%2088h0M398%2088h0M402%2088h0M408%2088h0M412%2088h0M138%2092h0M158%2092h0M162%2092h0M168%2092h0M172%2092h0M248%2092h0M258%2092h0M262%2092h0M268%2092h0M332%2092h0M338%2092h0M342%2092h0M348%2092h0M352%2092h0M358%2092h0M362%2092h0M368%2092h0M372%2092h0M378%2092h0M382%2092h0M388%2092h0M392%2092h0M398%2092h0M402%2092h0M408%2092h0M412%2092h0M132%2098h0M138%2098h0M142%2098h0M148%2098h0M168%2098h0M172%2098h0M178%2098h0M248%2098h0M252%2098h0M262%2098h0M308%2098h0M322%2098h0M328%2098h0M332%2098h0M338%2098h0M342%2098h0M348%2098h0M352%2098h0M358%2098h0M362%2098h0M368%2098h0M372%2098h0M378%2098h0M382%2098h0M388%2098h0M392%2098h0M398%2098h0M402%2098h0M408%2098h0M412%2098h0M122%20102h0M128%20102h0M132%20102h0M138%20102h0M142%20102h0M148%20102h0M158%20102h0M168%20102h0M172%20102h0M178%20102h0M182%20102h0M248%20102h0M252%20102h0M258%20102h0M272%20102h0M298%20102h0M302%20102h0M308%20102h0M312%20102h0M318%20102h0M322%20102h0M328%20102h0M332%20102h0M338%20102h0M342%20102h0M348%20102h0M352%20102h0M358%20102h0M362%20102h0M368%20102h0M372%20102h0M378%20102h0M382%20102h0M388%20102h0M392%20102h0M398%20102h0M402%20102h0M408%20102h0M412%20102h0M122%20108h0M128%20108h0M132%20108h0M138%20108h0M142%20108h0M168%20108h0M172%20108h0M178%20108h0M182%20108h0M248%20108h0M252%20108h0M258%20108h0M262%20108h0M268%20108h0M272%20108h0M278%20108h0M282%20108h0M288%20108h0M292%20108h0M298%20108h0M302%20108h0M308%20108h0M312%20108h0M318%20108h0M322%20108h0M328%20108h0M332%20108h0M338%20108h0M342%20108h0M348%20108h0M352%20108h0M358%20108h0M362%20108h0M368%20108h0M372%20108h0M378%20108h0M382%20108h0M388%20108h0M392%20108h0M398%20108h0M402%20108h0M408%20108h0M412%20108h0M128%20112h0M132%20112h0M138%20112h0M142%20112h0M158%20112h0M162%20112h0M168%20112h0M172%20112h0M178%20112h0M182%20112h0M188%20112h0M228%20112h0M232%20112h0M238%20112h0M242%20112h0M248%20112h0M252%20112h0M258%20112h0M262%20112h0M268%20112h0M272%20112h0M278%20112h0M282%20112h0M288%20112h0M292%20112h0M298%20112h0M302%20112h0M308%20112h0M312%20112h0M318%20112h0M322%20112h0M328%20112h0M332%20112h0M338%20112h0M342%20112h0M348%20112h0M352%20112h0M358%20112h0M362%20112h0M368%20112h0M372%20112h0M378%20112h0M382%20112h0M388%20112h0M392%20112h0M398%20112h0M402%20112h0M408%20112h0M412%20112h0M128%20118h0M132%20118h0M138%20118h0M142%20118h0M162%20118h0M168%20118h0M172%20118h0M178%20118h0M182%20118h0M188%20118h0M192%20118h0M198%20118h0M222%20118h0M228%20118h0M232%20118h0M238%20118h0M242%20118h0M248%20118h0M252%20118h0M258%20118h0M262%20118h0M268%20118h0M272%20118h0M278%20118h0M282%20118h0M288%20118h0M292%20118h0M298%20118h0M302%20118h0M308%20118h0M312%20118h0M318%20118h0M322%20118h0M328%20118h0M332%20118h0M338%20118h0M342%20118h0M348%20118h0M352%20118h0M358%20118h0M362%20118h0M368%20118h0M372%20118h0M378%20118h0M382%20118h0M388%20118h0M392%20118h0M398%20118h0M402%20118h0M408%20118h0M412%20118h0M122%20122h0M128%20122h0M132%20122h0M138%20122h0M142%20122h0M162%20122h0M168%20122h0M172%20122h0M178%20122h0M182%20122h0M188%20122h0M192%20122h0M198%20122h0M218%20122h0M222%20122h0M228%20122h0M232%20122h0M238%20122h0M242%20122h0M248%20122h0M252%20122h0M258%20122h0M262%20122h0M268%20122h0M272%20122h0M278%20122h0M282%20122h0M288%20122h0M292%20122h0M298%20122h0M302%20122h0M308%20122h0M312%20122h0M318%20122h0M322%20122h0M328%20122h0M332%20122h0M338%20122h0M342%20122h0M348%20122h0M352%20122h0M358%20122h0M362%20122h0M368%20122h0M372%20122h0M378%20122h0M382%20122h0M388%20122h0M392%20122h0M398%20122h0M402%20122h0M408%20122h0M412%20122h0M122%20128h0M128%20128h0M158%20128h0M162%20128h0M168%20128h0M172%20128h0M178%20128h0M182%20128h0M188%20128h0M212%20128h0M218%20128h0M222%20128h0M228%20128h0M232%20128h0M238%20128h0M242%20128h0M248%20128h0M252%20128h0M258%20128h0M262%20128h0M268%20128h0M272%20128h0M278%20128h0M282%20128h0M288%20128h0M292%20128h0M298%20128h0M302%20128h0M308%20128h0M312%20128h0M318%20128h0M322%20128h0M328%20128h0M332%20128h0M338%20128h0M342%20128h0M348%20128h0M352%20128h0M358%20128h0M362%20128h0M368%20128h0M372%20128h0M378%20128h0M382%20128h0M388%20128h0M392%20128h0M398%20128h0M402%20128h0M408%20128h0M412%20128h0M162%20132h0M168%20132h0M172%20132h0M178%20132h0M182%20132h0M188%20132h0M192%20132h0M208%20132h0M212%20132h0M218%20132h0M222%20132h0M228%20132h0M232%20132h0M238%20132h0M242%20132h0M248%20132h0M252%20132h0M258%20132h0M262%20132h0M268%20132h0M272%20132h0M278%20132h0M282%20132h0M288%20132h0M292%20132h0M298%20132h0M302%20132h0M308%20132h0M312%20132h0M318%20132h0M322%20132h0M328%20132h0M332%20132h0M338%20132h0M342%20132h0M348%20132h0M352%20132h0M358%20132h0M362%20132h0M368%20132h0M372%20132h0M378%20132h0M382%20132h0M388%20132h0M392%20132h0M398%20132h0M402%20132h0M408%20132h0M412%20132h0M158%20138h0M162%20138h0M168%20138h0M172%20138h0M202%20138h0M208%20138h0M212%20138h0M218%20138h0M222%20138h0M228%20138h0M232%20138h0M238%20138h0M242%20138h0M248%20138h0M252%20138h0M258%20138h0M262%20138h0M268%20138h0M272%20138h0M278%20138h0M282%20138h0M288%20138h0M292%20138h0M298%20138h0M302%20138h0M308%20138h0M312%20138h0M318%20138h0M322%20138h0M328%20138h0M332%20138h0M338%20138h0M342%20138h0M348%20138h0M352%20138h0M358%20138h0M362%20138h0M368%20138h0M372%20138h0M378%20138h0M382%20138h0M388%20138h0M392%20138h0M398%20138h0M402%20138h0M408%20138h0M412%20138h0M152%20142h0M162%20142h0M198%20142h0M202%20142h0M208%20142h0M212%20142h0M218%20142h0M222%20142h0M228%20142h0M232%20142h0M238%20142h0M242%20142h0M248%20142h0M252%20142h0M258%20142h0M262%20142h0M268%20142h0M272%20142h0M278%20142h0M282%20142h0M288%20142h0M292%20142h0M298%20142h0M302%20142h0M308%20142h0M312%20142h0M318%20142h0M322%20142h0M328%20142h0M332%20142h0M338%20142h0M342%20142h0M348%20142h0M352%20142h0M358%20142h0M362%20142h0M368%20142h0M372%20142h0M378%20142h0M382%20142h0M388%20142h0M392%20142h0M398%20142h0M402%20142h0M408%20142h0M412%20142h0M192%20148h0M198%20148h0M202%20148h0M208%20148h0M212%20148h0M218%20148h0M222%20148h0M228%20148h0M232%20148h0M238%20148h0M242%20148h0M248%20148h0M252%20148h0M258%20148h0M262%20148h0M268%20148h0M272%20148h0M278%20148h0M282%20148h0M288%20148h0M292%20148h0M298%20148h0M302%20148h0M308%20148h0M312%20148h0M318%20148h0M322%20148h0M328%20148h0M332%20148h0M338%20148h0M342%20148h0M348%20148h0M352%20148h0M358%20148h0M362%20148h0M368%20148h0M372%20148h0M378%20148h0M382%20148h0M388%20148h0M392%20148h0M398%20148h0M402%20148h0M408%20148h0M412%20148h0M172%20152h0M178%20152h0M182%20152h0M188%20152h0M192%20152h0M198%20152h0M202%20152h0M208%20152h0M212%20152h0M218%20152h0M222%20152h0M228%20152h0M232%20152h0M238%20152h0M242%20152h0M248%20152h0M252%20152h0M258%20152h0M262%20152h0M268%20152h0M272%20152h0M278%20152h0M282%20152h0M288%20152h0M292%20152h0M298%20152h0M302%20152h0M308%20152h0M312%20152h0M318%20152h0M322%20152h0M328%20152h0M332%20152h0M338%20152h0M342%20152h0M348%20152h0M352%20152h0M358%20152h0M362%20152h0M368%20152h0M372%20152h0M378%20152h0M382%20152h0M388%20152h0M392%20152h0M398%20152h0M402%20152h0M408%20152h0M412%20152h0M168%20158h0M178%20158h0M182%20158h0M188%20158h0M192%20158h0M198%20158h0M202%20158h0M208%20158h0M212%20158h0M218%20158h0M222%20158h0M228%20158h0M232%20158h0M238%20158h0M242%20158h0M248%20158h0M252%20158h0M258%20158h0M262%20158h0M268%20158h0M272%20158h0M278%20158h0M282%20158h0M288%20158h0M292%20158h0M298%20158h0M302%20158h0M308%20158h0M312%20158h0M318%20158h0M322%20158h0M328%20158h0M332%20158h0M338%20158h0M342%20158h0M348%20158h0M352%20158h0M358%20158h0M362%20158h0M368%20158h0M372%20158h0M378%20158h0M382%20158h0M388%20158h0M392%20158h0M398%20158h0M402%20158h0M408%20158h0M412%20158h0M158%20162h0M162%20162h0M168%20162h0M172%20162h0M178%20162h0M182%20162h0M188%20162h0M192%20162h0M198%20162h0M202%20162h0M208%20162h0M212%20162h0M218%20162h0M222%20162h0M228%20162h0M232%20162h0M238%20162h0M242%20162h0M248%20162h0M252%20162h0M258%20162h0M262%20162h0M268%20162h0M272%20162h0M278%20162h0M282%20162h0M288%20162h0M292%20162h0M298%20162h0M302%20162h0M308%20162h0M312%20162h0M318%20162h0M322%20162h0M328%20162h0M332%20162h0M338%20162h0M342%20162h0M348%20162h0M352%20162h0M358%20162h0M362%20162h0M368%20162h0M372%20162h0M378%20162h0M382%20162h0M388%20162h0M392%20162h0M398%20162h0M402%20162h0M408%20162h0M412%20162h0M168%20168h0M172%20168h0M178%20168h0M182%20168h0M188%20168h0M192%20168h0M198%20168h0M202%20168h0M208%20168h0M212%20168h0M218%20168h0M222%20168h0M228%20168h0M232%20168h0M238%20168h0M242%20168h0M248%20168h0M252%20168h0M258%20168h0M262%20168h0M268%20168h0M272%20168h0M278%20168h0M282%20168h0M288%20168h0M292%20168h0M298%20168h0M302%20168h0M308%20168h0M312%20168h0M318%20168h0M322%20168h0M328%20168h0M332%20168h0M338%20168h0M342%20168h0M348%20168h0M352%20168h0M358%20168h0M362%20168h0M368%20168h0M372%20168h0M378%20168h0M382%20168h0M388%20168h0M392%20168h0M398%20168h0M402%20168h0M408%20168h0M412%20168h0M178%20172h0M182%20172h0M188%20172h0M192%20172h0M198%20172h0M202%20172h0M208%20172h0M212%20172h0M218%20172h0M222%20172h0M228%20172h0M232%20172h0M238%20172h0M242%20172h0M248%20172h0M252%20172h0M258%20172h0M262%20172h0M268%20172h0M272%20172h0M278%20172h0M282%20172h0M288%20172h0M292%20172h0M298%20172h0M302%20172h0M308%20172h0M312%20172h0M318%20172h0M322%20172h0M328%20172h0M332%20172h0M338%20172h0M342%20172h0M348%20172h0M352%20172h0M358%20172h0M362%20172h0M368%20172h0M372%20172h0M378%20172h0M382%20172h0M388%20172h0M392%20172h0M398%20172h0M402%20172h0M408%20172h0M412%20172h0M178%20178h0M182%20178h0M188%20178h0M192%20178h0M198%20178h0M202%20178h0M208%20178h0M212%20178h0M218%20178h0M222%20178h0M228%20178h0M232%20178h0M238%20178h0M242%20178h0M248%20178h0M252%20178h0M258%20178h0M262%20178h0M268%20178h0M272%20178h0M278%20178h0M282%20178h0M288%20178h0M292%20178h0M298%20178h0M302%20178h0M308%20178h0M312%20178h0M318%20178h0M322%20178h0M328%20178h0M332%20178h0M338%20178h0M342%20178h0M348%20178h0M352%20178h0M358%20178h0M362%20178h0M368%20178h0M372%20178h0M378%20178h0M382%20178h0M388%20178h0M392%20178h0M398%20178h0M402%20178h0M408%20178h0M412%20178h0M182%20182h0M188%20182h0M192%20182h0M198%20182h0M202%20182h0M208%20182h0M212%20182h0M218%20182h0M222%20182h0M228%20182h0M232%20182h0M238%20182h0M242%20182h0M248%20182h0M252%20182h0M258%20182h0M262%20182h0M268%20182h0M272%20182h0M278%20182h0M282%20182h0M288%20182h0M292%20182h0M298%20182h0M302%20182h0M308%20182h0M312%20182h0M318%20182h0M322%20182h0M328%20182h0M332%20182h0M338%20182h0M342%20182h0M348%20182h0M352%20182h0M358%20182h0M362%20182h0M368%20182h0M372%20182h0M378%20182h0M382%20182h0M388%20182h0M402%20182h0M408%20182h0M412%20182h0M182%20188h0M188%20188h0M192%20188h0M198%20188h0M202%20188h0M208%20188h0M212%20188h0M218%20188h0M222%20188h0M228%20188h0M232%20188h0M238%20188h0M242%20188h0M248%20188h0M252%20188h0M258%20188h0M262%20188h0M268%20188h0M272%20188h0M278%20188h0M282%20188h0M288%20188h0M292%20188h0M298%20188h0M302%20188h0M308%20188h0M312%20188h0M318%20188h0M322%20188h0M328%20188h0M332%20188h0M338%20188h0M342%20188h0M348%20188h0M352%20188h0M358%20188h0M362%20188h0M368%20188h0M372%20188h0M378%20188h0M382%20188h0M412%20188h0M188%20192h0M192%20192h0M198%20192h0M202%20192h0M208%20192h0M212%20192h0M218%20192h0M222%20192h0M228%20192h0M232%20192h0M238%20192h0M242%20192h0M248%20192h0M252%20192h0M258%20192h0M262%20192h0M268%20192h0M282%20192h0M288%20192h0M292%20192h0M298%20192h0M302%20192h0M308%20192h0M312%20192h0M318%20192h0M322%20192h0M328%20192h0M332%20192h0M338%20192h0M342%20192h0M348%20192h0M352%20192h0M358%20192h0M362%20192h0M368%20192h0M372%20192h0M378%20192h0M382%20192h0M412%20192h0M182%20198h0M188%20198h0M192%20198h0M198%20198h0M202%20198h0M208%20198h0M212%20198h0M218%20198h0M222%20198h0M228%20198h0M232%20198h0M238%20198h0M242%20198h0M248%20198h0M252%20198h0M258%20198h0M262%20198h0M268%20198h0M288%20198h0M292%20198h0M298%20198h0M302%20198h0M308%20198h0M312%20198h0M318%20198h0M322%20198h0M328%20198h0M332%20198h0M338%20198h0M342%20198h0M348%20198h0M352%20198h0M358%20198h0M362%20198h0M368%20198h0M372%20198h0M378%20198h0M412%20198h0M182%20202h0M188%20202h0M192%20202h0M198%20202h0M202%20202h0M208%20202h0M212%20202h0M218%20202h0M222%20202h0M228%20202h0M232%20202h0M238%20202h0M242%20202h0M252%20202h0M258%20202h0M262%20202h0M268%20202h0M292%20202h0M298%20202h0M302%20202h0M308%20202h0M312%20202h0M318%20202h0M322%20202h0M328%20202h0M332%20202h0M338%20202h0M342%20202h0M348%20202h0M352%20202h0M358%20202h0M362%20202h0M368%20202h0M372%20202h0M378%20202h0M182%20208h0M188%20208h0M192%20208h0M198%20208h0M202%20208h0M208%20208h0M212%20208h0M218%20208h0M222%20208h0M228%20208h0M232%20208h0M258%20208h0M262%20208h0M268%20208h0M272%20208h0M298%20208h0M302%20208h0M308%20208h0M312%20208h0M318%20208h0M322%20208h0M328%20208h0M332%20208h0M338%20208h0M342%20208h0M348%20208h0M352%20208h0M358%20208h0M362%20208h0M368%20208h0M372%20208h0M378%20208h0M128%20212h0M132%20212h0M138%20212h0M142%20212h0M148%20212h0M152%20212h0M158%20212h0M162%20212h0M168%20212h0M172%20212h0M178%20212h0M182%20212h0M188%20212h0M192%20212h0M198%20212h0M202%20212h0M208%20212h0M228%20212h0M262%20212h0M268%20212h0M272%20212h0M278%20212h0M302%20212h0M308%20212h0M312%20212h0M318%20212h0M322%20212h0M328%20212h0M332%20212h0M338%20212h0M342%20212h0M348%20212h0M352%20212h0M358%20212h0M362%20212h0M368%20212h0M372%20212h0M128%20218h0M132%20218h0M138%20218h0M142%20218h0M148%20218h0M152%20218h0M158%20218h0M162%20218h0M168%20218h0M172%20218h0M178%20218h0M182%20218h0M188%20218h0M192%20218h0M198%20218h0M202%20218h0M208%20218h0M262%20218h0M268%20218h0M272%20218h0M278%20218h0M308%20218h0M312%20218h0M318%20218h0M322%20218h0M328%20218h0M332%20218h0M338%20218h0M342%20218h0M348%20218h0M352%20218h0M358%20218h0M362%20218h0M368%20218h0M372%20218h0M132%20222h0M138%20222h0M142%20222h0M148%20222h0M152%20222h0M158%20222h0M162%20222h0M168%20222h0M172%20222h0M178%20222h0M182%20222h0M188%20222h0M192%20222h0M198%20222h0M202%20222h0M208%20222h0M248%20222h0M268%20222h0M272%20222h0M278%20222h0M282%20222h0M318%20222h0M322%20222h0M328%20222h0M332%20222h0M338%20222h0M342%20222h0M348%20222h0M352%20222h0M358%20222h0M362%20222h0M368%20222h0M372%20222h0M132%20228h0M138%20228h0M142%20228h0M148%20228h0M152%20228h0M158%20228h0M162%20228h0M168%20228h0M172%20228h0M178%20228h0M182%20228h0M188%20228h0M192%20228h0M198%20228h0M202%20228h0M248%20228h0M272%20228h0M278%20228h0M282%20228h0M288%20228h0M292%20228h0M322%20228h0M328%20228h0M332%20228h0M338%20228h0M342%20228h0M348%20228h0M352%20228h0M358%20228h0M362%20228h0M368%20228h0M372%20228h0M408%20228h0M412%20228h0M132%20232h0M138%20232h0M142%20232h0M148%20232h0M152%20232h0M158%20232h0M162%20232h0M168%20232h0M172%20232h0M178%20232h0M182%20232h0M188%20232h0M192%20232h0M198%20232h0M282%20232h0M288%20232h0M292%20232h0M298%20232h0M318%20232h0M322%20232h0M328%20232h0M332%20232h0M338%20232h0M342%20232h0M348%20232h0M352%20232h0M358%20232h0M362%20232h0M368%20232h0M372%20232h0M378%20232h0M398%20232h0M402%20232h0M408%20232h0M412%20232h0M132%20238h0M138%20238h0M142%20238h0M148%20238h0M152%20238h0M158%20238h0M162%20238h0M168%20238h0M172%20238h0M178%20238h0M182%20238h0M188%20238h0M192%20238h0M242%20238h0M248%20238h0M288%20238h0M292%20238h0M298%20238h0M302%20238h0M318%20238h0M322%20238h0M328%20238h0M332%20238h0M338%20238h0M342%20238h0M348%20238h0M352%20238h0M362%20238h0M368%20238h0M388%20238h0M392%20238h0M398%20238h0M402%20238h0M408%20238h0M412%20238h0M132%20242h0M138%20242h0M142%20242h0M148%20242h0M152%20242h0M158%20242h0M162%20242h0M168%20242h0M172%20242h0M178%20242h0M182%20242h0M188%20242h0M248%20242h0M288%20242h0M292%20242h0M298%20242h0M308%20242h0M318%20242h0M322%20242h0M328%20242h0M332%20242h0M338%20242h0M368%20242h0M372%20242h0M378%20242h0M382%20242h0M388%20242h0M392%20242h0M398%20242h0M402%20242h0M408%20242h0M412%20242h0M128%20248h0M132%20248h0M138%20248h0M142%20248h0M148%20248h0M152%20248h0M158%20248h0M162%20248h0M168%20248h0M172%20248h0M178%20248h0M182%20248h0M208%20248h0M248%20248h0M298%20248h0M322%20248h0M328%20248h0M332%20248h0M338%20248h0M362%20248h0M368%20248h0M372%20248h0M378%20248h0M382%20248h0M388%20248h0M392%20248h0M398%20248h0M402%20248h0M408%20248h0M412%20248h0M128%20252h0M132%20252h0M138%20252h0M142%20252h0M148%20252h0M152%20252h0M158%20252h0M162%20252h0M168%20252h0M172%20252h0M178%20252h0M182%20252h0M248%20252h0M298%20252h0M328%20252h0M332%20252h0M338%20252h0M342%20252h0M348%20252h0M362%20252h0M368%20252h0M372%20252h0M378%20252h0M382%20252h0M388%20252h0M392%20252h0M398%20252h0M402%20252h0M408%20252h0M412%20252h0M128%20258h0M132%20258h0M138%20258h0M142%20258h0M148%20258h0M152%20258h0M158%20258h0M162%20258h0M168%20258h0M172%20258h0M178%20258h0M182%20258h0M188%20258h0M298%20258h0M328%20258h0M332%20258h0M338%20258h0M368%20258h0M372%20258h0M378%20258h0M382%20258h0M388%20258h0M392%20258h0M398%20258h0M402%20258h0M408%20258h0M412%20258h0M132%20262h0M138%20262h0M142%20262h0M148%20262h0M152%20262h0M158%20262h0M162%20262h0M168%20262h0M172%20262h0M178%20262h0M182%20262h0M292%20262h0M332%20262h0M342%20262h0M348%20262h0M368%20262h0M372%20262h0M378%20262h0M382%20262h0M388%20262h0M392%20262h0M398%20262h0M402%20262h0M408%20262h0M412%20262h0M18%20268h0M132%20268h0M138%20268h0M142%20268h0M148%20268h0M152%20268h0M158%20268h0M162%20268h0M168%20268h0M172%20268h0M178%20268h0M272%20268h0M278%20268h0M282%20268h0M288%20268h0M328%20268h0M332%20268h0M338%20268h0M348%20268h0M368%20268h0M372%20268h0M378%20268h0M382%20268h0M388%20268h0M392%20268h0M398%20268h0M402%20268h0M408%20268h0M412%20268h0M132%20272h0M138%20272h0M142%20272h0M148%20272h0M152%20272h0M158%20272h0M162%20272h0M168%20272h0M172%20272h0M252%20272h0M282%20272h0M288%20272h0M332%20272h0M338%20272h0M372%20272h0M378%20272h0M382%20272h0M388%20272h0M392%20272h0M398%20272h0M402%20272h0M408%20272h0M412%20272h0M148%20278h0M152%20278h0M158%20278h0M172%20278h0M208%20278h0M212%20278h0M218%20278h0M228%20278h0M232%20278h0M238%20278h0M242%20278h0M248%20278h0M252%20278h0M258%20278h0M268%20278h0M288%20278h0M338%20278h0M368%20278h0M372%20278h0M382%20278h0M388%20278h0M402%20278h0M408%20278h0M412%20278h0M148%20282h0M192%20282h0M198%20282h0M202%20282h0M208%20282h0M212%20282h0M218%20282h0M222%20282h0M228%20282h0M232%20282h0M238%20282h0M242%20282h0M248%20282h0M252%20282h0M258%20282h0M388%20282h0M408%20282h0M412%20282h0M148%20288h0M182%20288h0M188%20288h0M192%20288h0M198%20288h0M202%20288h0M208%20288h0M212%20288h0M218%20288h0M222%20288h0M228%20288h0M232%20288h0M238%20288h0M242%20288h0M248%20288h0M252%20288h0M258%20288h0M148%20292h0M152%20292h0M162%20292h0M168%20292h0M178%20292h0M182%20292h0M188%20292h0M192%20292h0M198%20292h0M202%20292h0M208%20292h0M212%20292h0M218%20292h0M222%20292h0M228%20292h0M232%20292h0M238%20292h0M242%20292h0M248%20292h0M252%20292h0M258%20292h0M348%20292h0M352%20292h0M358%20292h0M362%20292h0M408%20292h0M412%20292h0M148%20298h0M152%20298h0M158%20298h0M162%20298h0M168%20298h0M172%20298h0M178%20298h0M182%20298h0M188%20298h0M192%20298h0M198%20298h0M202%20298h0M208%20298h0M212%20298h0M218%20298h0M222%20298h0M228%20298h0M232%20298h0M238%20298h0M242%20298h0M248%20298h0M252%20298h0M258%20298h0M262%20298h0M408%20298h0M142%20302h0M148%20302h0M152%20302h0M158%20302h0M162%20302h0M168%20302h0M172%20302h0M178%20302h0M182%20302h0M188%20302h0M192%20302h0M198%20302h0M202%20302h0M208%20302h0M212%20302h0M218%20302h0M222%20302h0M228%20302h0M232%20302h0M238%20302h0M242%20302h0M248%20302h0M252%20302h0M142%20308h0M148%20308h0M152%20308h0M158%20308h0M162%20308h0M168%20308h0M172%20308h0M178%20308h0M182%20308h0M188%20308h0M192%20308h0M198%20308h0M202%20308h0M208%20308h0M212%20308h0M218%20308h0M222%20308h0M228%20308h0M232%20308h0M238%20308h0M242%20308h0M248%20308h0M252%20308h0M132%20312h0M138%20312h0M142%20312h0M148%20312h0M152%20312h0M158%20312h0M162%20312h0M168%20312h0M172%20312h0M178%20312h0M182%20312h0M188%20312h0M192%20312h0M198%20312h0M202%20312h0M208%20312h0M212%20312h0M218%20312h0M222%20312h0M228%20312h0M232%20312h0M238%20312h0M242%20312h0M248%20312h0M252%20312h0M258%20312h0M262%20312h0%22%20stroke%3D%22%236b6390%22%20stroke-opacity%3D%220.55%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22/%3E%3C/svg%3E" x="0" y="0" width="415" height="315"/><image class="dots-l" href="data:image/svg+xml;utf8,%3Csvg%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%20viewBox%3D%220%200%20415%20315%22%3E%3Cpath%20d%3D%22M42%202h0M48%202h0M52%202h0M58%202h0M62%202h0M68%202h0M72%202h0M78%202h0M82%202h0M258%202h0M262%202h0M268%202h0M272%202h0M278%202h0M282%202h0M288%202h0M292%202h0M298%202h0M302%202h0M308%202h0M312%202h0M318%202h0M322%202h0M328%202h0M348%202h0M352%202h0M358%202h0M362%202h0M368%202h0M372%202h0M378%202h0M382%202h0M388%202h0M392%202h0M398%202h0M402%202h0M408%202h0M412%202h0M52%208h0M58%208h0M62%208h0M68%208h0M252%208h0M258%208h0M262%208h0M268%208h0M272%208h0M278%208h0M282%208h0M288%208h0M292%208h0M298%208h0M302%208h0M308%208h0M312%208h0M318%208h0M322%208h0M342%208h0M348%208h0M352%208h0M358%208h0M362%208h0M368%208h0M372%208h0M378%208h0M382%208h0M388%208h0M392%208h0M398%208h0M402%208h0M408%208h0M412%208h0M242%2012h0M248%2012h0M252%2012h0M258%2012h0M262%2012h0M268%2012h0M272%2012h0M278%2012h0M282%2012h0M288%2012h0M292%2012h0M298%2012h0M302%2012h0M308%2012h0M312%2012h0M338%2012h0M342%2012h0M348%2012h0M352%2012h0M358%2012h0M362%2012h0M368%2012h0M372%2012h0M378%2012h0M382%2012h0M388%2012h0M392%2012h0M398%2012h0M402%2012h0M408%2012h0M412%2012h0M232%2018h0M238%2018h0M242%2018h0M248%2018h0M252%2018h0M258%2018h0M262%2018h0M268%2018h0M272%2018h0M278%2018h0M282%2018h0M288%2018h0M292%2018h0M298%2018h0M302%2018h0M308%2018h0M332%2018h0M338%2018h0M342%2018h0M348%2018h0M352%2018h0M358%2018h0M362%2018h0M368%2018h0M372%2018h0M378%2018h0M382%2018h0M388%2018h0M392%2018h0M398%2018h0M402%2018h0M408%2018h0M412%2018h0M142%2022h0M228%2022h0M232%2022h0M238%2022h0M242%2022h0M248%2022h0M252%2022h0M258%2022h0M262%2022h0M268%2022h0M272%2022h0M278%2022h0M282%2022h0M288%2022h0M292%2022h0M298%2022h0M302%2022h0M332%2022h0M338%2022h0M342%2022h0M348%2022h0M352%2022h0M358%2022h0M362%2022h0M368%2022h0M372%2022h0M378%2022h0M382%2022h0M388%2022h0M392%2022h0M398%2022h0M402%2022h0M408%2022h0M412%2022h0M222%2028h0M228%2028h0M232%2028h0M238%2028h0M242%2028h0M248%2028h0M252%2028h0M258%2028h0M262%2028h0M268%2028h0M272%2028h0M278%2028h0M282%2028h0M288%2028h0M292%2028h0M298%2028h0M302%2028h0M332%2028h0M338%2028h0M342%2028h0M348%2028h0M352%2028h0M358%2028h0M362%2028h0M368%2028h0M372%2028h0M378%2028h0M382%2028h0M388%2028h0M392%2028h0M398%2028h0M402%2028h0M408%2028h0M412%2028h0M222%2032h0M228%2032h0M232%2032h0M238%2032h0M242%2032h0M248%2032h0M252%2032h0M258%2032h0M262%2032h0M268%2032h0M272%2032h0M278%2032h0M282%2032h0M288%2032h0M292%2032h0M298%2032h0M332%2032h0M338%2032h0M342%2032h0M348%2032h0M352%2032h0M358%2032h0M362%2032h0M368%2032h0M372%2032h0M378%2032h0M382%2032h0M388%2032h0M392%2032h0M398%2032h0M402%2032h0M408%2032h0M412%2032h0M222%2038h0M228%2038h0M232%2038h0M238%2038h0M242%2038h0M248%2038h0M252%2038h0M258%2038h0M262%2038h0M268%2038h0M272%2038h0M278%2038h0M282%2038h0M288%2038h0M292%2038h0M298%2038h0M302%2038h0M332%2038h0M338%2038h0M342%2038h0M348%2038h0M352%2038h0M358%2038h0M362%2038h0M368%2038h0M372%2038h0M378%2038h0M382%2038h0M388%2038h0M392%2038h0M398%2038h0M402%2038h0M408%2038h0M412%2038h0M178%2042h0M222%2042h0M228%2042h0M232%2042h0M238%2042h0M242%2042h0M248%2042h0M252%2042h0M258%2042h0M262%2042h0M268%2042h0M272%2042h0M278%2042h0M282%2042h0M288%2042h0M292%2042h0M298%2042h0M302%2042h0M308%2042h0M322%2042h0M342%2042h0M348%2042h0M352%2042h0M382%2042h0M388%2042h0M392%2042h0M398%2042h0M402%2042h0M408%2042h0M412%2042h0M222%2048h0M228%2048h0M232%2048h0M238%2048h0M242%2048h0M248%2048h0M252%2048h0M258%2048h0M262%2048h0M268%2048h0M272%2048h0M278%2048h0M282%2048h0M288%2048h0M292%2048h0M298%2048h0M302%2048h0M308%2048h0M312%2048h0M378%2048h0M382%2048h0M388%2048h0M392%2048h0M398%2048h0M402%2048h0M408%2048h0M412%2048h0M222%2052h0M228%2052h0M232%2052h0M238%2052h0M242%2052h0M248%2052h0M252%2052h0M262%2052h0M268%2052h0M272%2052h0M278%2052h0M282%2052h0M288%2052h0M292%2052h0M298%2052h0M302%2052h0M308%2052h0M348%2052h0M352%2052h0M358%2052h0M362%2052h0M368%2052h0M372%2052h0M378%2052h0M382%2052h0M388%2052h0M392%2052h0M398%2052h0M402%2052h0M408%2052h0M412%2052h0M168%2058h0M228%2058h0M232%2058h0M238%2058h0M242%2058h0M248%2058h0M262%2058h0M268%2058h0M272%2058h0M278%2058h0M282%2058h0M288%2058h0M292%2058h0M298%2058h0M348%2058h0M352%2058h0M358%2058h0M362%2058h0M368%2058h0M372%2058h0M378%2058h0M382%2058h0M388%2058h0M392%2058h0M398%2058h0M402%2058h0M408%2058h0M412%2058h0M142%2062h0M152%2062h0M158%2062h0M162%2062h0M232%2062h0M238%2062h0M242%2062h0M268%2062h0M272%2062h0M278%2062h0M282%2062h0M288%2062h0M292%2062h0M298%2062h0M338%2062h0M352%2062h0M358%2062h0M362%2062h0M368%2062h0M372%2062h0M378%2062h0M382%2062h0M388%2062h0M392%2062h0M398%2062h0M402%2062h0M408%2062h0M412%2062h0M152%2068h0M158%2068h0M268%2068h0M272%2068h0M278%2068h0M282%2068h0M288%2068h0M292%2068h0M298%2068h0M312%2068h0M352%2068h0M358%2068h0M362%2068h0M368%2068h0M372%2068h0M378%2068h0M382%2068h0M388%2068h0M392%2068h0M398%2068h0M402%2068h0M408%2068h0M412%2068h0M138%2072h0M148%2072h0M152%2072h0M158%2072h0M162%2072h0M168%2072h0M172%2072h0M252%2072h0M258%2072h0M272%2072h0M278%2072h0M282%2072h0M288%2072h0M292%2072h0M298%2072h0M332%2072h0M338%2072h0M352%2072h0M358%2072h0M362%2072h0M368%2072h0M372%2072h0M378%2072h0M382%2072h0M388%2072h0M392%2072h0M398%2072h0M402%2072h0M408%2072h0M412%2072h0M148%2078h0M152%2078h0M158%2078h0M162%2078h0M168%2078h0M248%2078h0M252%2078h0M272%2078h0M278%2078h0M282%2078h0M288%2078h0M292%2078h0M332%2078h0M338%2078h0M342%2078h0M348%2078h0M352%2078h0M358%2078h0M362%2078h0M368%2078h0M372%2078h0M378%2078h0M382%2078h0M388%2078h0M392%2078h0M398%2078h0M402%2078h0M408%2078h0M412%2078h0M152%2082h0M158%2082h0M162%2082h0M168%2082h0M242%2082h0M248%2082h0M252%2082h0M258%2082h0M272%2082h0M278%2082h0M282%2082h0M288%2082h0M292%2082h0M298%2082h0M332%2082h0M338%2082h0M342%2082h0M348%2082h0M352%2082h0M358%2082h0M362%2082h0M368%2082h0M372%2082h0M378%2082h0M382%2082h0M388%2082h0M392%2082h0M398%2082h0M402%2082h0M408%2082h0M412%2082h0M158%2088h0M162%2088h0M168%2088h0M172%2088h0M242%2088h0M248%2088h0M252%2088h0M262%2088h0M268%2088h0M278%2088h0M332%2088h0M338%2088h0M342%2088h0M348%2088h0M352%2088h0M358%2088h0M362%2088h0M368%2088h0M372%2088h0M378%2088h0M382%2088h0M388%2088h0M392%2088h0M398%2088h0M402%2088h0M408%2088h0M412%2088h0M138%2092h0M158%2092h0M162%2092h0M168%2092h0M172%2092h0M248%2092h0M258%2092h0M262%2092h0M268%2092h0M332%2092h0M338%2092h0M342%2092h0M348%2092h0M352%2092h0M358%2092h0M362%2092h0M368%2092h0M372%2092h0M378%2092h0M382%2092h0M388%2092h0M392%2092h0M398%2092h0M402%2092h0M408%2092h0M412%2092h0M132%2098h0M138%2098h0M142%2098h0M148%2098h0M168%2098h0M172%2098h0M178%2098h0M248%2098h0M252%2098h0M262%2098h0M308%2098h0M322%2098h0M328%2098h0M332%2098h0M338%2098h0M342%2098h0M348%2098h0M352%2098h0M358%2098h0M362%2098h0M368%2098h0M372%2098h0M378%2098h0M382%2098h0M388%2098h0M392%2098h0M398%2098h0M402%2098h0M408%2098h0M412%2098h0M122%20102h0M128%20102h0M132%20102h0M138%20102h0M142%20102h0M148%20102h0M158%20102h0M168%20102h0M172%20102h0M178%20102h0M182%20102h0M248%20102h0M252%20102h0M258%20102h0M272%20102h0M298%20102h0M302%20102h0M308%20102h0M312%20102h0M318%20102h0M322%20102h0M328%20102h0M332%20102h0M338%20102h0M342%20102h0M348%20102h0M352%20102h0M358%20102h0M362%20102h0M368%20102h0M372%20102h0M378%20102h0M382%20102h0M388%20102h0M392%20102h0M398%20102h0M402%20102h0M408%20102h0M412%20102h0M122%20108h0M128%20108h0M132%20108h0M138%20108h0M142%20108h0M168%20108h0M172%20108h0M178%20108h0M182%20108h0M248%20108h0M252%20108h0M258%20108h0M262%20108h0M268%20108h0M272%20108h0M278%20108h0M282%20108h0M288%20108h0M292%20108h0M298%20108h0M302%20108h0M308%20108h0M312%20108h0M318%20108h0M322%20108h0M328%20108h0M332%20108h0M338%20108h0M342%20108h0M348%20108h0M352%20108h0M358%20108h0M362%20108h0M368%20108h0M372%20108h0M378%20108h0M382%20108h0M388%20108h0M392%20108h0M398%20108h0M402%20108h0M408%20108h0M412%20108h0M128%20112h0M132%20112h0M138%20112h0M142%20112h0M158%20112h0M162%20112h0M168%20112h0M172%20112h0M178%20112h0M182%20112h0M188%20112h0M228%20112h0M232%20112h0M238%20112h0M242%20112h0M248%20112h0M252%20112h0M258%20112h0M262%20112h0M268%20112h0M272%20112h0M278%20112h0M282%20112h0M288%20112h0M292%20112h0M298%20112h0M302%20112h0M308%20112h0M312%20112h0M318%20112h0M322%20112h0M328%20112h0M332%20112h0M338%20112h0M342%20112h0M348%20112h0M352%20112h0M358%20112h0M362%20112h0M368%20112h0M372%20112h0M378%20112h0M382%20112h0M388%20112h0M392%20112h0M398%20112h0M402%20112h0M408%20112h0M412%20112h0M128%20118h0M132%20118h0M138%20118h0M142%20118h0M162%20118h0M168%20118h0M172%20118h0M178%20118h0M182%20118h0M188%20118h0M192%20118h0M198%20118h0M222%20118h0M228%20118h0M232%20118h0M238%20118h0M242%20118h0M248%20118h0M252%20118h0M258%20118h0M262%20118h0M268%20118h0M272%20118h0M278%20118h0M282%20118h0M288%20118h0M292%20118h0M298%20118h0M302%20118h0M308%20118h0M312%20118h0M318%20118h0M322%20118h0M328%20118h0M332%20118h0M338%20118h0M342%20118h0M348%20118h0M352%20118h0M358%20118h0M362%20118h0M368%20118h0M372%20118h0M378%20118h0M382%20118h0M388%20118h0M392%20118h0M398%20118h0M402%20118h0M408%20118h0M412%20118h0M122%20122h0M128%20122h0M132%20122h0M138%20122h0M142%20122h0M162%20122h0M168%20122h0M172%20122h0M178%20122h0M182%20122h0M188%20122h0M192%20122h0M198%20122h0M218%20122h0M222%20122h0M228%20122h0M232%20122h0M238%20122h0M242%20122h0M248%20122h0M252%20122h0M258%20122h0M262%20122h0M268%20122h0M272%20122h0M278%20122h0M282%20122h0M288%20122h0M292%20122h0M298%20122h0M302%20122h0M308%20122h0M312%20122h0M318%20122h0M322%20122h0M328%20122h0M332%20122h0M338%20122h0M342%20122h0M348%20122h0M352%20122h0M358%20122h0M362%20122h0M368%20122h0M372%20122h0M378%20122h0M382%20122h0M388%20122h0M392%20122h0M398%20122h0M402%20122h0M408%20122h0M412%20122h0M122%20128h0M128%20128h0M158%20128h0M162%20128h0M168%20128h0M172%20128h0M178%20128h0M182%20128h0M188%20128h0M212%20128h0M218%20128h0M222%20128h0M228%20128h0M232%20128h0M238%20128h0M242%20128h0M248%20128h0M252%20128h0M258%20128h0M262%20128h0M268%20128h0M272%20128h0M278%20128h0M282%20128h0M288%20128h0M292%20128h0M298%20128h0M302%20128h0M308%20128h0M312%20128h0M318%20128h0M322%20128h0M328%20128h0M332%20128h0M338%20128h0M342%20128h0M348%20128h0M352%20128h0M358%20128h0M362%20128h0M368%20128h0M372%20128h0M378%20128h0M382%20128h0M388%20128h0M392%20128h0M398%20128h0M402%20128h0M408%20128h0M412%20128h0M162%20132h0M168%20132h0M172%20132h0M178%20132h0M182%20132h0M188%20132h0M192%20132h0M208%20132h0M212%20132h0M218%20132h0M222%20132h0M228%20132h0M232%20132h0M238%20132h0M242%20132h0M248%20132h0M252%20132h0M258%20132h0M262%20132h0M268%20132h0M272%20132h0M278%20132h0M282%20132h0M288%20132h0M292%20132h0M298%20132h0M302%20132h0M308%20132h0M312%20132h0M318%20132h0M322%20132h0M328%20132h0M332%20132h0M338%20132h0M342%20132h0M348%20132h0M352%20132h0M358%20132h0M362%20132h0M368%20132h0M372%20132h0M378%20132h0M382%20132h0M388%20132h0M392%20132h0M398%20132h0M402%20132h0M408%20132h0M412%20132h0M158%20138h0M162%20138h0M168%20138h0M172%20138h0M202%20138h0M208%20138h0M212%20138h0M218%20138h0M222%20138h0M228%20138h0M232%20138h0M238%20138h0M242%20138h0M248%20138h0M252%20138h0M258%20138h0M262%20138h0M268%20138h0M272%20138h0M278%20138h0M282%20138h0M288%20138h0M292%20138h0M298%20138h0M302%20138h0M308%20138h0M312%20138h0M318%20138h0M322%20138h0M328%20138h0M332%20138h0M338%20138h0M342%20138h0M348%20138h0M352%20138h0M358%20138h0M362%20138h0M368%20138h0M372%20138h0M378%20138h0M382%20138h0M388%20138h0M392%20138h0M398%20138h0M402%20138h0M408%20138h0M412%20138h0M152%20142h0M162%20142h0M198%20142h0M202%20142h0M208%20142h0M212%20142h0M218%20142h0M222%20142h0M228%20142h0M232%20142h0M238%20142h0M242%20142h0M248%20142h0M252%20142h0M258%20142h0M262%20142h0M268%20142h0M272%20142h0M278%20142h0M282%20142h0M288%20142h0M292%20142h0M298%20142h0M302%20142h0M308%20142h0M312%20142h0M318%20142h0M322%20142h0M328%20142h0M332%20142h0M338%20142h0M342%20142h0M348%20142h0M352%20142h0M358%20142h0M362%20142h0M368%20142h0M372%20142h0M378%20142h0M382%20142h0M388%20142h0M392%20142h0M398%20142h0M402%20142h0M408%20142h0M412%20142h0M192%20148h0M198%20148h0M202%20148h0M208%20148h0M212%20148h0M218%20148h0M222%20148h0M228%20148h0M232%20148h0M238%20148h0M242%20148h0M248%20148h0M252%20148h0M258%20148h0M262%20148h0M268%20148h0M272%20148h0M278%20148h0M282%20148h0M288%20148h0M292%20148h0M298%20148h0M302%20148h0M308%20148h0M312%20148h0M318%20148h0M322%20148h0M328%20148h0M332%20148h0M338%20148h0M342%20148h0M348%20148h0M352%20148h0M358%20148h0M362%20148h0M368%20148h0M372%20148h0M378%20148h0M382%20148h0M388%20148h0M392%20148h0M398%20148h0M402%20148h0M408%20148h0M412%20148h0M172%20152h0M178%20152h0M182%20152h0M188%20152h0M192%20152h0M198%20152h0M202%20152h0M208%20152h0M212%20152h0M218%20152h0M222%20152h0M228%20152h0M232%20152h0M238%20152h0M242%20152h0M248%20152h0M252%20152h0M258%20152h0M262%20152h0M268%20152h0M272%20152h0M278%20152h0M282%20152h0M288%20152h0M292%20152h0M298%20152h0M302%20152h0M308%20152h0M312%20152h0M318%20152h0M322%20152h0M328%20152h0M332%20152h0M338%20152h0M342%20152h0M348%20152h0M352%20152h0M358%20152h0M362%20152h0M368%20152h0M372%20152h0M378%20152h0M382%20152h0M388%20152h0M392%20152h0M398%20152h0M402%20152h0M408%20152h0M412%20152h0M168%20158h0M178%20158h0M182%20158h0M188%20158h0M192%20158h0M198%20158h0M202%20158h0M208%20158h0M212%20158h0M218%20158h0M222%20158h0M228%20158h0M232%20158h0M238%20158h0M242%20158h0M248%20158h0M252%20158h0M258%20158h0M262%20158h0M268%20158h0M272%20158h0M278%20158h0M282%20158h0M288%20158h0M292%20158h0M298%20158h0M302%20158h0M308%20158h0M312%20158h0M318%20158h0M322%20158h0M328%20158h0M332%20158h0M338%20158h0M342%20158h0M348%20158h0M352%20158h0M358%20158h0M362%20158h0M368%20158h0M372%20158h0M378%20158h0M382%20158h0M388%20158h0M392%20158h0M398%20158h0M402%20158h0M408%20158h0M412%20158h0M158%20162h0M162%20162h0M168%20162h0M172%20162h0M178%20162h0M182%20162h0M188%20162h0M192%20162h0M198%20162h0M202%20162h0M208%20162h0M212%20162h0M218%20162h0M222%20162h0M228%20162h0M232%20162h0M238%20162h0M242%20162h0M248%20162h0M252%20162h0M258%20162h0M262%20162h0M268%20162h0M272%20162h0M278%20162h0M282%20162h0M288%20162h0M292%20162h0M298%20162h0M302%20162h0M308%20162h0M312%20162h0M318%20162h0M322%20162h0M328%20162h0M332%20162h0M338%20162h0M342%20162h0M348%20162h0M352%20162h0M358%20162h0M362%20162h0M368%20162h0M372%20162h0M378%20162h0M382%20162h0M388%20162h0M392%20162h0M398%20162h0M402%20162h0M408%20162h0M412%20162h0M168%20168h0M172%20168h0M178%20168h0M182%20168h0M188%20168h0M192%20168h0M198%20168h0M202%20168h0M208%20168h0M212%20168h0M218%20168h0M222%20168h0M228%20168h0M232%20168h0M238%20168h0M242%20168h0M248%20168h0M252%20168h0M258%20168h0M262%20168h0M268%20168h0M272%20168h0M278%20168h0M282%20168h0M288%20168h0M292%20168h0M298%20168h0M302%20168h0M308%20168h0M312%20168h0M318%20168h0M322%20168h0M328%20168h0M332%20168h0M338%20168h0M342%20168h0M348%20168h0M352%20168h0M358%20168h0M362%20168h0M368%20168h0M372%20168h0M378%20168h0M382%20168h0M388%20168h0M392%20168h0M398%20168h0M402%20168h0M408%20168h0M412%20168h0M178%20172h0M182%20172h0M188%20172h0M192%20172h0M198%20172h0M202%20172h0M208%20172h0M212%20172h0M218%20172h0M222%20172h0M228%20172h0M232%20172h0M238%20172h0M242%20172h0M248%20172h0M252%20172h0M258%20172h0M262%20172h0M268%20172h0M272%20172h0M278%20172h0M282%20172h0M288%20172h0M292%20172h0M298%20172h0M302%20172h0M308%20172h0M312%20172h0M318%20172h0M322%20172h0M328%20172h0M332%20172h0M338%20172h0M342%20172h0M348%20172h0M352%20172h0M358%20172h0M362%20172h0M368%20172h0M372%20172h0M378%20172h0M382%20172h0M388%20172h0M392%20172h0M398%20172h0M402%20172h0M408%20172h0M412%20172h0M178%20178h0M182%20178h0M188%20178h0M192%20178h0M198%20178h0M202%20178h0M208%20178h0M212%20178h0M218%20178h0M222%20178h0M228%20178h0M232%20178h0M238%20178h0M242%20178h0M248%20178h0M252%20178h0M258%20178h0M262%20178h0M268%20178h0M272%20178h0M278%20178h0M282%20178h0M288%20178h0M292%20178h0M298%20178h0M302%20178h0M308%20178h0M312%20178h0M318%20178h0M322%20178h0M328%20178h0M332%20178h0M338%20178h0M342%20178h0M348%20178h0M352%20178h0M358%20178h0M362%20178h0M368%20178h0M372%20178h0M378%20178h0M382%20178h0M388%20178h0M392%20178h0M398%20178h0M402%20178h0M408%20178h0M412%20178h0M182%20182h0M188%20182h0M192%20182h0M198%20182h0M202%20182h0M208%20182h0M212%20182h0M218%20182h0M222%20182h0M228%20182h0M232%20182h0M238%20182h0M242%20182h0M248%20182h0M252%20182h0M258%20182h0M262%20182h0M268%20182h0M272%20182h0M278%20182h0M282%20182h0M288%20182h0M292%20182h0M298%20182h0M302%20182h0M308%20182h0M312%20182h0M318%20182h0M322%20182h0M328%20182h0M332%20182h0M338%20182h0M342%20182h0M348%20182h0M352%20182h0M358%20182h0M362%20182h0M368%20182h0M372%20182h0M378%20182h0M382%20182h0M388%20182h0M402%20182h0M408%20182h0M412%20182h0M182%20188h0M188%20188h0M192%20188h0M198%20188h0M202%20188h0M208%20188h0M212%20188h0M218%20188h0M222%20188h0M228%20188h0M232%20188h0M238%20188h0M242%20188h0M248%20188h0M252%20188h0M258%20188h0M262%20188h0M268%20188h0M272%20188h0M278%20188h0M282%20188h0M288%20188h0M292%20188h0M298%20188h0M302%20188h0M308%20188h0M312%20188h0M318%20188h0M322%20188h0M328%20188h0M332%20188h0M338%20188h0M342%20188h0M348%20188h0M352%20188h0M358%20188h0M362%20188h0M368%20188h0M372%20188h0M378%20188h0M382%20188h0M412%20188h0M188%20192h0M192%20192h0M198%20192h0M202%20192h0M208%20192h0M212%20192h0M218%20192h0M222%20192h0M228%20192h0M232%20192h0M238%20192h0M242%20192h0M248%20192h0M252%20192h0M258%20192h0M262%20192h0M268%20192h0M282%20192h0M288%20192h0M292%20192h0M298%20192h0M302%20192h0M308%20192h0M312%20192h0M318%20192h0M322%20192h0M328%20192h0M332%20192h0M338%20192h0M342%20192h0M348%20192h0M352%20192h0M358%20192h0M362%20192h0M368%20192h0M372%20192h0M378%20192h0M382%20192h0M412%20192h0M182%20198h0M188%20198h0M192%20198h0M198%20198h0M202%20198h0M208%20198h0M212%20198h0M218%20198h0M222%20198h0M228%20198h0M232%20198h0M238%20198h0M242%20198h0M248%20198h0M252%20198h0M258%20198h0M262%20198h0M268%20198h0M288%20198h0M292%20198h0M298%20198h0M302%20198h0M308%20198h0M312%20198h0M318%20198h0M322%20198h0M328%20198h0M332%20198h0M338%20198h0M342%20198h0M348%20198h0M352%20198h0M358%20198h0M362%20198h0M368%20198h0M372%20198h0M378%20198h0M412%20198h0M182%20202h0M188%20202h0M192%20202h0M198%20202h0M202%20202h0M208%20202h0M212%20202h0M218%20202h0M222%20202h0M228%20202h0M232%20202h0M238%20202h0M242%20202h0M252%20202h0M258%20202h0M262%20202h0M268%20202h0M292%20202h0M298%20202h0M302%20202h0M308%20202h0M312%20202h0M318%20202h0M322%20202h0M328%20202h0M332%20202h0M338%20202h0M342%20202h0M348%20202h0M352%20202h0M358%20202h0M362%20202h0M368%20202h0M372%20202h0M378%20202h0M182%20208h0M188%20208h0M192%20208h0M198%20208h0M202%20208h0M208%20208h0M212%20208h0M218%20208h0M222%20208h0M228%20208h0M232%20208h0M258%20208h0M262%20208h0M268%20208h0M272%20208h0M298%20208h0M302%20208h0M308%20208h0M312%20208h0M318%20208h0M322%20208h0M328%20208h0M332%20208h0M338%20208h0M342%20208h0M348%20208h0M352%20208h0M358%20208h0M362%20208h0M368%20208h0M372%20208h0M378%20208h0M128%20212h0M132%20212h0M138%20212h0M142%20212h0M148%20212h0M152%20212h0M158%20212h0M162%20212h0M168%20212h0M172%20212h0M178%20212h0M182%20212h0M188%20212h0M192%20212h0M198%20212h0M202%20212h0M208%20212h0M228%20212h0M262%20212h0M268%20212h0M272%20212h0M278%20212h0M302%20212h0M308%20212h0M312%20212h0M318%20212h0M322%20212h0M328%20212h0M332%20212h0M338%20212h0M342%20212h0M348%20212h0M352%20212h0M358%20212h0M362%20212h0M368%20212h0M372%20212h0M128%20218h0M132%20218h0M138%20218h0M142%20218h0M148%20218h0M152%20218h0M158%20218h0M162%20218h0M168%20218h0M172%20218h0M178%20218h0M182%20218h0M188%20218h0M192%20218h0M198%20218h0M202%20218h0M208%20218h0M262%20218h0M268%20218h0M272%20218h0M278%20218h0M308%20218h0M312%20218h0M318%20218h0M322%20218h0M328%20218h0M332%20218h0M338%20218h0M342%20218h0M348%20218h0M352%20218h0M358%20218h0M362%20218h0M368%20218h0M372%20218h0M132%20222h0M138%20222h0M142%20222h0M148%20222h0M152%20222h0M158%20222h0M162%20222h0M168%20222h0M172%20222h0M178%20222h0M182%20222h0M188%20222h0M192%20222h0M198%20222h0M202%20222h0M208%20222h0M248%20222h0M268%20222h0M272%20222h0M278%20222h0M282%20222h0M318%20222h0M322%20222h0M328%20222h0M332%20222h0M338%20222h0M342%20222h0M348%20222h0M352%20222h0M358%20222h0M362%20222h0M368%20222h0M372%20222h0M132%20228h0M138%20228h0M142%20228h0M148%20228h0M152%20228h0M158%20228h0M162%20228h0M168%20228h0M172%20228h0M178%20228h0M182%20228h0M188%20228h0M192%20228h0M198%20228h0M202%20228h0M248%20228h0M272%20228h0M278%20228h0M282%20228h0M288%20228h0M292%20228h0M322%20228h0M328%20228h0M332%20228h0M338%20228h0M342%20228h0M348%20228h0M352%20228h0M358%20228h0M362%20228h0M368%20228h0M372%20228h0M408%20228h0M412%20228h0M132%20232h0M138%20232h0M142%20232h0M148%20232h0M152%20232h0M158%20232h0M162%20232h0M168%20232h0M172%20232h0M178%20232h0M182%20232h0M188%20232h0M192%20232h0M198%20232h0M282%20232h0M288%20232h0M292%20232h0M298%20232h0M318%20232h0M322%20232h0M328%20232h0M332%20232h0M338%20232h0M342%20232h0M348%20232h0M352%20232h0M358%20232h0M362%20232h0M368%20232h0M372%20232h0M378%20232h0M398%20232h0M402%20232h0M408%20232h0M412%20232h0M132%20238h0M138%20238h0M142%20238h0M148%20238h0M152%20238h0M158%20238h0M162%20238h0M168%20238h0M172%20238h0M178%20238h0M182%20238h0M188%20238h0M192%20238h0M242%20238h0M248%20238h0M288%20238h0M292%20238h0M298%20238h0M302%20238h0M318%20238h0M322%20238h0M328%20238h0M332%20238h0M338%20238h0M342%20238h0M348%20238h0M352%20238h0M362%20238h0M368%20238h0M388%20238h0M392%20238h0M398%20238h0M402%20238h0M408%20238h0M412%20238h0M132%20242h0M138%20242h0M142%20242h0M148%20242h0M152%20242h0M158%20242h0M162%20242h0M168%20242h0M172%20242h0M178%20242h0M182%20242h0M188%20242h0M248%20242h0M288%20242h0M292%20242h0M298%20242h0M308%20242h0M318%20242h0M322%20242h0M328%20242h0M332%20242h0M338%20242h0M368%20242h0M372%20242h0M378%20242h0M382%20242h0M388%20242h0M392%20242h0M398%20242h0M402%20242h0M408%20242h0M412%20242h0M128%20248h0M132%20248h0M138%20248h0M142%20248h0M148%20248h0M152%20248h0M158%20248h0M162%20248h0M168%20248h0M172%20248h0M178%20248h0M182%20248h0M208%20248h0M248%20248h0M298%20248h0M322%20248h0M328%20248h0M332%20248h0M338%20248h0M362%20248h0M368%20248h0M372%20248h0M378%20248h0M382%20248h0M388%20248h0M392%20248h0M398%20248h0M402%20248h0M408%20248h0M412%20248h0M128%20252h0M132%20252h0M138%20252h0M142%20252h0M148%20252h0M152%20252h0M158%20252h0M162%20252h0M168%20252h0M172%20252h0M178%20252h0M182%20252h0M248%20252h0M298%20252h0M328%20252h0M332%20252h0M338%20252h0M342%20252h0M348%20252h0M362%20252h0M368%20252h0M372%20252h0M378%20252h0M382%20252h0M388%20252h0M392%20252h0M398%20252h0M402%20252h0M408%20252h0M412%20252h0M128%20258h0M132%20258h0M138%20258h0M142%20258h0M148%20258h0M152%20258h0M158%20258h0M162%20258h0M168%20258h0M172%20258h0M178%20258h0M182%20258h0M188%20258h0M298%20258h0M328%20258h0M332%20258h0M338%20258h0M368%20258h0M372%20258h0M378%20258h0M382%20258h0M388%20258h0M392%20258h0M398%20258h0M402%20258h0M408%20258h0M412%20258h0M132%20262h0M138%20262h0M142%20262h0M148%20262h0M152%20262h0M158%20262h0M162%20262h0M168%20262h0M172%20262h0M178%20262h0M182%20262h0M292%20262h0M332%20262h0M342%20262h0M348%20262h0M368%20262h0M372%20262h0M378%20262h0M382%20262h0M388%20262h0M392%20262h0M398%20262h0M402%20262h0M408%20262h0M412%20262h0M18%20268h0M132%20268h0M138%20268h0M142%20268h0M148%20268h0M152%20268h0M158%20268h0M162%20268h0M168%20268h0M172%20268h0M178%20268h0M272%20268h0M278%20268h0M282%20268h0M288%20268h0M328%20268h0M332%20268h0M338%20268h0M348%20268h0M368%20268h0M372%20268h0M378%20268h0M382%20268h0M388%20268h0M392%20268h0M398%20268h0M402%20268h0M408%20268h0M412%20268h0M132%20272h0M138%20272h0M142%20272h0M148%20272h0M152%20272h0M158%20272h0M162%20272h0M168%20272h0M172%20272h0M252%20272h0M282%20272h0M288%20272h0M332%20272h0M338%20272h0M372%20272h0M378%20272h0M382%20272h0M388%20272h0M392%20272h0M398%20272h0M402%20272h0M408%20272h0M412%20272h0M148%20278h0M152%20278h0M158%20278h0M172%20278h0M208%20278h0M212%20278h0M218%20278h0M228%20278h0M232%20278h0M238%20278h0M242%20278h0M248%20278h0M252%20278h0M258%20278h0M268%20278h0M288%20278h0M338%20278h0M368%20278h0M372%20278h0M382%20278h0M388%20278h0M402%20278h0M408%20278h0M412%20278h0M148%20282h0M192%20282h0M198%20282h0M202%20282h0M208%20282h0M212%20282h0M218%20282h0M222%20282h0M228%20282h0M232%20282h0M238%20282h0M242%20282h0M248%20282h0M252%20282h0M258%20282h0M388%20282h0M408%20282h0M412%20282h0M148%20288h0M182%20288h0M188%20288h0M192%20288h0M198%20288h0M202%20288h0M208%20288h0M212%20288h0M218%20288h0M222%20288h0M228%20288h0M232%20288h0M238%20288h0M242%20288h0M248%20288h0M252%20288h0M258%20288h0M148%20292h0M152%20292h0M162%20292h0M168%20292h0M178%20292h0M182%20292h0M188%20292h0M192%20292h0M198%20292h0M202%20292h0M208%20292h0M212%20292h0M218%20292h0M222%20292h0M228%20292h0M232%20292h0M238%20292h0M242%20292h0M248%20292h0M252%20292h0M258%20292h0M348%20292h0M352%20292h0M358%20292h0M362%20292h0M408%20292h0M412%20292h0M148%20298h0M152%20298h0M158%20298h0M162%20298h0M168%20298h0M172%20298h0M178%20298h0M182%20298h0M188%20298h0M192%20298h0M198%20298h0M202%20298h0M208%20298h0M212%20298h0M218%20298h0M222%20298h0M228%20298h0M232%20298h0M238%20298h0M242%20298h0M248%20298h0M252%20298h0M258%20298h0M262%20298h0M408%20298h0M142%20302h0M148%20302h0M152%20302h0M158%20302h0M162%20302h0M168%20302h0M172%20302h0M178%20302h0M182%20302h0M188%20302h0M192%20302h0M198%20302h0M202%20302h0M208%20302h0M212%20302h0M218%20302h0M222%20302h0M228%20302h0M232%20302h0M238%20302h0M242%20302h0M248%20302h0M252%20302h0M142%20308h0M148%20308h0M152%20308h0M158%20308h0M162%20308h0M168%20308h0M172%20308h0M178%20308h0M182%20308h0M188%20308h0M192%20308h0M198%20308h0M202%20308h0M208%20308h0M212%20308h0M218%20308h0M222%20308h0M228%20308h0M232%20308h0M238%20308h0M242%20308h0M248%20308h0M252%20308h0M132%20312h0M138%20312h0M142%20312h0M148%20312h0M152%20312h0M158%20312h0M162%20312h0M168%20312h0M172%20312h0M178%20312h0M182%20312h0M188%20312h0M192%20312h0M198%20312h0M202%20312h0M208%20312h0M212%20312h0M218%20312h0M222%20312h0M228%20312h0M232%20312h0M238%20312h0M242%20312h0M248%20312h0M252%20312h0M258%20312h0M262%20312h0%22%20stroke%3D%22%23b7aed6%22%20stroke-opacity%3D%220.75%22%20stroke-width%3D%223.2%22%20stroke-linecap%3D%22round%22%20fill%3D%22none%22/%3E%3C/svg%3E" x="0" y="0" width="415" height="315"/>
           <path class="arc" stroke="url(#arcM)" d="M-80 300 Q 40 200 162.6 240.8"/>
-          <text x="-76" y="316" style="font:600 10px var(--f-mono);fill:#3a86ff">← MÉXICO · 2000–2005</text>
+          <text x="-76" y="316" style="font:600 10px var(--mads-font-mono);fill:#3a86ff">← MÉXICO · 2000–2005</text>
           <g id="arcs"></g>
           <g id="cities"></g>
         </svg>
@@ -464,7 +391,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <div class="ghost-year" id="ghostYear">2021</div>
         <svg class="emblem" id="stageEmblem" data-emblem="tickets" viewBox="36 12 200 116"></svg>
         <div class="stage-info">
-          <div class="capsule" id="stagePhoto">
+          <div class="mads-frame-gradient capsule" id="stagePhoto">
             <img src="../assets/avatar-00.webp" alt="" width="768" height="768">
             <img src="../assets/avatar-00.webp" alt="" style="opacity:0" width="768" height="768">
           </div>
@@ -472,26 +399,26 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <div class="stage-years" id="stYears">2021 — ACTUALIDAD</div>
             <div class="stage-role" id="stRole">Product Manager</div>
             <div class="stage-org" id="stOrg">Mi empresa actual</div>
-            <div class="stage-place" id="stPlace">Madrid · Estocolmo · Londres · París · Gibraltar</div>
+            <div class="stage-place mads-chip mads-chip-location" id="stPlace">Madrid · Estocolmo · Londres · París · Gibraltar</div>
           </div>
         </div>
         <div class="mix">
           <div class="mix-title">Enfoque en esta etapa</div>
-          <div class="mix-row t"><span>Tecnología</span><span class="track"><i id="mxT"></i></span><output id="mxTo">0%</output></div>
-          <div class="mix-row p"><span>Personas</span><span class="track"><i id="mxP"></i></span><output id="mxPo">0%</output></div>
-          <div class="mix-row d"><span>Producto</span><span class="track"><i id="mxD"></i></span><output id="mxDo">0%</output></div>
+          <div class="mads-progress"><span>Tecnología</span><span class="mads-progress-track"><i id="mxT" style="--fill:var(--mads-gradient-violet-azure)"></i></span><output id="mxTo">0%</output></div>
+          <div class="mads-progress"><span>Personas</span><span class="mads-progress-track"><i id="mxP" style="--fill:var(--mads-gradient-pink-violet)"></i></span><output id="mxPo">0%</output></div>
+          <div class="mads-progress"><span>Producto</span><span class="mads-progress-track"><i id="mxD" style="--fill:var(--mads-gradient-orange-amber)"></i></span><output id="mxDo">0%</output></div>
         </div>
       </aside>
 
       <div class="chapters">
         <!-- 1 -->
-        <article class="chapter" style="--c:var(--amber);--ct:var(--amber-text)" data-state="tickets" data-years="2021 — Actualidad" data-ghost="2021" data-role="Product Manager" data-org="Mi empresa actual" data-photo="avatar-00.webp" data-mix="15,30,55" data-place="Madrid · Estocolmo · Londres · París · Gibraltar">
-          <header class="ch-head reveal">
-            <div class="capsule ch-avatar"><img src="../assets/avatar-00.webp" alt="" loading="lazy" width="768" height="768"></div>
+        <article class="chapter" style="--c:var(--mads-color-amber-gold);--ct:var(--mads-theme-text-amber-gold)" data-state="tickets" data-years="2021 — Actualidad" data-ghost="2021" data-role="Product Manager" data-org="Mi empresa actual" data-photo="avatar-00.webp" data-mix="15,30,55" data-place="Madrid · Estocolmo · Londres · París · Gibraltar">
+          <header class="ch-head mads-reveal">
+            <div class="mads-frame-gradient capsule ch-avatar"><img src="../assets/avatar-00.webp" alt="" loading="lazy" width="768" height="768"></div>
             <div class="ch-text"><p class="kicker">03/2021 — ACTUALIDAD · MI EMPRESA ACTUAL</p><h3>Product Manager<small>Responsable del backlog del cliente de Apuestas Deportivas en apps nativas, web y backend.</small></h3></div>
           </header>
-          <p class="lede reveal">Decido qué construyen los equipos del cliente de Apuestas Deportivas y en qué orden. Recojo los requisitos de los responsables de negocio de todo el grupo, los convierto en <strong>prioridades claras y ordenadas</strong> y doy a los equipos de ingeniería distribuidos el contexto que necesitan para entregar con confianza. Como he programado apps, puedo hablar de compromisos técnicos con los ingenieros con la misma facilidad con la que hablo de crecimiento con negocio.</p>
-          <ul class="did reveal">
+          <p class="lede mads-reveal">Decido qué construyen los equipos del cliente de Apuestas Deportivas y en qué orden. Recojo los requisitos de los responsables de negocio de todo el grupo, los convierto en <strong>prioridades claras y ordenadas</strong> y doy a los equipos de ingeniería distribuidos el contexto que necesitan para entregar con confianza. Como he programado apps, puedo hablar de compromisos técnicos con los ingenieros con la misma facilidad con la que hablo de crecimiento con negocio.</p>
+          <ul class="mads-list-diamond mads-reveal">
             <li>Gestiono el backlog de las apps nativas de iOS y Android, la web y los servicios de backend</li>
             <li>Recojo los requisitos de producto y los priorizo según valor, esfuerzo y riesgo</li>
             <li>Identifico áreas de crecimiento y nuevas oportunidades para el producto</li>
@@ -501,13 +428,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
             <li>Ayudo a definir la estrategia del Cliente de Apuestas Deportivas y las próximas funcionalidades</li>
             <li>Mantengo alineados en un único roadmap a equipos de cinco ciudades</li>
           </ul>
-          <div class="rail-wrap reveal">
-            <div class="rail-head"><p>El producto en el que trabajo · App de Apuestas Deportivas y Casino</p><div class="rail-btns"><button type="button" data-dir="-1" aria-label="Pantallas anteriores">←</button><button type="button" data-dir="1" aria-label="Pantallas siguientes">→</button></div></div>
+          <div class="rail-wrap mads-reveal">
+            <div class="rail-head"><p>El producto en el que trabajo · App de Apuestas Deportivas y Casino</p><div class="rail-btns"><button type="button" class="mads-button-icon" data-dir="prev" aria-label="Pantallas anteriores"><svg class="mads-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M14.5 5 9.5 12 14.5 19"/></svg></button><button type="button" class="mads-button-icon" data-dir="next" aria-label="Pantallas siguientes"><svg class="mads-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5 14.5 12 9.5 19"/></svg></button></div></div>
             <div class="rail" id="rail" tabindex="0" aria-label="Pantallas y grabaciones de la app de Sportsbook">
               <figure class="phone"><div class="frame"><img loading="lazy" src="../assets/shot-worldcup-dark.webp" alt="Portada del Mundial en modo oscuro"></div><figcaption><b>Portada del Mundial, modo oscuro</b>Portadas especiales para los grandes torneos.</figcaption></figure>
-              <figure class="phone"><div class="frame"><video muted loop playsinline preload="none" poster="../assets/vid-stats-poster.jpg" src="../assets/vid-stats.mp4"></video><span class="tag">VÍDEO</span></div><figcaption><b>Estadísticas previas al partido</b>Páginas de evento con los datos que los clientes necesitan antes de apostar.</figcaption></figure>
+              <figure class="phone"><div class="frame"><video muted loop playsinline preload="none" poster="../assets/vid-stats-poster.jpg" src="../assets/vid-stats.mp4"></video><span class="tag mads-tag">VÍDEO</span></div><figcaption><b>Estadísticas previas al partido</b>Páginas de evento con los datos que los clientes necesitan antes de apostar.</figcaption></figure>
               <figure class="phone"><div class="frame"><img loading="lazy" src="../assets/shot-landing-light.webp" alt="Portada en modo claro"></div><figcaption><b>Portada, modo claro</b>Eventos destacados, Bet Builder y promociones en primer plano.</figcaption></figure>
-              <figure class="phone"><div class="frame"><video muted loop playsinline preload="none" poster="../assets/vid-casino-poster.jpg" src="../assets/vid-casino.mp4"></video><span class="tag">VÍDEO</span></div><figcaption><b>Cambio Sportsbook ↔ Casino</b>Pasar de un producto a otro sin salir de la app.</figcaption></figure>
+              <figure class="phone"><div class="frame"><video muted loop playsinline preload="none" poster="../assets/vid-casino-poster.jpg" src="../assets/vid-casino.mp4"></video><span class="tag mads-tag">VÍDEO</span></div><figcaption><b>Cambio Sportsbook ↔ Casino</b>Pasar de un producto a otro sin salir de la app.</figcaption></figure>
               <figure class="phone"><div class="frame"><img loading="lazy" src="../assets/shot-mybets.webp" alt="Pantalla Mis apuestas con apuestas abiertas y cash out"></div><figcaption><b>Mis apuestas y Cash Out</b>Apuestas abiertas y liquidadas con el valor de cash out en directo.</figcaption></figure>
               <figure class="phone"><div class="frame"><img loading="lazy" src="../assets/shot-football.webp" alt="Sección de fútbol"></div><figcaption><b>Sección de fútbol</b>Competiciones, mercados y partidos en directo en un mismo sitio.</figcaption></figure>
               <figure class="phone"><div class="frame"><img loading="lazy" src="../assets/shot-search.webp" alt="Todos los deportes y búsqueda"></div><figcaption><b>Todos los deportes y búsqueda</b>Favoritos y ligas principales, a una búsqueda de distancia.</figcaption></figure>
@@ -516,13 +443,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </article>
 
         <!-- 2 -->
-        <article class="chapter" style="--c:var(--pink);--ct:var(--pink-text)" data-state="people" data-years="2020 — 2021" data-ghost="2020" data-role="Technical Lead" data-org="Mi empresa actual" data-photo="avatar-05.webp" data-mix="40,50,10" data-place="Estocolmo · Londres · Gibraltar · Madrid">
-          <header class="ch-head reveal">
-            <div class="capsule ch-avatar"><img src="../assets/avatar-05.webp" alt="" loading="lazy" width="768" height="768"></div>
+        <article class="chapter" style="--c:var(--mads-color-neon-pink);--ct:var(--mads-theme-text-neon-pink)" data-state="people" data-years="2020 — 2021" data-ghost="2020" data-role="Technical Lead" data-org="Mi empresa actual" data-photo="avatar-05.webp" data-mix="40,50,10" data-place="Estocolmo · Londres · Gibraltar · Madrid">
+          <header class="ch-head mads-reveal">
+            <div class="mads-frame-gradient capsule ch-avatar"><img src="../assets/avatar-05.webp" alt="" loading="lazy" width="768" height="768"></div>
             <div class="ch-text"><p class="kicker">03/2020 — 03/2021 · MI EMPRESA ACTUAL</p><h3>Technical Lead<small>El año en que mi trabajo pasó a ser lo que entregaba el equipo, no mi propio código.</small></h3></div>
           </header>
-          <p class="lede reveal">Liderar un equipo de ingeniería significaba mantener un ritmo de entrega constante. Marqué la <strong>dirección técnica</strong>, planifiqué y repartí el trabajo y protegí la concentración del equipo para que siguiera entregando a producción.</p>
-          <ul class="did reveal">
+          <p class="lede mads-reveal">Liderar un equipo de ingeniería significaba mantener un ritmo de entrega constante. Marqué la <strong>dirección técnica</strong>, planifiqué y repartí el trabajo y protegí la concentración del equipo para que siguiera entregando a producción.</p>
+          <ul class="mads-list-diamond mads-reveal">
             <li>Di orientación técnica y apoyo diario al equipo</li>
             <li>Llevé las entregas del equipo hasta producción</li>
             <li>Planifiqué y repartí el trabajo con metodologías ágiles</li>
@@ -535,29 +462,29 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </article>
 
         <!-- 3 -->
-        <article class="chapter" style="--c:var(--azure);--ct:var(--azure-text)" data-state="pointer" data-years="2019 — 2020" data-ghost="2019" data-role="Ingeniero iOS" data-org="Mi empresa actual" data-photo="avatar-10.webp" data-mix="80,15,5" data-place="Estocolmo · Londres · Gibraltar · Madrid">
-          <header class="ch-head reveal">
-            <div class="capsule ch-avatar"><img src="../assets/avatar-10.webp" alt="" loading="lazy" width="768" height="768"></div>
+        <article class="chapter" style="--c:var(--mads-color-azure-blue);--ct:var(--mads-theme-text-azure-blue)" data-state="pointer" data-years="2019 — 2020" data-ghost="2019" data-role="Ingeniero iOS" data-org="Mi empresa actual" data-photo="avatar-10.webp" data-mix="80,15,5" data-place="Estocolmo · Londres · Gibraltar · Madrid">
+          <header class="ch-head mads-reveal">
+            <div class="mads-frame-gradient capsule ch-avatar"><img src="../assets/avatar-10.webp" alt="" loading="lazy" width="768" height="768"></div>
             <div class="ch-text"><p class="kicker">02/2019 — 03/2020 · MI EMPRESA ACTUAL</p><h3>Ingeniero iOS<small>Mi entrada en un grupo multinacional de apuestas y juego online con marcas en mercados de toda Europa.</small></h3></div>
           </header>
-          <p class="lede reveal">Me incorporé a mi empresa actual para desarrollar las <strong>apps de Casino y Sports</strong> y los frameworks compartidos sobre los que funcionan. Era un equipo de ingeniería internacional, con revisiones de código, stand‑ups y debates de arquitectura entre varios países.</p>
-          <ul class="did reveal">
+          <p class="lede mads-reveal">Me incorporé a mi empresa actual para desarrollar las <strong>apps de Casino y Sports</strong> y los frameworks compartidos sobre los que funcionan. Era un equipo de ingeniería internacional, con revisiones de código, stand‑ups y debates de arquitectura entre varios países.</p>
+          <ul class="mads-list-diamond mads-reveal">
             <li>Desarrollé las apps de iOS de Casino y Sports</li>
             <li>Creé y mantuve los frameworks de iOS compartidos de la empresa</li>
             <li>Diseñé soluciones basadas en patrones de diseño probados y buenas prácticas</li>
             <li>Ayudé a la dirección a entrevistar y contratar nuevos ingenieros</li>
           </ul>
-          <div class="chip-row reveal"><span class="chip">Swift</span><span class="chip">Frameworks compartidos</span><span class="chip">Arquitectura limpia</span><span class="chip">Contratación</span></div>
+          <div class="chip-row mads-reveal"><span class="mads-chip">Swift</span><span class="mads-chip">Frameworks compartidos</span><span class="mads-chip">Arquitectura limpia</span><span class="mads-chip">Contratación</span></div>
         </article>
 
         <!-- 4 -->
-        <article class="chapter" style="--c:var(--violet);--ct:var(--violet-text)" data-state="lead" data-years="2018 — 2019" data-ghost="2018" data-role="Mobile Technical Project Manager" data-org="Grupo DÍA" data-photo="avatar-15.webp" data-mix="45,35,20" data-place="Madrid">
-          <header class="ch-head reveal">
-            <div class="capsule ch-avatar"><img src="../assets/avatar-15.webp" alt="" loading="lazy" width="768" height="768"></div>
+        <article class="chapter" style="--c:var(--mads-color-blue-violet);--ct:var(--mads-theme-text-blue-violet)" data-state="lead" data-years="2018 — 2019" data-ghost="2018" data-role="Mobile Technical Project Manager" data-org="Grupo DÍA" data-photo="avatar-15.webp" data-mix="45,35,20" data-place="Madrid">
+          <header class="ch-head mads-reveal">
+            <div class="mads-frame-gradient capsule ch-avatar"><img src="../assets/avatar-15.webp" alt="" loading="lazy" width="768" height="768"></div>
             <div class="ch-text"><p class="kicker">08/2018 — 02/2019 · GRUPO DÍA</p><h3>Mobile Technical Project Manager<small>Muchos equipos y proveedores, una sola app de retail.</small></h3></div>
           </header>
-          <p class="lede reveal">En una de las mayores cadenas de supermercados de España, varias empresas externas desarrollaban las apps móviles. Mi papel era <strong>conseguir que trabajaran como un solo equipo</strong>: coordinar departamentos y proveedores, revisar cada entrega de iOS y Android y mantener la calidad y los plazos.</p>
-          <ul class="did reveal">
+          <p class="lede mads-reveal">En una de las mayores cadenas de supermercados de España, varias empresas externas desarrollaban las apps móviles. Mi papel era <strong>conseguir que trabajaran como un solo equipo</strong>: coordinar departamentos y proveedores, revisar cada entrega de iOS y Android y mantener la calidad y los plazos.</p>
+          <ul class="mads-list-diamond mads-reveal">
             <li>Coordiné equipos internos, departamentos y proveedores externos para cumplir los plazos</li>
             <li>Revisé y aprobé el código nativo de iOS y Android que entregaban los proveedores</li>
             <li>Velé por la calidad y la estabilidad de la app antes de cada versión</li>
@@ -567,13 +494,13 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </article>
 
         <!-- 5 -->
-        <article class="chapter" style="--c:var(--violet);--ct:var(--violet-text)" data-state="lead2" data-years="2016 — 2018" data-ghost="2016" data-role="Mobile Technical Manager" data-org="Unidad Editorial" data-photo="avatar-17.webp" data-mix="60,30,10" data-place="Madrid">
-          <header class="ch-head reveal">
-            <div class="capsule ch-avatar"><img src="../assets/avatar-17.webp" alt="" loading="lazy" width="768" height="768"></div>
+        <article class="chapter" style="--c:var(--mads-color-blue-violet);--ct:var(--mads-theme-text-blue-violet)" data-state="lead2" data-years="2016 — 2018" data-ghost="2016" data-role="Mobile Technical Manager" data-org="Unidad Editorial" data-photo="avatar-17.webp" data-mix="60,30,10" data-place="Madrid">
+          <header class="ch-head mads-reveal">
+            <div class="mads-frame-gradient capsule ch-avatar"><img src="../assets/avatar-17.webp" alt="" loading="lazy" width="768" height="768"></div>
             <div class="ch-text"><p class="kicker">08/2016 — 08/2018 · UNIDAD EDITORIAL</p><h3>Mobile Technical Manager<small>Marcar el listón de calidad de las apps propias de un grupo de medios.</small></h3></div>
           </header>
-          <p class="lede reveal">Unidad Editorial publica algunas de las cabeceras más conocidas de España, como El Mundo, Marca y Expansión. Cuando la empresa creó su propio equipo móvil, pasé a ser el responsable de <strong>qué se publicaba y con qué calidad se construía</strong>. Fue mi primer paso real de la ingeniería a la gestión.</p>
-          <ul class="did reveal">
+          <p class="lede mads-reveal">Unidad Editorial publica algunas de las cabeceras más conocidas de España, como El Mundo, Marca y Expansión. Cuando la empresa creó su propio equipo móvil, pasé a ser el responsable de <strong>qué se publicaba y con qué calidad se construía</strong>. Fue mi primer paso real de la ingeniería a la gestión.</p>
+          <ul class="mads-list-diamond mads-reveal">
             <li>Aprobé, revisé y controlé todo el código del equipo iOS interno</li>
             <li>Detecté fallos y posibles problemas antes de que llegaran a los usuarios</li>
             <li>Diseñé soluciones basadas en patrones de diseño y buenas prácticas</li>
@@ -582,30 +509,30 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         </article>
 
         <!-- 6 -->
-        <article class="chapter" style="--c:var(--azure);--ct:var(--azure-text)" data-state="pointer2" data-years="2012 — 2016" data-ghost="2012" data-role="Desarrollador iOS y web" data-org="Unidad Editorial" data-photo="avatar-25.webp" data-mix="90,5,5" data-place="Madrid">
-          <header class="ch-head reveal">
-            <div class="capsule ch-avatar"><img src="../assets/avatar-25.webp" alt="" loading="lazy" width="768" height="768"></div>
+        <article class="chapter" style="--c:var(--mads-color-azure-blue);--ct:var(--mads-theme-text-azure-blue)" data-state="pointer2" data-years="2012 — 2016" data-ghost="2012" data-role="Desarrollador iOS y web" data-org="Unidad Editorial" data-photo="avatar-25.webp" data-mix="90,5,5" data-place="Madrid">
+          <header class="ch-head mads-reveal">
+            <div class="mads-frame-gradient capsule ch-avatar"><img src="../assets/avatar-25.webp" alt="" loading="lazy" width="768" height="768"></div>
             <div class="ch-text"><p class="kicker">08/2012 — 08/2016 · UNIDAD EDITORIAL</p><h3>Desarrollador iOS y web<small>Construir los cimientos sobre los que funcionarían todas las apps.</small></h3></div>
           </header>
-          <p class="lede reveal">Empecé manteniendo apps desarrolladas por empresas externas y pronto me convertí en el <strong>desarrollador principal de todas las apps</strong> que publicaba la empresa. Escribí el framework interno en Objective‑C y Swift que compartían todas ellas e introduje las herramientas para automatizar los procesos internos.</p>
-          <div class="big-stat reveal"><b class="grad-text">99,9 %</b><span>de usuarios sin cierres inesperados, en todas las apps</span></div>
-          <ul class="did reveal">
+          <p class="lede mads-reveal">Empecé manteniendo apps desarrolladas por empresas externas y pronto me convertí en el <strong>desarrollador principal de todas las apps</strong> que publicaba la empresa. Escribí el framework interno en Objective‑C y Swift que compartían todas ellas e introduje las herramientas para automatizar los procesos internos.</p>
+          <div class="big-stat mads-reveal"><b class="mads-text-gradient">99,9 %</b><span>de usuarios sin cierres inesperados, en todas las apps</span></div>
+          <ul class="mads-list-diamond mads-reveal">
             <li>Mantuve las apps de empresas externas antes de que existiera el equipo interno</li>
             <li>Fui el desarrollador principal de todas las apps de la empresa</li>
             <li>Creé el framework de iOS compartido: control de versiones, red, publicidad, parsing, analítica y más</li>
             <li>Introduje CocoaPods y Fastlane, además de un repositorio privado con todos los módulos</li>
             <li>Desarrollé y mantuve las webs y herramientas internas de la empresa</li>
           </ul>
-          <div class="chip-row reveal"><span class="chip">Objective‑C</span><span class="chip">Swift</span><span class="chip">CocoaPods</span><span class="chip">Fastlane</span><span class="chip">PHP</span><span class="chip">JavaScript</span></div>
+          <div class="chip-row mads-reveal"><span class="mads-chip">Objective‑C</span><span class="mads-chip">Swift</span><span class="mads-chip">CocoaPods</span><span class="mads-chip">Fastlane</span><span class="mads-chip">PHP</span><span class="mads-chip">JavaScript</span></div>
         </article>
 
         <!-- 7 -->
-        <article class="chapter" style="--c:var(--azure);--ct:var(--azure-text)" data-state="ma" data-years="2000 — 2005" data-ghost="2000" data-role="Ingeniería en Computación" data-org="Universidad La Salle, México" data-photo="avatar-25.webp" data-mix="100,0,0" data-place="México">
-          <header class="ch-head reveal">
-            <div class="capsule ch-avatar"><img src="../assets/avatar-25.webp" alt="" loading="lazy" width="768" height="768"></div>
+        <article class="chapter" style="--c:var(--mads-color-azure-blue);--ct:var(--mads-theme-text-azure-blue)" data-state="ma" data-years="2000 — 2005" data-ghost="2000" data-role="Ingeniería en Computación" data-org="Universidad La Salle, México" data-photo="avatar-25.webp" data-mix="100,0,0" data-place="México">
+          <header class="ch-head mads-reveal">
+            <div class="mads-frame-gradient capsule ch-avatar"><img src="../assets/avatar-25.webp" alt="" loading="lazy" width="768" height="768"></div>
             <div class="ch-text"><p class="kicker">2000 — 2005 · UNIVERSIDAD LA SALLE, MÉXICO</p><h3>Donde empezó todo<small>Ingeniería en Computación.</small></h3></div>
           </header>
-          <p class="lede reveal">Cinco años de ingeniería en México me dieron la base en la que todavía me apoyo. Todo lo que vino después, desde programar apps hasta liderar equipos y llevar un producto, nació aquí. Y los circuitos nunca se fueron del todo.</p>
+          <p class="lede mads-reveal">Cinco años de ingeniería en México me dieron la base en la que todavía me apoyo. Todo lo que vino después, desde programar apps hasta liderar equipos y llevar un producto, nació aquí. Y los circuitos nunca se fueron del todo.</p>
         </article>
       </div>
     </div>
@@ -619,12 +546,12 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
         <p>Criterio de producto, liderazgo de personas y la visión de un ingeniero sobre cómo se construyen las cosas. Últimamente he vuelto al código, construyendo con agentes de IA.</p>
       </div>
       <div class="skills-grid">
-        <div class="skill wide reveal" style="--k:var(--amber)"><h3><i></i>Gestión de producto</h3><p>Gestión del backlog de apps nativas, web y backend · Recogida y priorización de requisitos · Estrategia de producto · Oportunidades de crecimiento · Medición de la evolución del producto · Gestión de stakeholders</p></div>
-        <div class="skill reveal" style="--k:var(--pink)"><h3><i></i>Liderazgo</h3><p>Equipos distribuidos y multidisciplinares · Entrega ágil · Gestión de riesgos · Selección y entrevistas · Feedback y evaluaciones de desempeño</p></div>
-        <div class="skill reveal" style="--k:var(--violet)"><h3><i></i>Trabajando con IA</h3><p>Desarrollo agéntico · Skills para agentes de IA · Desarrollo de clientes y servidores MCP</p></div>
-        <div class="skill reveal" style="--k:var(--azure)"><h3><i></i>Ingeniería</h3><p>Servicios web RESTful · JSON · Patrones de diseño de iOS y Android · Arquitectura limpia</p></div>
-        <div class="skill reveal" style="--k:var(--orange)"><h3><i></i>Lenguajes de programación</h3><p>Python · Swift · Objective‑C · Java · JavaScript · Perl · Bash · PHP</p></div>
-        <div class="skill full reveal" style="--k:var(--azure)"><h3><i></i>Herramientas, datos y plataformas</h3><p>Xcode · Git · Android Studio · Visual Studio Code · CocoaPods · Fastlane · MySQL · PostgreSQL · SQLite · macOS · Linux</p></div>
+        <div class="skill mads-card wide mads-reveal" style="--marker:var(--mads-color-amber-gold)"><h3 class="mads-card-title"><i class="mads-card-marker"></i>Gestión de producto</h3><p class="mads-card-body">Gestión del backlog de apps nativas, web y backend · Recogida y priorización de requisitos · Estrategia de producto · Oportunidades de crecimiento · Medición de la evolución del producto · Gestión de stakeholders</p></div>
+        <div class="skill mads-card mads-reveal" style="--marker:var(--mads-color-neon-pink)"><h3 class="mads-card-title"><i class="mads-card-marker"></i>Liderazgo</h3><p class="mads-card-body">Equipos distribuidos y multidisciplinares · Entrega ágil · Gestión de riesgos · Selección y entrevistas · Feedback y evaluaciones de desempeño</p></div>
+        <div class="skill mads-card mads-reveal" style="--marker:var(--mads-color-blue-violet)"><h3 class="mads-card-title"><i class="mads-card-marker"></i>Trabajando con IA</h3><p class="mads-card-body">Desarrollo agéntico · Skills para agentes de IA · Desarrollo de clientes y servidores MCP</p></div>
+        <div class="skill mads-card mads-reveal" style="--marker:var(--mads-color-azure-blue)"><h3 class="mads-card-title"><i class="mads-card-marker"></i>Ingeniería</h3><p class="mads-card-body">Servicios web RESTful · JSON · Patrones de diseño de iOS y Android · Arquitectura limpia</p></div>
+        <div class="skill mads-card mads-reveal" style="--marker:var(--mads-color-blaze-orange)"><h3 class="mads-card-title"><i class="mads-card-marker"></i>Lenguajes de programación</h3><p class="mads-card-body">Python · Swift · Objective‑C · Java · JavaScript · Perl · Bash · PHP</p></div>
+        <div class="skill mads-card full mads-reveal" style="--marker:var(--mads-color-azure-blue)"><h3 class="mads-card-title"><i class="mads-card-marker"></i>Herramientas, datos y plataformas</h3><p class="mads-card-body">Xcode · Git · Android Studio · Visual Studio Code · CocoaPods · Fastlane · MySQL · PostgreSQL · SQLite · macOS · Linux</p></div>
       </div>
     </div>
   </section>
@@ -634,10 +561,10 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <svg class="emblem" id="contactEmblem" data-emblem="ma" viewBox="36 12 200 116" role="img" aria-label="Logotipo MA"></svg>
       <div>
         <p class="eyebrow">Contacto</p>
-        <h2 style="margin-top:14px">Construyamos el <span class="grad-text">próximo capítulo.</span></h2>
+        <h2>Construyamos el <span class="mads-text-gradient">próximo capítulo.</span></h2>
         <p>Siempre me apetece hablar de producto, equipos distribuidos, móvil o de lo que los agentes de IA pueden aportar a una organización de producto. La mejor forma de contactar conmigo es LinkedIn.</p>
         <div class="cta">
-          <a class="btn primary" href="https://www.linkedin.com/in/miguel-angel-adan/" target="_blank" rel="noopener">Conecta en LinkedIn</a>
+          <a class="mads-button" href="https://www.linkedin.com/in/miguel-angel-adan/" target="_blank" rel="noopener">Conecta en LinkedIn</a>
         </div>
       </div>
     </div>
@@ -686,9 +613,9 @@ const KEYS=['MA-142','MA-128','MA-97'];
 const STATUS=['<path d="M-1 14 L2 10.5 L5 14" fill="none" stroke="#100c20" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/>',
  '<circle cx="0" cy="12.5" r="1.3" fill="#100c20" opacity=".7"/><circle cx="4" cy="12.5" r="1.3" fill="#100c20" opacity=".45"/><circle cx="8" cy="12.5" r="1.3" fill="#100c20" opacity=".25"/>',
  '<path d="M-1 12.5 L1.8 15.2 L6.5 9.8" fill="none" stroke="#100c20" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" opacity=".75"/>'];
-const TK=i=>`<g class="tk"><path d="M8 20 L20 8 L20 20 Z" style="fill:var(--ink)"/><path d="M8 20 L8 10 Q8 8 10 8 L20 8 Z" fill="#fff" opacity=".35"/><text x="-15" y="-10.5" font-family="JetBrains Mono,monospace" font-size="5.6" font-weight="700" fill="#100c20" opacity=".8">${KEYS[i]}</text><rect x="-15" y="-6" width="26" height="2.6" rx="1.3" fill="#100c20" opacity=".45"/><rect x="-15" y="-1" width="19" height="2.6" rx="1.3" fill="#100c20" opacity=".45"/><circle cx="-11" cy="12.5" r="3.8" fill="#100c20" opacity=".5"/>${STATUS[i]}</g>`;
+const TK=i=>`<g class="tk"><path d="M8 20 L20 8 L20 20 Z" style="fill:var(--mads-theme-background)"/><path d="M8 20 L8 10 Q8 8 10 8 L20 8 Z" fill="#fff" opacity=".35"/><text x="-15" y="-10.5" font-family="JetBrains Mono,monospace" font-size="5.6" font-weight="700" fill="#100c20" opacity=".8">${KEYS[i]}</text><rect x="-15" y="-6" width="26" height="2.6" rx="1.3" fill="#100c20" opacity=".45"/><rect x="-15" y="-1" width="19" height="2.6" rx="1.3" fill="#100c20" opacity=".45"/><circle cx="-11" cy="12.5" r="3.8" fill="#100c20" opacity=".5"/>${STATUS[i]}</g>`;
 const COLS=[[44,'POR HACER','#ffbe0b'],[106,'EN CURSO','#fb5607'],[168,'HECHO','#ff006e']];
-const BOARD=`<g class="board">${COLS.map(([x,t,c])=>`<rect x="${x}" y="16" width="56" height="110" rx="7" style="fill:var(--board);stroke:var(--board-line)"/><circle cx="${x+8}" cy="25" r="2.2" fill="${c}"/><text x="${x+13}" y="27" font-family="JetBrains Mono,monospace" font-size="5.4" font-weight="600" letter-spacing=".4" style="fill:var(--muted)">${t}</text>`).join('')}<g class="mover"><rect x="55" y="104" width="34" height="13" rx="3" style="fill:var(--ink-3);stroke:var(--board-line)"/><rect x="59" y="108.5" width="16" height="2" rx="1" style="fill:var(--muted)" opacity=".6"/><rect x="59" y="112.5" width="10" height="2" rx="1" style="fill:var(--muted)" opacity=".35"/></g></g>`;
+const BOARD=`<g class="board">${COLS.map(([x,t,c])=>`<rect x="${x}" y="16" width="56" height="110" rx="7" style="fill:var(--board);stroke:var(--board-line)"/><circle cx="${x+8}" cy="25" r="2.2" fill="${c}"/><text x="${x+13}" y="27" font-family="JetBrains Mono,monospace" font-size="5.4" font-weight="600" letter-spacing=".4" style="fill:var(--mads-theme-text-muted)">${t}</text>`).join('')}<g class="mover"><rect x="55" y="104" width="34" height="13" rx="3" style="fill:var(--mads-theme-surface-raised);stroke:var(--board-line)"/><rect x="59" y="108.5" width="16" height="2" rx="1" style="fill:var(--mads-theme-text-muted)" opacity=".6"/><rect x="59" y="112.5" width="10" height="2" rx="1" style="fill:var(--mads-theme-text-muted)" opacity=".35"/></g></g>`;
 function build(svg, key){
   const id='e'+Math.random().toString(36).slice(2,7);
   const fills=[`url(#${id}gL)`,`url(#${id}gR)`,`url(#${id}gA)`];
@@ -994,7 +921,7 @@ function onScroll(){
   const tr=timeline.getBoundingClientRect();
   const inTL=tr.top<vh*.6&&tr.bottom>vh*.4;
   const ga=inTL?mixHex(sa.glow[0],sb.glow[0],tt):'#ffbe0b', gb=inTL?mixHex(sa.glow[1],sb.glow[1],tt):'#fb5607';
-  if(ga!==lastGa||gb!==lastGb){lastGa=ga;lastGb=gb;glow.style.setProperty('--glow-a',ga);glow.style.setProperty('--glow-b',gb)}
+  if(ga!==lastGa||gb!==lastGb){lastGa=ga;lastGb=gb;glow.style.setProperty('--mads-ambient-a',ga);glow.style.setProperty('--mads-ambient-b',gb)}
   // mix bars
   const ma=mixOf(a), mb=mixOf(b), m=ma.map((v,k)=>v+(mb[k]-v)*tt);
   [['mxT','mxTo'],['mxP','mxPo'],['mxD','mxDo']].forEach(([bar,out],k)=>{$(bar).style.transform='scaleX('+(m[k]/100).toFixed(3)+')';const t=Math.round(m[k])+'%';if($(out).textContent!==t)$(out).textContent=t});
@@ -1024,7 +951,7 @@ document.querySelectorAll('.hero,.evo,.map,.contact,.stage,.nav').forEach(el=>of
 
 /* ---------- product rail ---------- */
 const rail=$('rail');
-document.querySelectorAll('.rail-btns button').forEach(b=>b.addEventListener('click',()=>rail.scrollBy({left:(+b.dataset.dir)*rail.clientWidth*.8,behavior:'smooth'})));
+document.querySelectorAll('.rail-btns button').forEach(b=>b.addEventListener('click',()=>rail.scrollBy({left:(b.dataset.dir==='prev'?-1:1)*rail.clientWidth*.8,behavior:'smooth'})));
 const vio=new IntersectionObserver(es=>es.forEach(e=>{const v=e.target;if(e.isIntersecting&&!RM){v.play().catch(()=>{})}else v.pause()}),{threshold:.5});
 rail.querySelectorAll('video').forEach(v=>vio.observe(v));
 })();
