@@ -16,12 +16,14 @@ MiguelAdanWebsite/
 │   └── es.json             Spanish text for every key
 ├── scripts/
 │   ├── build.py            Builds the English and Spanish pages
-│   └── deploy.py           Builds, checks and publishes the site to Cloudflare
+│   ├── deploy.py           Builds, checks and publishes the site to Cloudflare
+│   └── deploy_mads.py      Publishes the MADS reference at /mads/
 ├── website/                What gets published (the live site)
 │   ├── index.html          English page   (generated, don't edit)
 │   ├── es/index.html       Spanish page   (generated, don't edit)
 │   ├── assets/             Images, videos, favicon and link-preview images
 │   │   └── mads.css        The MADS design system (downloaded by deploy.py, don't edit)
+│   ├── mads/               The MADS reference page (downloaded by deploy_mads.py, don't edit)
 │   ├── robots.txt          Tells search engines they may index the site
 │   └── sitemap.xml         Lists both pages for search engines
 └── source assets/          Original artwork (logo, palette, avatar images, résumé notes).
@@ -80,7 +82,7 @@ cd website
 python3 -m http.server 8000
 ```
 
-Then open <http://localhost:8000>. The automatic switch to Spanish only runs on the live site and `*.pages.dev`, so locally use the flag button to change language.
+Then open <http://localhost:8000>. The automatic switch to Spanish only runs on the live site and `*.pages.dev`, so locally use the flag button in the settings card to change language.
 
 ## Publishing
 
@@ -115,12 +117,26 @@ export CLOUDFLARE_ACCOUNT_ID=...
 
 Never commit a token. `.env` files are already ignored by Git.
 
+### Publish the MADS reference
+
+```
+python3 scripts/deploy_mads.py
+```
+
+This publishes the MADS reference page at [www.miguel-adan.com/mads/index.html](https://www.miguel-adan.com/mads/index.html). It downloads the MADS repository (`index.html`, `css/`, `icons/`, `tokens/`, at the latest commit on `main`) into `website/mads/`, checks that every file the page uses is there, and publishes.
+
+Cloudflare Pages replaces the whole site on every upload, so this script publishes the whole `website` folder: the homepage as last built, plus the new MADS. For the same reason `deploy.py` always includes `website/mads/`, so neither script takes the other's part offline. `deploy_mads.py` doesn't rebuild the homepage; use `deploy.py` for that.
+
+It accepts the same options as `deploy.py`: `--check`, `--mads-ref NAME`, `--keep-mads` (publish the copy already in `website/mads`), `--project NAME` and `--workers`. Sign-in and the API token work the same way.
+
 ## How the page works
 
-- **Light and Dark Mode** follow the device setting. The toggle at the top right (styled like the bar of the "A" in the logo) overrides it, and the browser remembers the choice (`localStorage` key `ma-theme`).
+- **Settings.** The round gear button at the top right (MADS `mads.button.round` with `mads.icon.settings`, added in MADS 0.2.0) opens a floating `mads.card` with two controls: "Toggle to dark or light mode" and "Change language". The card grows out of the button and its rows slide in. It closes when you press the button again, tap or click outside it, or press Esc. The labels are the `settings.*` keys in the translation files.
+- **Ideas.** Left of the settings button is a second round button with the light bulb (`mads.icon.ideas`, added in MADS 0.3.0). It opens the same kind of floating card, with one link per row: "MA Design System (MADS)" (`https://www.miguel-adan.com/mads/index.html`) and "Book gallery" (`https://www.miguel-adan.com/book-gallery/index.html`). The bulb lights up while the card is open, and opening one card closes the other. The labels are the `ideas.*` keys in the translation files; the links are in `src/index.html`.
+- **Light and Dark Mode** follow the device setting. The toggle in the settings card (styled like the bar of the "A" in the logo) overrides it, and the browser remembers the choice (`localStorage` key `ma-theme`).
 - **Language.**
   - On a first visit, a Spanish-language browser is sent to `/es/`. Every other language stays on the English page.
-  - The flag button switches language, and the choice is remembered (`ma-lang`).
+  - The flag button in the settings card switches language, and the choice is remembered (`ma-lang`).
   - Both pages tell search engines about each other (`hreflang`), so each searcher is shown the right one.
 - **Logo.** The header logo morphs into a mouse pointer, a group of people and a Kanban board, one after another. This happens after 10 seconds without activity, holding each for 3 seconds before returning to "MA". The "One logo, three careers" section uses the same shapes.
 - **Avatar.** The portrait at the top blinks at random intervals. In "The story", the avatar gets younger as you scroll back through each stage.
@@ -145,6 +161,7 @@ Never commit a token. `.env` files are already ignored by Git.
 | `Missing translation …` when building | Add the listed keys to the JSON file named in the message. |
 | `The pages refer to files that are missing` | Add the file to `website/assets/`, or fix its name in `src/index.html`. |
 | `Node.js isn't installed` | Install it from nodejs.org or with `brew install node`. |
+| `The package "@cloudflare/workerd-darwin-…" could not be found` | npm downloaded Wrangler but dropped its Mac program (workerd), usually because npm's download cache is damaged. The deploy script repairs this by itself: it downloads Wrangler again, then cleans npm's cache and installs the program directly. If it still fails, the npm error printed just above the message says why (for example `EACCES`: run `sudo chown -R $(whoami) ~/.npm`). |
 | `Cloudflare didn't accept the upload` | Check the project name in the Cloudflare dashboard and use `--project NAME`. If the site shows under Workers rather than Pages, use `--workers`. |
 | A change doesn't show on the live site | Wait a minute and reload with Cmd + Shift + R to skip the browser cache. |
 | Site blocked on a company network | Some security filters block newly registered domains for a while. Check from another network, or ask IT to review the domain. |

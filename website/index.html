@@ -75,12 +75,42 @@ p{margin:0}
 .nav .mark{width:58px;display:block}
 .nav-right{display:flex;align-items:center;gap:14px}
 .nav .links{display:flex;gap:6px;flex-wrap:nowrap;align-items:center}
-/* LinkedIn and language pills: site-only component built on MADS tokens */
+/* LinkedIn pill: site-only component built on MADS tokens */
 .nav .links a.li{display:inline-flex;align-items:center;justify-content:center;gap:7px;height:36px;min-width:118px;padding:0 12px;border-radius:var(--mads-radius-full);border:1px solid var(--mads-theme-line);font:500 var(--mads-text-default-size)/1 var(--mads-font-mono);text-decoration:none;color:var(--mads-theme-text);transition:color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard),border-color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard)}
 .nav .links a.li:hover{border-color:var(--mads-theme-text-azure-blue);color:var(--mads-theme-text-azure-blue)}
 .nav .links a.li svg{width:15px;height:15px;flex:none}
-.nav .links a.lang .flag{width:16px;height:16px;border-radius:50%;overflow:hidden;flex:none;display:block;box-shadow:0 0 0 1px var(--mads-theme-line)}
-.nav .links a.lang .flag svg{width:16px;height:16px;display:block}
+/* settings: a mads.button.round that opens a floating mads.card holding the theme toggle and the language switch.
+   The card grows out of the button as a circle (clip-path) while it settles into place, then its rows slide in one after the other. */
+.settings{position:relative;display:flex}
+.settings-btn svg{transition:transform var(--mads-motion-duration-slow) var(--mads-motion-easing-spring)}
+.settings-btn[aria-expanded="true"]{background:var(--mads-theme-fill-ghost);border-color:var(--mads-theme-text-faint)}
+.settings-btn[aria-expanded="true"] svg{transform:rotate(120deg)}
+.settings-card{--ox:calc(100% - 22px);--oy:-34px;position:absolute;top:calc(100% + 12px);right:0;width:min(330px,calc(100vw - 2*var(--gutter)));gap:0;padding:4px 18px;box-shadow:var(--mads-shadow-raised);
+  clip-path:circle(0 at var(--ox) var(--oy));transform:translateY(-8px) scale(.94);transform-origin:var(--ox) 0;opacity:0;visibility:hidden;
+  transition:clip-path var(--mads-motion-duration-base) var(--mads-motion-easing-standard),transform var(--mads-motion-duration-base) var(--mads-motion-easing-standard),opacity var(--mads-motion-duration-base) var(--mads-motion-easing-standard),visibility 0s linear var(--mads-motion-duration-base)}
+.settings-card.is-open{clip-path:circle(200% at var(--ox) var(--oy));transform:none;opacity:1;visibility:visible;
+  transition:clip-path var(--mads-motion-duration-slow) var(--mads-motion-easing-standard),transform var(--mads-motion-duration-slow) var(--mads-motion-easing-entrance),opacity var(--mads-motion-duration-fast) var(--mads-motion-easing-standard),visibility 0s}
+.settings-row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:14px 0;opacity:0;transform:translateY(10px);transition:opacity var(--mads-motion-duration-fast) var(--mads-motion-easing-standard),transform var(--mads-motion-duration-fast) var(--mads-motion-easing-standard)}
+.settings-row+.settings-row{border-top:1px solid var(--mads-theme-line)}
+.settings-card.is-open .settings-row{opacity:1;transform:none;transition-duration:var(--mads-motion-duration-base);transition-timing-function:var(--mads-motion-easing-entrance)}
+.settings-card.is-open .settings-row:nth-child(1){transition-delay:110ms}
+.settings-card.is-open .settings-row:nth-child(2){transition-delay:190ms}
+.settings-label{font:var(--mads-text-default);color:var(--mads-theme-text)}
+.settings-card a.lang{display:inline-flex;align-items:center;gap:8px;flex:none;height:36px;padding:0 14px 0 10px;border-radius:var(--mads-radius-full);border:1px solid var(--mads-theme-line);font:500 var(--mads-text-default-size)/1 var(--mads-font-mono);text-decoration:none;white-space:nowrap;color:var(--mads-theme-text);transition:color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard),border-color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard)}
+.settings-card a.lang:hover{border-color:var(--mads-theme-text-azure-blue);color:var(--mads-theme-text-azure-blue)}
+.settings-card a.lang .flag{width:16px;height:16px;border-radius:50%;overflow:hidden;flex:none;display:block;box-shadow:0 0 0 1px var(--mads-theme-line)}
+.settings-card a.lang .flag svg{width:16px;height:16px;display:block}
+/* ideas: a second mads.button.round (mads.icon.ideas, MADS 0.3.0) left of settings. It opens the same kind of floating card,
+   with one link per row. The bulb lights up AmberGold while its card is open. */
+.ideas-btn[aria-expanded="true"]{background:var(--mads-theme-fill-ghost);border-color:var(--mads-theme-text-faint);color:var(--mads-theme-text-amber-gold)}
+.ideas-btn[aria-expanded="true"] svg{animation:ideas-spark .7s var(--mads-motion-easing-spring);filter:drop-shadow(0 0 5px color-mix(in srgb,var(--mads-theme-text-amber-gold) 55%,transparent))}
+@keyframes ideas-spark{40%{transform:scale(1.12)}}
+.ideas-card{width:min(300px,calc(100vw - 2*var(--gutter)))}
+.ideas-card .settings-row{padding:0}
+.ideas-link{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:52px;font:var(--mads-text-default);text-decoration:none;color:var(--mads-theme-text);transition:color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard)}
+.ideas-link svg{width:16px;height:16px;flex:none;color:var(--mads-theme-text-muted);transition:transform var(--mads-motion-duration-fast) var(--mads-motion-easing-spring),color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard)}
+.ideas-link:hover{color:var(--mads-theme-text-azure-blue)}
+.ideas-link:hover svg{color:currentColor;transform:translateX(3px)}
 @media (max-width:1279px){.nav .links a.li span:not(.flag){display:none}.nav .links a.li{width:36px;min-width:36px;padding:0}}
 .nav::before{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--mads-theme-background) 94%,transparent);border-bottom:1px solid var(--mads-theme-line);z-index:-1}
 
@@ -242,6 +272,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .nav .links a.li span:not(.flag){display:none}
   .nav .links a.li{width:36px;min-width:36px;padding:0}
   .nav-right{gap:6px}
+  .ideas-card{right:-50px;--ox:calc(100% - 72px)} /* on small screens, line the card up with the settings card's right edge (44px button + 6px gap) */
   .nav .links{gap:2px}
   .nav .links a.keep:not(.li){padding-inline:7px}
   .skills-grid{grid-template-columns:1fr}
@@ -280,14 +311,32 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <a href="#toolkit" class="mads-button-ghost">Toolkit</a>
       <a href="#contact" class="mads-button-ghost keep">Contact</a>
       <a href="https://www.linkedin.com/in/miguel-angel-adan/" class="keep li" target="_blank" rel="noopener" aria-label="LinkedIn profile (opens in a new tab)"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="4.5" fill="currentColor"/><text x="12" y="17.2" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="12.5" style="fill:var(--mads-theme-background)">in</text></svg><span>LinkedIn</span></a>
-      <a href="es/index.html" class="keep li lang" id="langSwitch" data-lang="es" hreflang="es" lang="es" aria-label="Ver esta página en español"><span class="flag"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" fill="#AA151B"/><rect y="7.5" width="30" height="15" fill="#F1BF00"/></svg></span><span>Español</span></a>
     </nav>
-    <button type="button" class="mads-toggle-theme" id="modeToggle" role="switch" aria-checked="true" aria-label="Dark mode" title="Switch between light and dark mode">
-      <span class="knob">
-        <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M5.3 18.7l1.5-1.5M17.2 6.8l1.5-1.5"/></svg>
-        <svg class="moon" viewBox="0 0 24 24"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="currentColor"/></svg>
-      </span>
-    </button>
+    <div class="settings" id="ideas">
+      <button type="button" class="mads-button-round ideas-btn" id="ideasBtn" aria-expanded="false" aria-controls="ideasCard" aria-label="Ideas"><svg class="mads-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M 11.999998,4.4277091 c -2.6312483,-3.85e-4 -4.764393,2.1327595 -4.7640085,4.764008 2.151e-4,1.6913069 0.8972603,3.2556649 2.3568545,4.1101249 -0.00774,0.05709 -0.014348,0.113205 -0.014348,0.172452 v 0.522255 c 0,0.716134 0.57726,1.293397 1.293395,1.293397 h 2.24907 c 0.716135,0 1.293399,-0.577263 1.293399,-1.293397 v -0.522255 c 0,-0.05925 -0.0067,-0.115366 -0.01434,-0.172452 1.462339,-0.852662 2.362293,-2.417357 2.363991,-4.1101249 3.84e-4,-2.6312483 -2.13276,-4.7643926 -4.764008,-4.764008 z M 10.196431,19.572291 h 3.599948"/></svg></button>
+      <div class="mads-card settings-card ideas-card" id="ideasCard" role="group" aria-label="Ideas">
+        <div class="settings-row"><a class="ideas-link" href="https://www.miguel-adan.com/mads/index.html"><span>MA Design System (MADS)</span><svg class="mads-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5 14.5 12 9.5 19"/></svg></a></div>
+        <div class="settings-row"><a class="ideas-link" href="https://www.miguel-adan.com/book-gallery/index.html"><span>Book gallery</span><svg class="mads-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5 14.5 12 9.5 19"/></svg></a></div>
+      </div>
+    </div>
+    <div class="settings" id="settings">
+      <button type="button" class="mads-button-round settings-btn" id="settingsBtn" aria-expanded="false" aria-controls="settingsCard" aria-label="Settings"><svg class="mads-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M10.67 4.62L13.33 4.62L13.82 6.71A5.6 5.6 0 0 1 15.67 7.77L17.73 7.16L19.06 9.46L17.5 10.93A5.6 5.6 0 0 1 17.5 13.07L19.06 14.54L17.73 16.84L15.67 16.23A5.6 5.6 0 0 1 13.82 17.29L13.33 19.38L10.67 19.38L10.18 17.29A5.6 5.6 0 0 1 8.33 16.23L6.27 16.84L4.94 14.54L6.5 13.07A5.6 5.6 0 0 1 6.5 10.93L4.94 9.46L6.27 7.16L8.33 7.77A5.6 5.6 0 0 1 10.18 6.71ZM12 12h.01"/></svg></button>
+      <div class="mads-card settings-card" id="settingsCard" role="group" aria-label="Settings">
+        <div class="settings-row">
+          <span class="settings-label" id="themeLabel">Toggle to dark or light mode</span>
+          <button type="button" class="mads-toggle-theme" id="modeToggle" role="switch" aria-checked="true" aria-label="Dark mode on. Switch to light mode">
+            <span class="knob">
+              <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="4.2" fill="currentColor"/><path d="M12 2.5v2.2M12 19.3v2.2M2.5 12h2.2M19.3 12h2.2M5.3 5.3l1.5 1.5M17.2 17.2l1.5 1.5M5.3 18.7l1.5-1.5M17.2 6.8l1.5-1.5"/></svg>
+              <svg class="moon" viewBox="0 0 24 24"><path d="M20.5 14.2A8.5 8.5 0 0 1 9.8 3.5a8.5 8.5 0 1 0 10.7 10.7z" fill="currentColor"/></svg>
+            </span>
+          </button>
+        </div>
+        <div class="settings-row">
+          <span class="settings-label" id="langLabel">Change language</span>
+          <a href="es/index.html" class="lang" id="langSwitch" data-lang="es" hreflang="es" lang="es" aria-label="Ver esta página en español"><span class="flag"><svg viewBox="0 0 30 30" aria-hidden="true"><rect width="30" height="30" fill="#AA151B"/><rect y="7.5" width="30" height="15" fill="#F1BF00"/></svg></span><span>Español</span></a>
+        </div>
+      </div>
+    </div>
     </div>
   </div>
 </header>
@@ -584,6 +633,17 @@ try{mq.addEventListener('change',syncToggle)}catch(e){}
 new MutationObserver(syncToggle).observe(root,{attributes:true,attributeFilter:['data-theme']});
 syncToggle();
 document.getElementById('langSwitch').addEventListener('click',e=>{try{localStorage.setItem('ma-lang',e.currentTarget.dataset.lang)}catch(_){}});
+/* ---------- settings and ideas: each round button shows and hides its floating card; only one is open at a time ---------- */
+const popovers=[['settings','settingsBtn','settingsCard'],['ideas','ideasBtn','ideasCard']].map(([w,b,c])=>({wrap:document.getElementById(w),btn:document.getElementById(b),card:document.getElementById(c)}));
+const popOpen=p=>p.card.classList.contains('is-open');
+const popSet=(p,open)=>{p.card.classList.toggle('is-open',open);p.btn.setAttribute('aria-expanded',open)};
+popovers.forEach(p=>{
+  p.btn.addEventListener('click',()=>{const open=!popOpen(p);popovers.forEach(o=>{if(o!==p)popSet(o,false)});popSet(p,open)});
+  p.wrap.addEventListener('focusout',e=>{if(popOpen(p)&&e.relatedTarget&&!p.wrap.contains(e.relatedTarget))popSet(p,false)});
+});
+document.addEventListener('pointerdown',e=>popovers.forEach(p=>{if(popOpen(p)&&!p.wrap.contains(e.target))popSet(p,false)}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')popovers.forEach(p=>{if(popOpen(p)){popSet(p,false);p.btn.focus()}})});
+addEventListener('pageshow',e=>{if(e.persisted)popovers.forEach(p=>popSet(p,false))});
 /* ---------- MA emblem ---------- */
 const CHEV="m 59.516071,24.012484 a 9,9 0 0 0 -7.024377,3.746541 9,9 0 0 0 2.061889,12.559958 9,9 0 0 0 0.435632,0.293522 l -0.0088,0.0124 31.213082,22.409485 0.0031,0.0026 a 9,9 0 0 0 6.012553,2.268079 9,9 0 0 0 6.027003,-2.27066 l 31.213577,-22.409487 -0.009,-0.01246 a 9,9 0 0 0 0.43511,-0.293522 9,9 0 0 0 2.06189,-12.559959 9,9 0 0 0 -7.02437,-3.746542 9,9 0 0 0 -5.53506,1.684648 9,9 0 0 0 -0.41756,0.318844 l -0.009,-0.01294 -26.736831,19.195727 -26.73687,-19.195728 -0.0093,0.01292 a 9,9 0 0 0 -0.41703,-0.318843 9,9 0 0 0 -5.535579,-1.684651 z";
 const TRI="m 175.63678,24.135913 c -3.6603,-9.8e-5 -6.9043,2.35681 -8.03517,5.837887 l -30.01488,68.92211 c 0,0 -1.28081,3.49822 -1.28093,4.53539 -9e-5,4.66584 3.78255,8.44825 8.44858,8.44807 3.84967,-2.3e-4 6.31551,-2.78748 8.17779,-6.32933 l 23.15259,-52.876881 25.48785,53.289261 c 1.87052,3.42799 4.36956,5.91708 8.06049,5.91695 4.66583,-10e-5 8.44816,-3.78243 8.44807,-8.44807 0,-0.0561 -0.008,-2.46168 -1.32912,-4.548559 l -33.0801,-68.907907 c -1.1305,-3.481486 -4.3746,-5.838873 -8.03517,-5.838921 z";

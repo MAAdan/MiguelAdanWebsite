@@ -1,3 +1,4 @@
+/* MADS css/mads.css from https://github.com/MAAdan/MADS at da0decf. Downloaded by scripts/deploy.py: don't edit, change MADS instead. */
 /* =====================================================================
    MA Design System (MADS) — tokens and components
    Load the fonts first (see index.html <head> or README.md), then this file.
@@ -209,6 +210,23 @@
 .mads-button-icon[data-dir="next"]:active svg { transform: translateX(3px); }
 
 .mads-button-icon:focus-visible { outline: 2px solid var(--mads-color-neon-pink); outline-offset: 3px; }
+
+/* mads.button.round: icon-only, the secondary button as a 44 circle */
+.mads-button-round { -webkit-appearance: none; appearance: none; display: inline-grid; place-items: center; width: 2.75rem; height: 2.75rem; padding: 0; flex: none; border: 1px solid var(--mads-theme-line); border-radius: 50%; background: var(--mads-theme-fill-soft); color: var(--mads-theme-text); cursor: pointer; transition: background-color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard), border-color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard), transform var(--mads-motion-duration-fast) var(--mads-motion-easing-standard); }
+
+.mads-button-round svg { width: 1.25rem; height: 1.25rem; }
+
+.mads-button-round:hover, .mads-button-round.is-hover { background: var(--mads-theme-fill-ghost); border-color: var(--mads-theme-text-faint); }
+
+.mads-button-round:active, .mads-button-round.is-pressed { transform: scale(.98); transition-duration: 80ms; }
+
+.mads-button-round:focus-visible, .mads-button-round.is-focus { outline: 2px solid var(--mads-color-neon-pink); outline-offset: 3px; }
+
+.mads-button-round:disabled { opacity: .4; cursor: not-allowed; transform: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  .mads-button-round { transition: none; }
+}
 
 .mads-toggle-theme { -webkit-appearance: none; appearance: none; border: 0; padding: 0; cursor: pointer; position: relative; flex: none; width: 3.5rem; height: 2.25rem; border-radius: var(--mads-radius-full); background: var(--mads-gradient-orange-pink); box-shadow: var(--mads-shadow-glow); opacity: .9; transition: opacity var(--mads-motion-duration-fast), transform var(--mads-motion-duration-fast) var(--mads-motion-easing-standard); }
 
