@@ -1,5 +1,5 @@
 {
-  "_about": "Textos en español de la web. La plantilla (src/index.html) contiene {{claves}}; la compilación sustituye cada una por el texto de aquí. Edita los valores libremente; no cambies las claves. Los valores son HTML, así que usa &amp; para &.",
+  "_about": "Textos en español de la web. La página (src/template/ y src/layouts/Home.astro) se refiere a cada texto por su clave; la compilación coloca en su lugar el texto de aquí. Edita los valores libremente; no cambies las claves. Los valores son HTML, así que usa &amp; para &.",
   "page.lang": "es",
   "meta.title": "Miguel Adan",
   "meta.description": "Product Manager y líder técnico. De escribir el código a liderar a quienes lo escriben y decidir qué se construye, con equipos internacionales en cinco ciudades europeas.",
@@ -21,7 +21,6 @@
   "switch.href": "../index.html",
   "switch.lang": "en",
   "switch.label": "View this page in English",
-  "switch.flag": "<span class=\"flag\"><svg viewBox=\"15 0 30 30\" aria-hidden=\"true\"><defs><clipPath id=\"ukc\"><path d=\"M30,15h30v15zv15h-30zh-30v-15zv-15h30z\"/></clipPath></defs><rect width=\"60\" height=\"30\" fill=\"#012169\"/><path d=\"M0,0L60,30M60,0L0,30\" stroke=\"#fff\" stroke-width=\"6\"/><path d=\"M0,0L60,30M60,0L0,30\" clip-path=\"url(#ukc)\" stroke=\"#C8102E\" stroke-width=\"4\"/><path d=\"M30,0v30M0,15h60\" stroke=\"#fff\" stroke-width=\"10\"/><path d=\"M30,0v30M0,15h60\" stroke=\"#C8102E\" stroke-width=\"6\"/></svg></span>",
   "switch.text": "English",
   "settings.settings": "Ajustes",
   "settings.theme": "Cambiar a modo oscuro o claro",

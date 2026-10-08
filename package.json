@@ -1,0 +1,15 @@
+{
+  "name": "miguel-adan-website",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "deploy": "python3 scripts/deploy.py"
+  },
+  "dependencies": {
+    "@maadan/mads": "github:MAAdan/MADS#astro-migration",
+    "astro": "^5.0.0"
+  }
+}

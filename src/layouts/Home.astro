@@ -1,0 +1,72 @@
+---
+/* The home page, in English (src/pages/index.astro) or Spanish (src/pages/es/index.astro).
+   The header is built from MA Design System components (the @maadan/mads package): the Ideas and Settings menus,
+   the theme toggle and the language switch, the same ones the MADS reference uses. The rest of the page is still the
+   original template in src/template/, with {{keys}} filled from translations/ (src/i18n.js). Sections can move into
+   components of their own one at a time. */
+import '@maadan/mads/css/mads.css';
+import '../styles/site.css';
+import ThemeInit from '@maadan/mads/components/ThemeInit.astro';
+import IdeasMenu from '@maadan/mads/components/IdeasMenu.astro';
+import SettingsMenu from '@maadan/mads/components/SettingsMenu.astro';
+import PopoverRow from '@maadan/mads/components/PopoverRow.astro';
+import ThemeToggle from '@maadan/mads/components/ThemeToggle.astro';
+import LanguageSwitch from '@maadan/mads/components/LanguageSwitch.astro';
+import { texts, fill } from '../i18n.js';
+import head from '../template/head.html?raw';
+import top from '../template/top.html?raw';
+import main from '../template/main.html?raw';
+import script from '../template/script.js?raw';
+
+interface Props {
+  lang: 'en' | 'es';
+}
+
+const { lang } = Astro.props;
+const { T, A } = texts(lang);  // T: text as HTML; A: the same text for attributes and plain-text props
+const up = lang === 'en' ? '' : '../';          // the Spanish page sits in /es/
+const html = (template: string) => fill(template, lang, { up });
+
+const switchLang = A('switch.lang') as 'en' | 'es';  // the language the switch leads to
+
+const ideas = [
+  { href: 'https://www.miguel-adan.com/mads/index.html', text: T('ideas.mads') },
+  { href: 'https://www.miguel-adan.com/book-gallery/index.html', text: T('ideas.book_gallery') },
+];
+---
+<!doctype html>
+<html lang={A('page.lang')} data-page-lang={A('page.lang')}>
+<head>
+<Fragment set:html={html(head)} />
+<ThemeInit />
+</head>
+<body>
+<Fragment set:html={html(top)} />
+<header class="nav">
+  <div class="wrap">
+    <a href="#top" aria-label={A('nav.miguel_adan_back_top')}><svg class="mark" data-emblem="ma" data-static="1" viewBox="36 12 200 116"></svg></a>
+    <div class="nav-right">
+    <nav class="links" aria-label={A('nav.sections')}>
+      <a href="#evolution" class="mads-button-ghost" set:html={T('nav.evolution')} />
+      <a href="#teams" class="mads-button-ghost" set:html={T('nav.teams')} />
+      <a href="#story" class="mads-button-ghost keep" set:html={T('nav.career')} />
+      <a href="#toolkit" class="mads-button-ghost" set:html={T('nav.toolkit')} />
+      <a href="#contact" class="mads-button-ghost keep" set:html={T('nav.contact')} />
+      <a href="https://www.linkedin.com/in/miguel-angel-adan/" class="keep li" target="_blank" rel="noopener" aria-label={A('nav.linkedin_profile_opens_new')}><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="4.5" fill="currentColor"/><text x="12" y="17.2" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="12.5" style="fill:var(--mads-theme-background)">in</text></svg><span set:html={T('nav.linkedin')} /></a>
+    </nav>
+    <IdeasMenu label={A('ideas.ideas')} links={ideas} shift={50} />
+    <SettingsMenu label={A('settings.settings')}>
+      <PopoverRow label={T('settings.theme')} labelId="themeLabel">
+        <ThemeToggle id="modeToggle" label={A('theme.dark_on')} labelDark={A('theme.dark_on')} labelLight={A('theme.light_on')} />
+      </PopoverRow>
+      <PopoverRow label={T('settings.language')} labelId="langLabel">
+        <LanguageSwitch id="langSwitch" lang={switchLang} text={A('switch.text')} href={A('switch.href')} label={A('switch.label')} />
+      </PopoverRow>
+    </SettingsMenu>
+    </div>
+  </div>
+</header>
+<Fragment set:html={html(main)} />
+<Fragment set:html={html(`<script>\n${script}</script>`)} />
+</body>
+</html>

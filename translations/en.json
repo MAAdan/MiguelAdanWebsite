@@ -1,5 +1,5 @@
 {
-  "_about": "English text for the website. The page template (src/index.html) contains {{keys}}; the build replaces each one with the text here. Edit the values freely; keep the keys unchanged. Values are HTML, so use &amp; for &.",
+  "_about": "English text for the website. The page (src/template/ and src/layouts/Home.astro) refers to each text by its key; the build puts the text here in its place. Edit the values freely; keep the keys unchanged. Values are HTML, so use &amp; for &.",
   "page.lang": "en",
   "meta.title": "Miguel Adan",
   "meta.description": "Product Manager and engineering leader. From writing the code, to leading the people who write it, to deciding what gets built, with international teams across five European cities.",
@@ -21,7 +21,6 @@
   "switch.href": "es/index.html",
   "switch.lang": "es",
   "switch.label": "Ver esta página en español",
-  "switch.flag": "<span class=\"flag\"><svg viewBox=\"0 0 30 30\" aria-hidden=\"true\"><rect width=\"30\" height=\"30\" fill=\"#AA151B\"/><rect y=\"7.5\" width=\"30\" height=\"15\" fill=\"#F1BF00\"/></svg></span>",
   "switch.text": "Español",
   "settings.settings": "Settings",
   "settings.theme": "Toggle to dark or light mode",

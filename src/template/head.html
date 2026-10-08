@@ -1,0 +1,30 @@
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<title>{{meta.title}}</title>
+<meta name="description" content="{{meta.description}}">
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+<!-- Link previews (LinkedIn, WhatsApp, Slack, X) -->
+<link rel="canonical" href="{{page.url}}">
+<link rel="alternate" hreflang="en" href="https://miguel-adan.com/">
+<link rel="alternate" hreflang="es" href="https://miguel-adan.com/es/">
+<link rel="alternate" hreflang="x-default" href="https://miguel-adan.com/">
+<meta property="og:locale" content="{{page.locale}}">
+<meta property="og:locale:alternate" content="{{page.locale_alternate}}">
+<meta property="og:url" content="{{page.url}}">
+<meta property="og:type" content="website">
+<meta property="og:title" content="{{meta.share_title}}">
+<meta property="og:description" content="{{meta.description}}">
+<meta property="og:image" content="{{page.preview_image}}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="{{meta.preview_image_alt}}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{meta.share_title}}">
+<meta name="twitter:description" content="{{meta.description}}">
+<meta name="twitter:image" content="{{page.preview_image}}">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Onest:wght@100..900&family=Unbounded:wght@200..900&display=swap">
+<script>/* live site only: show the page in the browser's language (Spanish, or English for anything else); a choice made with the switch always wins */
+(function(){try{var h=location.hostname;if(!/(^|\.)miguel-adan\.com$|\.pages\.dev$/.test(h))return;var saved=localStorage.getItem('ma-lang');var page=document.documentElement.getAttribute('data-page-lang')||'en';var want=saved||((navigator.language||'en').toLowerCase().indexOf('es')===0?'es':'en');if(page==='en'&&want==='es')location.replace('/es/'+location.search+location.hash)}catch(e){}})();</script>

@@ -30,5 +30,10 @@ MA-Website-*
 # Backup of the Git history taken before removing the originals from it
 _git-backup-before-cleanup.bundle
 
-#MADS is downloaded at build time
-mads/
+# Astro: installed packages, the built site and Astro's cache
+node_modules/
+dist/
+.astro/
+
+# Left over from before Astro (the site used to be built into website/)
+website/

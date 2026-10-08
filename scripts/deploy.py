@@ -1,19 +1,20 @@
 #!/usr/bin/env python3
 """
-Deploy the website folder to Cloudflare.
+Build the site with Astro and publish it to Cloudflare.
 
 Usage (from the MiguelAdanWebsite folder):
-    python3 scripts/deploy.py                 # build both pages from src/ and translations/, check, publish
+    python3 scripts/deploy.py                 # install packages if needed, build, check, publish
     python3 scripts/deploy.py --check         # build and check only, publish nothing
     python3 scripts/deploy.py --project NAME  # use a different Cloudflare project name
     python3 scripts/deploy.py --workers       # the site lives in a Worker instead of Pages
-    python3 scripts/deploy.py --mads-ref v1.2 # use a MADS tag, branch or commit instead of the latest
-    python3 scripts/deploy.py --keep-mads     # don't download MADS, use the copy already in website/assets
 
-Before building, it downloads the latest MA Design System (MADS) stylesheet from
-https://github.com/MAAdan/MADS (css/mads.css) into website/assets/mads.css, so the
-site always goes out with the current design system. Don't edit that copy: change
-MADS on GitHub instead and deploy again.
+It runs `npm install` when the packages in package.json aren't installed yet (or
+package.json changed), then `npm run build`, which writes the whole site to dist/:
+the English and Spanish pages and the MA Design System reference at /mads/.
+
+The MA Design System (MADS) comes from the @maadan/mads package, at the version
+package.json names (a tag, branch or commit of https://github.com/MAAdan/MADS).
+To move to a new MADS version: npm install github:MAAdan/MADS#v0.4.0
 
 It uses Wrangler, Cloudflare's official command-line tool, through `npx`, so the
 only requirement is Node.js (https://nodejs.org, or `brew install node`).
@@ -32,22 +33,16 @@ import re
 import shutil
 import subprocess
 import sys
-import urllib.error
-import urllib.request
 from pathlib import Path
 
 PROJECT_NAME = "miguel-adan"          # the Cloudflare Pages project name
 SITE_URL = "https://miguel-adan.com"
 SCRIPTS_DIR = Path(__file__).resolve().parent       # this folder (scripts/)
-SITE_DIR = SCRIPTS_DIR.parent / "website"           # MiguelAdanWebsite/website
+ROOT = SCRIPTS_DIR.parent                           # the MiguelAdanWebsite folder
+SITE_DIR = ROOT / "dist"                            # what `npm run build` writes, and what gets published
+PAGES = ["index.html", "es/index.html", "mads/index.html"]
 WRANGLER = ["npx", "--yes", "wrangler@4"]
 WORKERD_MISSING = "is needed by workerd"            # Wrangler's error when its copy lacks the part built for this computer
-
-MADS_REPO = "MAAdan/MADS"                            # the design system's GitHub repository
-MADS_FILES = {"css/mads.css": "assets/mads.css"}     # file in MADS → where it goes in website/
-MADS_RAW = "https://raw.githubusercontent.com/{repo}/{ref}/{path}"
-MADS_API = "https://api.github.com/repos/{repo}/commits/{ref}"
-
 
 def say(msg, kind="info"):
     marks = {"info": "•", "ok": "✓", "warn": "!", "err": "✗"}
@@ -59,72 +54,29 @@ def fail(msg):
     sys.exit(1)
 
 
-def download(url, accept=None):
-    """Fetch a URL and return its bytes. Falls back to curl, which uses the system's
-    certificates, for Python installs on macOS that can't verify HTTPS by themselves."""
-    headers = {"User-Agent": "miguel-adan-deploy"}
-    if accept:
-        headers["Accept"] = accept
-    try:
-        with urllib.request.urlopen(urllib.request.Request(url, headers=headers), timeout=20) as r:
-            return r.read()
-    except (urllib.error.URLError, OSError) as e:
-        if shutil.which("curl") is None:
-            raise
-        cmd = ["curl", "-fsSL", "--max-time", "20"] + sum((["-H", f"{k}: {v}"] for k, v in headers.items()), []) + [url]
-        out = subprocess.run(cmd, capture_output=True)
-        if out.returncode != 0:
-            raise OSError(out.stderr.decode(errors="replace").strip() or str(e))
-        return out.stdout
+def run(cmd, what):
+    say(f"{what}: {' '.join(cmd)}")
+    if subprocess.run(cmd, cwd=ROOT).returncode != 0:
+        fail(f"{what} didn't finish. The messages just above say why.")
 
 
-def update_mads(ref):
-    """Copy the design system from GitHub into website/assets, pinned to one commit."""
-    # Find the exact commit, so every file comes from the same version and the copy says which one it is.
-    try:
-        sha = json.loads(download(MADS_API.format(repo=MADS_REPO, ref=ref)))["sha"]
-    except Exception:
-        sha = None  # GitHub's API can be rate limited; the files themselves are still reachable
-    version = sha or ref
-    for src, dest in MADS_FILES.items():
-        url = MADS_RAW.format(repo=MADS_REPO, ref=version, path=src)
-        try:
-            text = download(url).decode("utf-8")
-        except Exception as e:
-            fail(f"Couldn't download MADS from {url}\n  ({e})\n"
-                 "  Check your internet connection and that the repository and file still exist.\n"
-                 "  To publish with the copy already in website/assets, run again with --keep-mads.")
-        if "--mads-" not in text:
-            fail(f"The file downloaded from {url} doesn't look like the MADS stylesheet. Nothing was changed.")
-        stamp = (f"/* MADS {src} from https://github.com/{MADS_REPO}"
-                 f" at {sha[:7] if sha else ref}. Downloaded by scripts/deploy.py: don't edit, change MADS instead. */\n")
-        target = SITE_DIR / dest
-        old = target.read_text(encoding="utf-8") if target.is_file() else None
-        new = stamp + text
-        # ignore the stamp line when deciding whether the design system itself changed
-        same = old is not None and old.split("\n", 1)[-1] == text
-        target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(new, encoding="utf-8")
-        where = f"{MADS_REPO}@{sha[:7]}" if sha else f"{MADS_REPO} ({ref})"
-        say(f"MADS {src} is up to date ({where})." if same else f"MADS {src} updated from {where}.", "ok")
-
-
-def build_pages():
-    """Generate the English and Spanish pages from src/index.html and the translation files."""
-    sys.path.insert(0, str(SCRIPTS_DIR))
-    try:
-        import build
-    except ImportError:
-        fail("build.py is missing from the scripts folder.")
-    build.build()  # stops with a clear message if any text is missing in either language
+def build_site():
+    """Install the packages if needed, then build the site into dist/ with Astro."""
+    installed = ROOT / "node_modules" / ".package-lock.json"
+    if not installed.is_file() or installed.stat().st_mtime < (ROOT / "package.json").stat().st_mtime:
+        run(["npm", "install", "--no-audit", "--no-fund"], "Installing packages (Astro and MADS)")
+    run(["npm", "run", "build"], "Building the site")
+    mads = ROOT / "node_modules" / "@maadan" / "mads" / "package.json"
+    if mads.is_file():
+        say(f"Built with MADS {json.loads(mads.read_text(encoding='utf-8')).get('version', '?')}.", "ok")
 
 
 def check_site():
     """Make sure every file the pages use is there, and point out files they don't use."""
-    pages = [SITE_DIR / "index.html", SITE_DIR / "es" / "index.html"]
+    pages = [SITE_DIR / p for p in PAGES]
     for page in pages:
         if not page.is_file():
-            fail(f"Can't find {page}. Is the website folder next to the scripts folder?")
+            fail(f"The build didn't make {page.relative_to(ROOT)}. Run `npm run build` to see why.")
 
     used, missing = set(), []
     for page in pages:
@@ -154,12 +106,12 @@ def check_site():
     ignored = {".DS_Store", "Thumbs.db"}
     files = [p for p in SITE_DIR.rglob("*") if p.is_file() and p.name not in ignored]
     size = sum(p.stat().st_size for p in files) / 1_000_000
-    say(f"Site checked: English and Spanish pages, {len(files)} files, {size:.1f} MB, nothing missing.", "ok")
+    say(f"Site checked: English, Spanish and MADS pages, {len(files)} files, {size:.1f} MB, nothing missing.", "ok")
 
 
 def wrangler(args, env, capture=False):
     return subprocess.run(WRANGLER + args, env=env, text=True,
-                          capture_output=capture, cwd=SITE_DIR.parent)
+                          capture_output=capture, cwd=ROOT)
 
 
 def ensure_node():
@@ -267,7 +219,7 @@ def ensure_login(env):
 
 def deploy(project, workers, env):
     # Copy the site without macOS clutter so it never ends up online.
-    staging = SITE_DIR.parent / ".deploy-staging"
+    staging = ROOT / ".deploy-staging"
     shutil.rmtree(staging, ignore_errors=True)
     shutil.copytree(SITE_DIR, staging,
                     ignore=shutil.ignore_patterns(".DS_Store", "Thumbs.db", "*.tmp"))
@@ -290,28 +242,22 @@ def deploy(project, workers, env):
         if not workers:
             hint += ("\n  If your site shows under 'Workers' rather than 'Pages', add --workers.")
         fail("Cloudflare didn't accept the upload.\n  " + hint)
-    say(f"Published. Live at {SITE_URL} and {SITE_URL}/es/ (allow a minute for the update to appear).", "ok")
+    say(f"Published. Live at {SITE_URL}, {SITE_URL}/es/ and {SITE_URL}/mads/ (allow a minute for the update to appear).", "ok")
 
 
 def main():
-    ap = argparse.ArgumentParser(description="Publish the website folder to Cloudflare.")
+    ap = argparse.ArgumentParser(description="Build the site with Astro and publish it to Cloudflare.")
     ap.add_argument("--project", default=PROJECT_NAME, help=f"Cloudflare project name (default: {PROJECT_NAME})")
     ap.add_argument("--workers", action="store_true", help="deploy as a Worker with static assets instead of Pages")
-    ap.add_argument("--check", action="store_true", help="only check the site, don't publish")
-    ap.add_argument("--mads-ref", default="main", help="MADS branch, tag or commit to use (default: main, the latest)")
-    ap.add_argument("--keep-mads", action="store_true", help="don't download MADS; use the copy already in website/assets")
+    ap.add_argument("--check", action="store_true", help="only build and check the site, don't publish")
     a = ap.parse_args()
 
-    if a.keep_mads:
-        say("Using the MADS copy already in website/assets (--keep-mads).", "warn")
-    else:
-        update_mads(a.mads_ref)
-    build_pages()
+    ensure_node()
+    check_node_arch()
+    build_site()
     check_site()
     if a.check:
         return
-    ensure_node()
-    check_node_arch()
     env = dict(os.environ)
     env["npm_config_include"] = "optional"  # Wrangler's per-computer part is an optional package; never skip it
     ensure_wrangler(env)
