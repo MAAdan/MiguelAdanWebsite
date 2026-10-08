@@ -101,10 +101,9 @@ p{margin:0}
 .settings-card a.lang .flag{width:16px;height:16px;border-radius:50%;overflow:hidden;flex:none;display:block;box-shadow:0 0 0 1px var(--mads-theme-line)}
 .settings-card a.lang .flag svg{width:16px;height:16px;display:block}
 /* ideas: a second mads.button.round (mads.icon.ideas, MADS 0.3.0) left of settings. It opens the same kind of floating card,
-   with one link per row. The bulb lights up AmberGold while its card is open. */
+   with one link per row. The bulb turns AmberGold and glows (mads.icon.ideas) when its card opens. */
 .ideas-btn[aria-expanded="true"]{background:var(--mads-theme-fill-ghost);border-color:var(--mads-theme-text-faint);color:var(--mads-theme-text-amber-gold)}
-.ideas-btn[aria-expanded="true"] svg{animation:ideas-spark .7s var(--mads-motion-easing-spring);filter:drop-shadow(0 0 5px color-mix(in srgb,var(--mads-theme-text-amber-gold) 55%,transparent))}
-@keyframes ideas-spark{40%{transform:scale(1.12)}}
+.ideas-btn[aria-expanded="true"] .mads-icon-glow{animation:mads-icon-glow 1.6s cubic-bezier(.22,.61,.36,1)} /* the mads.icon.ideas glow, from mads.css */
 .ideas-card{width:min(300px,calc(100vw - 2*var(--gutter)))}
 .ideas-card .settings-row{padding:0}
 .ideas-link{display:flex;align-items:center;justify-content:space-between;gap:16px;width:100%;min-height:52px;font:var(--mads-text-default);text-decoration:none;color:var(--mads-theme-text);transition:color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard)}
@@ -313,7 +312,7 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
       <a href="https://www.linkedin.com/in/miguel-angel-adan/" class="keep li" target="_blank" rel="noopener" aria-label="{{nav.linkedin_profile_opens_new}}"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="4.5" fill="currentColor"/><text x="12" y="17.2" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="12.5" style="fill:var(--mads-theme-background)">in</text></svg><span>{{nav.linkedin}}</span></a>
     </nav>
     <div class="settings" id="ideas">
-      <button type="button" class="mads-button-round ideas-btn" id="ideasBtn" aria-expanded="false" aria-controls="ideasCard" aria-label="{{ideas.ideas}}"><svg class="mads-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M 11.999998,4.4277091 c -2.6312483,-3.85e-4 -4.764393,2.1327595 -4.7640085,4.764008 2.151e-4,1.6913069 0.8972603,3.2556649 2.3568545,4.1101249 -0.00774,0.05709 -0.014348,0.113205 -0.014348,0.172452 v 0.522255 c 0,0.716134 0.57726,1.293397 1.293395,1.293397 h 2.24907 c 0.716135,0 1.293399,-0.577263 1.293399,-1.293397 v -0.522255 c 0,-0.05925 -0.0067,-0.115366 -0.01434,-0.172452 1.462339,-0.852662 2.362293,-2.417357 2.363991,-4.1101249 3.84e-4,-2.6312483 -2.13276,-4.7643926 -4.764008,-4.764008 z M 10.196431,19.572291 h 3.599948"/></svg></button>
+      <button type="button" class="mads-button-round ideas-btn" id="ideasBtn" aria-expanded="false" aria-controls="ideasCard" aria-label="{{ideas.ideas}}"><svg class="mads-icon" viewBox="0 0 24 24" aria-hidden="true"><circle class="mads-icon-glow" cx="12" cy="9.19" r="10"/><path d="M 11.999998,4.4277091 c -2.6312483,-3.85e-4 -4.764393,2.1327595 -4.7640085,4.764008 2.151e-4,1.6913069 0.8972603,3.2556649 2.3568545,4.1101249 -0.00774,0.05709 -0.014348,0.113205 -0.014348,0.172452 v 0.522255 c 0,0.716134 0.57726,1.293397 1.293395,1.293397 h 2.24907 c 0.716135,0 1.293399,-0.577263 1.293399,-1.293397 v -0.522255 c 0,-0.05925 -0.0067,-0.115366 -0.01434,-0.172452 1.462339,-0.852662 2.362293,-2.417357 2.363991,-4.1101249 3.84e-4,-2.6312483 -2.13276,-4.7643926 -4.764008,-4.764008 z M 10.196431,19.572291 h 3.599948"/></svg></button>
       <div class="mads-card settings-card ideas-card" id="ideasCard" role="group" aria-label="{{ideas.ideas}}">
         <div class="settings-row"><a class="ideas-link" href="https://www.miguel-adan.com/mads/index.html"><span>{{ideas.mads}}</span><svg class="mads-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5 14.5 12 9.5 19"/></svg></a></div>
         <div class="settings-row"><a class="ideas-link" href="https://www.miguel-adan.com/book-gallery/index.html"><span>{{ideas.book_gallery}}</span><svg class="mads-icon" viewBox="0 0 24 24" aria-hidden="true"><path d="M9.5 5 14.5 12 9.5 19"/></svg></a></div>

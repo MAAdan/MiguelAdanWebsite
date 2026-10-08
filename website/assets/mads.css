@@ -1,4 +1,4 @@
-/* MADS css/mads.css from https://github.com/MAAdan/MADS at da0decf. Downloaded by scripts/deploy.py: don't edit, change MADS instead. */
+/* MADS css/mads.css from https://github.com/MAAdan/MADS at 9b7c4fd. Downloaded by scripts/deploy.py: don't edit, change MADS instead. */
 /* =====================================================================
    MA Design System (MADS) — tokens and components
    Load the fonts first (see index.html <head> or README.md), then this file.
@@ -108,6 +108,13 @@
 }
 
 .mads-icon { fill: none; stroke: currentColor; stroke-width: var(--mads-icon-stroke); stroke-linecap: round; stroke-linejoin: round; overflow: visible; display: block; }
+
+/* mads.icon.ideas default motion: a solid AmberGold circle at 50% alpha grows from the bulb centre, then fades out.
+   Markup: <circle class="mads-icon-glow" cx="12" cy="9.19" r="10"/> before the bulb path. Add .is-glow to play it. */
+.mads-icon-glow { fill: var(--mads-color-amber-gold); fill-opacity: .5; stroke: none; opacity: 0; transform-box: fill-box; transform-origin: center; pointer-events: none; }
+.mads-icon.is-glow .mads-icon-glow { animation: mads-icon-glow 1.6s cubic-bezier(.22, .61, .36, 1); }
+@keyframes mads-icon-glow { 0% { transform: scale(.1); opacity: 1; } 55% { transform: scale(1); opacity: 1; } 100% { transform: scale(1); opacity: 0; } }
+@media (prefers-reduced-motion: reduce) { .mads-icon-glow { animation: none !important; } }
 
 :root {
   --mads-theme-background: #F6F4FB;
