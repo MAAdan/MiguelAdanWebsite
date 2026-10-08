@@ -93,10 +93,10 @@ Colours, fonts, type sizes, spacing, motion and most components come from the MA
 
 ### Update the design system
 
-`package.json` names the MADS version the site is built with. To move to a newer one (here, the tag `v0.4.1`):
+`package.json` names the MADS version the site is built with. To move to a newer one (here, the tag `0.8.1`):
 
 ```
-npm install github:MAAdan/MADS#v0.4.1
+npm install github:MAAdan/MADS#0.8.1
 ```
 
 Check the result with `npm run dev`, including the reference at `/mads/`, then publish.

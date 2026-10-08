@@ -14,7 +14,7 @@ the English and Spanish pages and the MA Design System reference at /mads/.
 
 The MA Design System (MADS) comes from the @maadan/mads package, at the version
 package.json names (a tag, branch or commit of https://github.com/MAAdan/MADS).
-To move to a new MADS version: npm install github:MAAdan/MADS#v0.4.0
+To move to a new MADS version: npm install github:MAAdan/MADS#0.8.1
 
 It uses Wrangler, Cloudflare's official command-line tool, through `npx`, so the
 only requirement is Node.js (https://nodejs.org, or `brew install node`).
