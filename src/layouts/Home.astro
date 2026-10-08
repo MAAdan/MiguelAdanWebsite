@@ -12,7 +12,7 @@ import SettingsMenu from '@maadan/mads/components/SettingsMenu.astro';
 import PopoverRow from '@maadan/mads/components/PopoverRow.astro';
 import ThemeToggle from '@maadan/mads/components/ThemeToggle.astro';
 import LanguageSwitch from '@maadan/mads/components/LanguageSwitch.astro';
-import { texts, fill } from '../i18n.js';
+import { texts, fill, inlineScript } from '../i18n.js';
 import head from '../template/head.html?raw';
 import top from '../template/top.html?raw';
 import main from '../template/main.html?raw';
@@ -67,6 +67,6 @@ const ideas = [
   </div>
 </header>
 <Fragment set:html={html(main)} />
-<Fragment set:html={html(`<script>\n${script}</script>`)} />
+<Fragment set:html={html(inlineScript(script))} />
 </body>
 </html>
