@@ -9,7 +9,7 @@
     "deploy": "python3 scripts/deploy.py"
   },
   "dependencies": {
-    "@maadan/mads": "github:MAAdan/MADS#0.8.1",
+    "@maadan/mads": "github:MAAdan/MADS#0.9.0",
     "astro": "^5.0.0"
   }
 }
