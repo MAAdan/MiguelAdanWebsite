@@ -157,9 +157,6 @@ section{position:relative}
 .phone figcaption{margin-top:12px;font:var(--mads-text-default);color:var(--mads-theme-text-muted)}
 .phone figcaption b{display:block;color:var(--mads-theme-text);font-weight:600;margin-bottom:2px}
 
-/* skills (mads-card) */
-.skills-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
-.skill.wide{grid-column:span 2}.skill.full{grid-column:1/-1}
 
 /* contact */
 .contact{padding-block:clamp(90px,14vh,160px)}
@@ -198,7 +195,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .stage-place{margin-top:6px;font-size:var(--mads-label-xsmall-size)}
   .chapter{min-height:auto;padding-block:8vh}
   .ch-avatar{width:68px}
-  .skills-grid{grid-template-columns:1fr 1fr}
   .contact .wrap{grid-template-columns:1fr}
 }
 @media (max-width:620px){
@@ -208,8 +204,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .nav-right{gap:6px}
   .nav .links{gap:2px}
   .nav .links a.keep:not(.li){padding-inline:7px}
-  .skills-grid{grid-template-columns:1fr}
-  .skill.wide{grid-column:auto}
   .cities{grid-template-columns:1fr 1fr}
   .fact{padding:22px 14px}
 }

@@ -13,6 +13,7 @@ import PopoverRow from '@maadan/mads/components/PopoverRow.astro';
 import ThemeToggle from '@maadan/mads/components/ThemeToggle.astro';
 import LanguageSwitch from '@maadan/mads/components/LanguageSwitch.astro';
 import { texts, fill, inlineScript } from '../i18n.js';
+import Toolkit from '../components/Toolkit.astro';
 import head from '../template/head.html?raw';
 import top from '../template/top.html?raw';
 import main from '../template/main.html?raw';
@@ -28,6 +29,15 @@ const up = lang === 'en' ? '' : '../';          // the Spanish page sits in /es/
 const html = (template: string) => fill(template, lang, { up });
 
 const switchLang = A('switch.lang') as 'en' | 'es';  // the language the switch leads to
+
+// The page's sections that are components so far. src/template/main.html marks where each goes with
+// <!-- SECTION:name -->; the rest of main.html is still the original template.
+const sections: Record<string, any> = { toolkit: Toolkit };
+const mainParts = html(main).split(/<!-- SECTION:([\w-]+) -->/).map((part, i) => {
+  if (i % 2 === 0) return { markup: part };
+  if (!sections[part]) throw new Error(`src/template/main.html asks for a section called "${part}", but Home.astro has none.`);
+  return { Section: sections[part] };
+});
 
 const ideas = [
   { href: 'https://www.miguel-adan.com/mads/index.html', text: T('ideas.mads') },
@@ -66,7 +76,7 @@ const ideas = [
     </div>
   </div>
 </header>
-<Fragment set:html={html(main)} />
+{mainParts.map(({ markup, Section }) => Section ? <Section lang={lang} /> : <Fragment set:html={markup} />)}
 <Fragment set:html={html(inlineScript(script))} />
 </body>
 </html>

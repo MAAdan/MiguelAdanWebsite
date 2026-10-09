@@ -14,11 +14,14 @@ MiguelAdanWebsite/
 │   │   ├── es/index.astro  Spanish page  (/es/)
 │   │   └── mads/index.astro The MADS reference (/mads/), straight from the MADS package
 │   ├── layouts/
-│   │   └── Home.astro      The home page: head, the header built from MADS components, and the template parts below
+│   │   └── Home.astro      The home page: head, the header built from MADS components, the sections and the template parts below
+│   ├── components/         Sections of the page that are components, built from MADS components
+│   │   └── Toolkit.astro   "What I bring to a team": six MADS cards
 │   ├── template/           The rest of the page, with visible text written as {{keys}}, not as words
 │   │   ├── head.html       Title, description and link previews
 │   │   ├── top.html        The animated background layers
-│   │   ├── main.html       Every section, from the hero to the footer
+│   │   ├── main.html       The sections not yet moved to components, from the hero to the footer.
+│   │   │                   <!-- SECTION:toolkit --> marks where a component section goes
 │   │   └── script.js       The animations and the rest of the page's code
 │   ├── styles/
 │   │   └── site.css        Layout, backgrounds and site-only components (what MADS doesn't cover)
@@ -87,7 +90,9 @@ The build stops and names any key that's missing from either language, so the si
 
 - **Styles:** `src/styles/site.css`.
 - **The header:** `src/layouts/Home.astro`.
-- **The sections:** `src/template/main.html`, and their code in `src/template/script.js`.
+- **The sections:** a section that is a component lives in `src/components/` (so far, Toolkit), with its own styles at the end of the file. The others are still in `src/template/main.html`, with their code in `src/template/script.js`.
+
+The page is moving into components one section at a time. To move a section: cut it from `main.html` and leave `<!-- SECTION:name -->` in its place, write `src/components/Name.astro` with MADS components (`Card`, `Button`, `Stat`, `Chip`…) and `T('key')` for the text, move its styles out of `site.css` into the component, and add it to `sections` in `src/layouts/Home.astro`. Toolkit is the example to copy.
 
 Colours, fonts, type sizes, spacing, motion and most components come from the MA Design System (MADS), which lives in its own repository: [github.com/MAAdan/MADS](https://github.com/MAAdan/MADS). The site gets it as the `@maadan/mads` package: the stylesheet and the components for the Ideas and Settings menus, the theme toggle, the language switch and the icons. Don't copy their code into this site: change MADS, publish a new version of it, and update the site to it (below). `site.css` only holds what MADS doesn't cover, such as the page layout and the background animations.
 

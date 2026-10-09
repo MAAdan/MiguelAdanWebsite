@@ -1,0 +1,48 @@
+---
+/* Toolkit: what I bring to a team. Six MADS cards (Card.astro) in a grid; the text comes from translations/ (keys below).
+   size 'wide' spans two columns and 'full' the whole row on wide screens. */
+import Card from '@maadan/mads/components/Card.astro';
+import { texts } from '../i18n.js';
+
+interface Props {
+  lang: 'en' | 'es';
+}
+
+const { T } = texts(Astro.props.lang);
+
+const skills = [
+  { title: 'toolkit.product_management', text: 'toolkit.backlog_management_native_apps', marker: 'amber-gold', size: 'wide' },
+  { title: 'evo.leadership', text: 'toolkit.distributed_crossfunctional_teams_agile', marker: 'neon-pink' },
+  { title: 'toolkit.working_ai_now', text: 'toolkit.agentic_development_ai_agent', marker: 'blue-violet' },
+  { title: 'evo.engineering', text: 'toolkit.restful_web_services_json', marker: 'azure-blue' },
+  { title: 'toolkit.programming_languages', text: 'toolkit.python_swift_objectivec_java', marker: 'blaze-orange' },
+  { title: 'toolkit.tools_data_platforms', text: 'toolkit.xcode_git_android_studio', marker: 'azure-blue', size: 'full' },
+];
+---
+<section class="sec" id="toolkit">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow" set:html={T('nav.toolkit')} />
+        <h2 set:html={T('toolkit.what_bring_team')} />
+        <p set:html={T('toolkit.product_judgement_people_leadership')} />
+      </div>
+      <div class="skills-grid">
+        {skills.map(skill => (
+          <Card title={T(skill.title)} marker={skill.marker} class={['skill', skill.size, 'mads-reveal'].filter(Boolean).join(' ')}><Fragment set:html={T(skill.text)} /></Card>
+        ))}
+      </div>
+    </div>
+  </section>
+
+<style is:global>
+  .skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .skill.wide { grid-column: span 2; }
+  .skill.full { grid-column: 1 / -1; }
+  @media (max-width: 980px) {
+    .skills-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 620px) {
+    .skills-grid { grid-template-columns: 1fr; }
+    .skill.wide { grid-column: auto; }
+  }
+</style>
