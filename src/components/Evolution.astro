@@ -1,0 +1,53 @@
+---
+/* Evolution: "One logo, three chapters". Three MADS selectable cards (SelectableCard.astro), one per stage of the career,
+   and the MA logo that morphs into each stage's shape. The page script switches the cards every few seconds, morphs the
+   logo (#evoEmblem, data-to on each card) and updates the caption (#evoCaption). The text comes from translations/. */
+import SelectableCard from '@maadan/mads/components/SelectableCard.astro';
+import { texts } from '../i18n.js';
+
+interface Props {
+  lang: 'en' | 'es';
+}
+
+const { T, A } = texts(Astro.props.lang);
+
+const stages = [
+  { to: 'pointer', year: '2012', title: 'evo.engineering', text: 'evo.ios_web_developer_then', accent: 'text-azure-blue', pressed: true },
+  { to: 'people', year: '2016', title: 'evo.leadership', text: 'evo.mobile_technical_manager_project', accent: 'text-neon-pink' },
+  { to: 'tickets', year: '2021', title: 'evo.product', text: 'evo.product_manager_native_apps', accent: 'text-amber-gold' },
+];
+---
+<section class="sec evo" id="evolution">
+    <div class="wrap">
+      <div>
+        <div class="sec-head">
+          <p class="eyebrow" set:html={T('evo.one_logo_three_chapters')} />
+          <h2 set:html={T('evo.heading')} />
+          <p set:html={T('evo.career_has_moved_handson')} />
+        </div>
+        <div class="evo-tabs" role="group" aria-label={A('evo.career_focus')}>
+          {stages.map(s => (
+            <SelectableCard class="evo-tab" data-to={s.to} index={s.year} title={T(s.title)} accent={s.accent} pressed={s.pressed}><Fragment set:html={T(s.text)} /></SelectableCard>
+          ))}
+        </div>
+      </div>
+      <div class="evo-stage">
+        <svg class="emblem" id="evoEmblem" data-emblem="pointer" viewBox="36 12 200 116" role="img" aria-label={A('evo.ma_logo_morphing_between')}></svg>
+        <span class="caption" id="evoCaption" set:html={T('evo.caption_engineering')} />
+      </div>
+    </div>
+  </section>
+
+<style is:global>
+  .evo .wrap { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(28px, 5vw, 80px); align-items: center; }
+  .evo-stage { position: relative; aspect-ratio: 16/10; border-radius: var(--mads-radius-xlarge); background: var(--mads-gradient-surface); border: 1px solid var(--mads-theme-line); display: grid; place-items: center; overflow: hidden; max-width: 100%; }
+  .evo-stage .emblem { width: 78%; height: auto; overflow: visible; }
+  .evo-stage .caption { position: absolute; left: 20px; bottom: 16px; font: var(--mads-label-xsmall); color: var(--mads-theme-text-faint); letter-spacing: .08em; }
+  .evo-tabs { display: grid; gap: 12px; }
+  /* the script pauses the cycle when the section is off screen or a card was picked: show the bar full */
+  .evo.paused .mads-card-selectable .mads-progress-thin i { animation: none; width: 100%; }
+  @media (max-width: 980px) {
+    .evo .wrap { grid-template-columns: 1fr; }
+    .evo-stage { order: -1; }
+  }
+</style>

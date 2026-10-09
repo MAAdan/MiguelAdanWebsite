@@ -14,6 +14,7 @@ import ThemeToggle from '@maadan/mads/components/ThemeToggle.astro';
 import LanguageSwitch from '@maadan/mads/components/LanguageSwitch.astro';
 import { texts, fill, inlineScript } from '../i18n.js';
 import Contact from '../components/Contact.astro';
+import Evolution from '../components/Evolution.astro';
 import Facts from '../components/Facts.astro';
 import Teams from '../components/Teams.astro';
 import Toolkit from '../components/Toolkit.astro';
@@ -35,7 +36,7 @@ const switchLang = A('switch.lang') as 'en' | 'es';  // the language the switch 
 
 // The page's sections that are components so far. src/template/main.html marks where each goes with
 // <!-- SECTION:name -->; the rest of main.html is still the original template.
-const sections: Record<string, any> = { facts: Facts, teams: Teams, toolkit: Toolkit, contact: Contact };
+const sections: Record<string, any> = { facts: Facts, evolution: Evolution, teams: Teams, toolkit: Toolkit, contact: Contact };
 const mainParts = html(main).split(/<!-- SECTION:([\w-]+) -->/).map((part, i) => {
   if (i % 2 === 0) return { markup: part };
   if (!sections[part]) throw new Error(`src/template/main.html asks for a section called "${part}", but Home.astro has none.`);
