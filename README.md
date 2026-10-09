@@ -18,10 +18,12 @@ MiguelAdanWebsite/
 │   ├── components/         Sections of the page that are components, built from MADS components
 │   │   ├── Contact.astro   The closing call to action: the MA logo and a MADS button
 │   │   ├── Facts.astro     The four numbers under the hero: MADS stats
+│   │   ├── Teams.astro     "One product, five cities": MADS compact cards and the map
 │   │   └── Toolkit.astro   "What I bring to a team": six MADS cards
 │   ├── template/           The rest of the page, with visible text written as {{keys}}, not as words
 │   │   ├── head.html       Title, description and link previews
 │   │   ├── top.html        The animated background layers
+│   │   ├── teams-map.html  The dot map of Europe the Teams section shows
 │   │   ├── main.html       The sections not yet moved to components, from the hero to the footer.
 │   │   │                   <!-- SECTION:name --> marks where a component section goes
 │   │   └── script.js       The animations and the rest of the page's code
@@ -92,7 +94,7 @@ The build stops and names any key that's missing from either language, so the si
 
 - **Styles:** `src/styles/site.css`.
 - **The header:** `src/layouts/Home.astro`.
-- **The sections:** a section that is a component lives in `src/components/` (so far, Facts, Toolkit and Contact), with its own styles at the end of the file. The others are still in `src/template/main.html`, with their code in `src/template/script.js`.
+- **The sections:** a section that is a component lives in `src/components/` (so far, Facts, Teams, Toolkit and Contact), with its own styles at the end of the file. The others are still in `src/template/main.html`, with their code in `src/template/script.js`.
 
 The page is moving into components one section at a time. To move a section: cut it from `main.html` and leave `<!-- SECTION:name -->` in its place, write `src/components/Name.astro` with MADS components (`Card`, `Button`, `Stat`, `Chip`…) and `T('key')` for the text, move its styles out of `site.css` into the component, and add it to `sections` in `src/layouts/Home.astro`. Toolkit is the example to copy.
 
