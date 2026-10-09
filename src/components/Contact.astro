@@ -1,0 +1,37 @@
+---
+/* Contact: the closing call to action, with the MA logo (the page script draws and animates it in #contactEmblem),
+   a heading, a short text and a MADS button to LinkedIn. The text comes from translations/. */
+import Button from '@maadan/mads/components/Button.astro';
+import { texts } from '../i18n.js';
+
+interface Props {
+  lang: 'en' | 'es';
+}
+
+const { T, A } = texts(Astro.props.lang);
+---
+<section class="contact" id="contact">
+    <div class="wrap">
+      <svg class="emblem" id="contactEmblem" data-emblem="ma" viewBox="36 12 200 116" role="img" aria-label={A('hero.ma_logo')}></svg>
+      <div>
+        <p class="eyebrow" set:html={T('nav.contact')} />
+        <h2><Fragment set:html={T('contact.lets_build')} />{' '}<span class="mads-text-gradient" set:html={T('contact.next_chapter')} /></h2>
+        <p set:html={T('contact.im_always_happy_talk')} />
+        <div class="cta">
+          <Button href="https://www.linkedin.com/in/miguel-angel-adan/" target="_blank" rel="noopener"><Fragment set:html={T('contact.connect_linkedin')} /></Button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+<style is:global>
+  .contact { padding-block: clamp(90px, 14vh, 160px); }
+  .contact .wrap { display: grid; grid-template-columns: auto 1fr; gap: clamp(24px, 5vw, 72px); align-items: center; }
+  .contact .emblem { width: clamp(160px, 22vw, 300px); height: auto; overflow: visible; }
+  .contact h2 { font: var(--mads-heading-xxlarge); margin-top: 14px; }
+  .contact p { color: var(--mads-theme-text-muted); margin-top: 16px; max-width: 52ch; font: var(--mads-text-xlarge); }
+  .contact .cta { margin-top: 28px; }
+  @media (max-width: 980px) {
+    .contact .wrap { grid-template-columns: 1fr; }
+  }
+</style>

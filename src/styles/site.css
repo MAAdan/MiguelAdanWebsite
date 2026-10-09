@@ -153,13 +153,6 @@ section{position:relative}
 .phone figcaption b{display:block;color:var(--mads-theme-text);font-weight:600;margin-bottom:2px}
 
 
-/* contact */
-.contact{padding-block:clamp(90px,14vh,160px)}
-.contact .wrap{display:grid;grid-template-columns:auto 1fr;gap:clamp(24px,5vw,72px);align-items:center}
-.contact .emblem{width:clamp(160px,22vw,300px);height:auto;overflow:visible}
-.contact h2{font:var(--mads-heading-xxlarge);margin-top:14px}
-.contact p{color:var(--mads-theme-text-muted);margin-top:16px;max-width:52ch;font:var(--mads-text-xlarge)}
-.contact .cta{margin-top:28px}
 footer{border-top:1px solid var(--mads-theme-line);padding-block:26px;color:var(--mads-theme-text-faint);font:var(--mads-label-xsmall)}
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
@@ -187,7 +180,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
   .stage-place{margin-top:6px;font-size:var(--mads-label-xsmall-size)}
   .chapter{min-height:auto;padding-block:8vh}
   .ch-avatar{width:68px}
-  .contact .wrap{grid-template-columns:1fr}
 }
 @media (max-width:620px){
   .nav .links a:not(.keep){display:none}

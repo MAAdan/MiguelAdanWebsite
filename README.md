@@ -16,6 +16,7 @@ MiguelAdanWebsite/
 │   ├── layouts/
 │   │   └── Home.astro      The home page: head, the header built from MADS components, the sections and the template parts below
 │   ├── components/         Sections of the page that are components, built from MADS components
+│   │   ├── Contact.astro   The closing call to action: the MA logo and a MADS button
 │   │   ├── Facts.astro     The four numbers under the hero: MADS stats
 │   │   └── Toolkit.astro   "What I bring to a team": six MADS cards
 │   ├── template/           The rest of the page, with visible text written as {{keys}}, not as words
@@ -91,7 +92,7 @@ The build stops and names any key that's missing from either language, so the si
 
 - **Styles:** `src/styles/site.css`.
 - **The header:** `src/layouts/Home.astro`.
-- **The sections:** a section that is a component lives in `src/components/` (so far, Facts and Toolkit), with its own styles at the end of the file. The others are still in `src/template/main.html`, with their code in `src/template/script.js`.
+- **The sections:** a section that is a component lives in `src/components/` (so far, Facts, Toolkit and Contact), with its own styles at the end of the file. The others are still in `src/template/main.html`, with their code in `src/template/script.js`.
 
 The page is moving into components one section at a time. To move a section: cut it from `main.html` and leave `<!-- SECTION:name -->` in its place, write `src/components/Name.astro` with MADS components (`Card`, `Button`, `Stat`, `Chip`…) and `T('key')` for the text, move its styles out of `site.css` into the component, and add it to `sections` in `src/layouts/Home.astro`. Toolkit is the example to copy.
 
