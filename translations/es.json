@@ -221,5 +221,15 @@
   "map.country_uk": "REINO UNIDO",
   "map.country_spain": "ESPAÑA · MI BASE",
   "map.country_gibraltar": "GIBRALTAR",
-  "map.country_france": "FRANCIA"
+  "map.country_france": "FRANCIA",
+  "notfound.title": "Página no encontrada · Miguel Adan",
+  "notfound.description": "Esta página no existe. Vuelve a la página de inicio de Miguel Adan.",
+  "notfound.home_logo": "Miguel Adan, ir a la página de inicio",
+  "notfound.ideas_home": "Inicio",
+  "notfound.avatar": "Retrato ilustrado de Miguel Adan, encogiéndose de hombros y luego sonriendo",
+  "notfound.eyebrow": "Error 404 · Página no encontrada",
+  "notfound.heading": "Ni siquiera está en el <span class=\"mads-text-gradient\">backlog</span>.",
+  "notfound.lede": "He lanzado muchas cosas, pero nunca una página en esta dirección. Quizá se quedó fuera del alcance, cambió de nombre o solo existió en un pósit.",
+  "notfound.home": "Volver a la página de inicio",
+  "notfound.story": "Recorre mi trayectoria"
 }

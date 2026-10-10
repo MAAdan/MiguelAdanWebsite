@@ -40,7 +40,7 @@ SITE_URL = "https://miguel-adan.com"
 SCRIPTS_DIR = Path(__file__).resolve().parent       # this folder (scripts/)
 ROOT = SCRIPTS_DIR.parent                           # the MiguelAdanWebsite folder
 SITE_DIR = ROOT / "dist"                            # what `npm run build` writes, and what gets published
-PAGES = ["index.html", "es/index.html", "mads/index.html"]
+PAGES = ["index.html", "es/index.html", "mads/index.html", "404.html"]
 WRANGLER = ["npx", "--yes", "wrangler@4"]
 WORKERD_MISSING = "is needed by workerd"            # Wrangler's error when its copy lacks the part built for this computer
 
@@ -83,6 +83,9 @@ def check_site():
         html = page.read_text(encoding="utf-8")
         refs = [(ref, page.parent / ref) for ref in
                 re.findall(r'(?<![/\w.])((?:\.\./)?assets/[^"\')\s?#]+)', html)]
+        # paths from the site's root, as the 404 page uses since it's shown at any address
+        refs += [(ref, SITE_DIR / ref.lstrip("/")) for ref in
+                 re.findall(r'(?<=["\'(])(/assets/[^"\')\s?#]+)', html)]
         # full web addresses on the site itself, such as the link-preview images
         refs += [(ref, SITE_DIR / path) for ref, path in
                  re.findall(r'(https?://(?:www\.)?miguel-adan\.com/(assets/[^"\')\s?#]+))', html)]
@@ -106,7 +109,7 @@ def check_site():
     ignored = {".DS_Store", "Thumbs.db"}
     files = [p for p in SITE_DIR.rglob("*") if p.is_file() and p.name not in ignored]
     size = sum(p.stat().st_size for p in files) / 1_000_000
-    say(f"Site checked: English, Spanish and MADS pages, {len(files)} files, {size:.1f} MB, nothing missing.", "ok")
+    say(f"Site checked: English, Spanish, MADS and 404 pages, {len(files)} files, {size:.1f} MB, nothing missing.", "ok")
 
 
 def wrangler(args, env, capture=False):

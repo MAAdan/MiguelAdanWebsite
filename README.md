@@ -12,9 +12,11 @@ MiguelAdanWebsite/
 │   ├── pages/
 │   │   ├── index.astro     English page  (/)
 │   │   ├── es/index.astro  Spanish page  (/es/)
-│   │   └── mads/index.astro The MADS reference (/mads/), straight from the MADS package
+│   │   ├── mads/index.astro The MADS reference (/mads/), straight from the MADS package
+│   │   └── 404.astro       The "page not found" page (/404.html), in both languages
 │   ├── layouts/
-│   │   └── Home.astro      The home page: head, the header built from MADS components, the sections and the template parts below
+│   │   ├── Home.astro      The home page: head, the header built from MADS components, the sections and the template parts below
+│   │   └── NotFound.astro  The 404 page: the MADS reference's header, the shrugging portrait and the notfound.* text
 │   ├── components/         Sections of the page that are components, built from MADS components
 │   │   ├── Contact.astro   The closing call to action: the MA logo and a MADS button
 │   │   ├── Evolution.astro "One logo, three chapters": MADS selectable cards and the morphing logo
@@ -172,6 +174,7 @@ The MADS reference at [www.miguel-adan.com/mads/](https://www.miguel-adan.com/ma
 - **Backgrounds.** Each section has its own canvas animation: circuits for engineering, a people network for leadership, a Kanban board for product, and flights between cities.
   - Animations pause when they're off screen and run at a capped frame rate.
   - They are switched off when the device asks for reduced motion.
+- **Page not found.** Cloudflare Pages shows `404.html` for any address that doesn't exist. It's one page for both languages: it shows Spanish when the visitor chose Spanish with the switch, the address starts with `/es/`, or the browser is in Spanish, and its switch changes language in place. It has the MADS reference's header and the portrait in the home page's gradient frame, shaped like an iPhone app icon, shrugging for 3 seconds, then smiling, and back. Its links and images use paths from the root (`/assets/…`), since it can be shown at any depth.
 - **Link previews** (LinkedIn, WhatsApp, Slack) use `og-image.jpg` and `og-image-es.jpg` and the page title and description from the translation files.
 - **Privacy.** The page has no contact email and no tracking cookies. The current employer and its brands are intentionally not named.
 

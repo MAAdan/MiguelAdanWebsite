@@ -221,5 +221,15 @@
   "map.country_uk": "UNITED KINGDOM",
   "map.country_spain": "SPAIN · HOME BASE",
   "map.country_gibraltar": "GIBRALTAR",
-  "map.country_france": "FRANCE"
+  "map.country_france": "FRANCE",
+  "notfound.title": "Page not found · Miguel Adan",
+  "notfound.description": "This page doesn't exist. Head back to Miguel Adan's home page.",
+  "notfound.home_logo": "Miguel Adan, go to the home page",
+  "notfound.ideas_home": "Home",
+  "notfound.avatar": "Illustrated portrait of Miguel Adan, shrugging and then smiling",
+  "notfound.eyebrow": "Error 404 · Page not found",
+  "notfound.heading": "Not even in the <span class=\"mads-text-gradient\">backlog</span>.",
+  "notfound.lede": "I've shipped a lot of things, but never a page at this address. It may have been descoped, renamed, or it only ever lived on a sticky note.",
+  "notfound.home": "Back to the home page",
+  "notfound.story": "Scroll back through my career"
 }

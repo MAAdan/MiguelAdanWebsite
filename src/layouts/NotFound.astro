@@ -1,0 +1,181 @@
+---
+/* The "page not found" page (src/pages/404.astro, published as /404.html). Cloudflare Pages shows it for any address
+   that doesn't exist, at that address, so this one file serves every language and every folder:
+   - Links and files use paths from the root (/assets/…), as the page can be shown at any depth.
+   - It's built in English. A short script at the end shows it in Spanish when the visitor chose Spanish with the switch
+     (ma-lang), or the address starts with /es/, or the browser is in Spanish. The switch changes the language in place.
+   - The header is the one on the MADS reference (/mads/): the MA logo (to the home page), LinkedIn, Ideas and Settings,
+     built from the same MADS components.
+   - The portrait shrugs for 3 seconds, fades to the smiling portrait, holds it, fades back, and loops (CSS, below).
+   The text is the notfound.* keys in translations/, plus the header's keys the home page also uses. */
+import '@maadan/mads/css/mads.css';
+import '../styles/site.css';
+import ThemeInit from '@maadan/mads/components/ThemeInit.astro';
+import IdeasMenu from '@maadan/mads/components/IdeasMenu.astro';
+import SettingsMenu from '@maadan/mads/components/SettingsMenu.astro';
+import PopoverRow from '@maadan/mads/components/PopoverRow.astro';
+import ThemeToggle from '@maadan/mads/components/ThemeToggle.astro';
+import LanguageSwitch from '@maadan/mads/components/LanguageSwitch.astro';
+import Button from '@maadan/mads/components/Button.astro';
+import { texts } from '../i18n.js';
+
+const LANGS = ['en', 'es'] as const;
+const HOME = { en: '/', es: '/es/' };
+
+// Every key the page shows. Each language's text goes into the page for the script; texts() stops the build if
+// either language is missing one.
+const KEYS = [
+  'notfound.title', 'notfound.description', 'notfound.home_logo', 'notfound.ideas_home', 'notfound.avatar',
+  'notfound.eyebrow', 'notfound.heading', 'notfound.lede', 'notfound.home', 'notfound.story',
+  'nav.linkedin_profile_opens_new', 'ideas.ideas', 'ideas.mads', 'ideas.book_gallery',
+  'settings.settings', 'settings.theme', 'settings.language', 'theme.dark_on', 'theme.light_on',
+];
+const WORDS = Object.fromEntries(LANGS.map(lang => {
+  const { A, T } = texts(lang);
+  return [lang, { ...Object.fromEntries(KEYS.map(k => [k, T(k)])), 'notfound.title': A('notfound.title'), home: HOME[lang] }];
+}));
+
+const { T, A } = texts('en');
+const es = texts('es');
+const i18n = (key: string) => `<span data-i18n="${key}">${T(key)}</span>`;  // a text the script can swap
+
+const ideas = [
+  { href: HOME.en, text: `<span data-i18n="notfound.ideas_home" data-home>${T('notfound.ideas_home')}</span>` },
+  { href: 'https://www.miguel-adan.com/mads/index.html', text: i18n('ideas.mads') },
+  { href: 'https://www.miguel-adan.com/book-gallery/index.html', text: i18n('ideas.book_gallery') },
+];
+---
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="dark light">
+<meta name="robots" content="noindex">
+<title>{A('notfound.title')}</title>
+<meta name="description" content={A('notfound.description')} data-i18n-attr="content:notfound.description">
+<link rel="icon" type="image/svg+xml" href="/assets/favicon.svg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&family=Onest:wght@100..900&family=Unbounded:wght@200..900&display=swap">
+<ThemeInit />
+</head>
+<body class="mads-ambient">
+<header class="ma-nav">
+  <div class="ma-nav-inner">
+    <a href={HOME.en} class="ma-nav-home" data-home aria-label={A('notfound.home_logo')} data-i18n-attr="aria-label:notfound.home_logo"><svg class="ma-nav-mark" viewBox="36 12 200 116" aria-hidden="true"><defs><linearGradient id="ma-nav-gL" x1="0" y1="1" x2="0" y2="0"><stop offset="0" stop-color="#ffbe0b"/><stop offset="1" stop-color="#fb5607"/></linearGradient><linearGradient id="ma-nav-gR" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff006e"/><stop offset="1" stop-color="#ffbe0b"/></linearGradient><linearGradient id="ma-nav-gA" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#fb5608"/><stop offset="1" stop-color="#ff006e"/></linearGradient><linearGradient id="ma-nav-gC" gradientUnits="userSpaceOnUse" x1="50.8" y1="44" x2="133.6" y2="44"><stop offset="0" stop-color="#fb5607"/><stop offset="1" stop-color="#ff006e" stop-opacity=".85"/></linearGradient></defs><path fill="url(#ma-nav-gC)" d="m 59.516071,24.012484 a 9,9 0 0 0 -7.024377,3.746541 9,9 0 0 0 2.061889,12.559958 9,9 0 0 0 0.435632,0.293522 l -0.0088,0.0124 31.213082,22.409485 0.0031,0.0026 a 9,9 0 0 0 6.012553,2.268079 9,9 0 0 0 6.027003,-2.27066 l 31.213577,-22.409487 -0.009,-0.01246 a 9,9 0 0 0 0.43511,-0.293522 9,9 0 0 0 2.06189,-12.559959 9,9 0 0 0 -7.02437,-3.746542 9,9 0 0 0 -5.53506,1.684648 9,9 0 0 0 -0.41756,0.318844 l -0.009,-0.01294 -26.736831,19.195727 -26.73687,-19.195728 -0.0093,0.01292 a 9,9 0 0 0 -0.41703,-0.318843 9,9 0 0 0 -5.535579,-1.684651 z"/><path fill="#ffbe0b" d="m 175.63678,24.135913 c -3.6603,-9.8e-5 -6.9043,2.35681 -8.03517,5.837887 l -30.01488,68.92211 c 0,0 -1.28081,3.49822 -1.28093,4.53539 -9e-5,4.66584 3.78255,8.44825 8.44858,8.44807 3.84967,-2.3e-4 6.31551,-2.78748 8.17779,-6.32933 l 23.15259,-52.876881 25.48785,53.289261 c 1.87052,3.42799 4.36956,5.91708 8.06049,5.91695 4.66583,-10e-5 8.44816,-3.78243 8.44807,-8.44807 0,-0.0561 -0.008,-2.46168 -1.32912,-4.548559 l -33.0801,-68.907907 c -1.1305,-3.481486 -4.3746,-5.838873 -8.03517,-5.838921 z"/><rect fill="url(#ma-nav-gL)" x="50.76" y="23.88" width="18" height="88.3" rx="9"/><rect fill="url(#ma-nav-gR)" x="115.52" y="24.12" width="18" height="87.8" rx="9"/><rect fill="url(#ma-nav-gA)" x="163.5" y="80.8" width="27" height="18" rx="9"/></svg></a>
+    <div class="ma-nav-right">
+      <a href="https://www.linkedin.com/in/miguel-angel-adan/" class="ma-nav-li" target="_blank" rel="noopener" aria-label={A('nav.linkedin_profile_opens_new')} data-i18n-attr="aria-label:nav.linkedin_profile_opens_new" title="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="2" width="20" height="20" rx="4.5" fill="currentColor"/><text x="12" y="17.2" text-anchor="middle" font-family="Arial,Helvetica,sans-serif" font-weight="700" font-size="12.5" style="fill:var(--mads-theme-background)">in</text></svg></a>
+      <IdeasMenu label={A('ideas.ideas')} links={ideas} shift={50} />
+      <SettingsMenu label={A('settings.settings')}>
+        <PopoverRow label={i18n('settings.theme')} labelId="themeLabel">
+          <ThemeToggle id="modeToggle" label={A('theme.dark_on')} labelDark={A('theme.dark_on')} labelLight={A('theme.light_on')} />
+        </PopoverRow>
+        <PopoverRow label={i18n('settings.language')} labelId="langLabel">
+          <LanguageSwitch id="langSwitchEs" lang="es" text={A('switch.text')} href={HOME.es} label={A('switch.label')} />
+          <LanguageSwitch id="langSwitchEn" lang="en" text={es.A('switch.text')} href={HOME.en} label={es.A('switch.label')} />
+        </PopoverRow>
+      </SettingsMenu>
+    </div>
+  </div>
+</header>
+<main class="nf">
+  <div class="mads-frame-gradient capsule nf-avatar" role="img" aria-label={A('notfound.avatar')} data-i18n-attr="aria-label:notfound.avatar">
+    <img src="/assets/avatar-shrug.webp" alt="" width="768" height="768">
+    <img class="nf-smile" src="/assets/avatar-main.webp" alt="" width="768" height="768">
+  </div>
+  <p class="eyebrow" data-i18n="notfound.eyebrow" set:html={T('notfound.eyebrow')} />
+  <h1 data-i18n="notfound.heading" set:html={T('notfound.heading')} />
+  <p class="nf-lede" data-i18n="notfound.lede" set:html={T('notfound.lede')} />
+  <div class="cta">
+    <Button href={HOME.en} icon="home" data-home=""><Fragment set:html={i18n('notfound.home')} /></Button>
+    <Button variant="secondary" href={`${HOME.en}#story`} data-home="#story"><Fragment set:html={i18n('notfound.story')} /></Button>
+  </div>
+</main>
+<script is:inline define:vars={{ WORDS }}>
+(function () {
+  var root = document.documentElement;
+  // texts inside the MADS components, which don't carry data-i18n themselves: [selector, attribute, key]
+  var PARTS = [
+    ['#ideasBtn', 'aria-label', 'ideas.ideas'], ['#ideasCard', 'aria-label', 'ideas.ideas'],
+    ['#settingsBtn', 'aria-label', 'settings.settings'], ['#settingsCard', 'aria-label', 'settings.settings'],
+    ['#modeToggle', 'data-label-dark', 'theme.dark_on'], ['#modeToggle', 'data-label-light', 'theme.light_on'],
+  ];
+  function show(lang) {
+    var w = WORDS[lang];
+    root.lang = lang;
+    document.title = w['notfound.title'];
+    document.querySelectorAll('[data-i18n]').forEach(function (el) { el.innerHTML = w[el.dataset.i18n]; });
+    document.querySelectorAll('[data-i18n-attr]').forEach(function (el) {
+      el.dataset.i18nAttr.split(';').forEach(function (pair) { var p = pair.split(':'); el.setAttribute(p[0], w[p[1]]); });
+    });
+    PARTS.forEach(function (p) { var el = document.querySelector(p[0]); if (el) el.setAttribute(p[1], w[p[2]]); });
+    document.querySelectorAll('[data-home]').forEach(function (el) {
+      var a = el.closest('a') || el;
+      a.setAttribute('href', w.home + (el.dataset.home || ''));
+    });
+    var toggle = document.getElementById('modeToggle');  // its label follows the theme: refresh it now
+    if (toggle) toggle.setAttribute('aria-label', toggle.getAttribute(toggle.getAttribute('aria-checked') === 'true' ? 'data-label-dark' : 'data-label-light'));
+  }
+  // the language: a choice made with the switch wins, then the address (/es/…), then the browser's language
+  var lang = null;
+  try { lang = localStorage.getItem('ma-lang'); } catch (e) {}
+  if (!WORDS[lang]) lang = /^\/es(\/|$)/.test(location.pathname) || (navigator.language || 'en').toLowerCase().indexOf('es') === 0 ? 'es' : 'en';
+  if (lang !== 'en') show(lang);
+  // the switch changes the language here, rather than leaving for the other language's home page
+  ['langSwitchEs', 'langSwitchEn'].forEach(function (id) {
+    var sw = document.getElementById(id);
+    if (!sw) return;
+    sw.addEventListener('click', function (e) {
+      e.preventDefault();
+      var next = sw.dataset.lang;
+      try { localStorage.setItem('ma-lang', next); } catch (_) {}
+      show(next);
+      var other = document.getElementById(next === 'es' ? 'langSwitchEn' : 'langSwitchEs');
+      if (other) other.focus();
+    });
+  });
+})();
+</script>
+</body>
+</html>
+
+<style is:global>
+  /* The header from the MADS reference (reference/reference.css, .ma-nav), on the site's background */
+  :root { --ma-nav-h: 4rem; }
+  .ma-nav { position: sticky; top: 0; z-index: 30; padding-top: env(safe-area-inset-top, 0px); }
+  .ma-nav::before { content: ""; position: absolute; inset: 0; z-index: -1; background: color-mix(in srgb, var(--mads-theme-background) 94%, transparent); -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px); border-bottom: 1px solid var(--mads-theme-line); }
+  .ma-nav-inner { display: flex; align-items: center; justify-content: space-between; height: var(--ma-nav-h); padding-inline: var(--gutter); }
+  .ma-nav-home { display: block; border-radius: 6px; }
+  .ma-nav-mark { width: 58px; display: block; transition: transform var(--mads-motion-duration-base) var(--mads-motion-easing-spring); }
+  .ma-nav-home:hover .ma-nav-mark { transform: scale(1.06); }
+  .ma-nav-right { display: flex; align-items: center; gap: 14px; }
+  .ma-nav-li { display: inline-flex; align-items: center; justify-content: center; width: 36px; height: 36px; flex: none; border-radius: var(--mads-radius-full); border: 1px solid var(--mads-theme-line); color: var(--mads-theme-text); text-decoration: none;
+    transition: color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard), border-color var(--mads-motion-duration-fast) var(--mads-motion-easing-standard); }
+  .ma-nav-li:hover { border-color: var(--mads-theme-text-azure-blue); color: var(--mads-theme-text-azure-blue); }
+  .ma-nav-li svg { width: 15px; height: 15px; flex: none; }
+  @media (max-width: 620px) { .ma-nav-right { gap: 6px; } }
+
+  /* one language switch at a time: the one that leads to the other language */
+  html:not([lang="es"]) #langSwitchEn, html[lang="es"] #langSwitchEs { display: none; }
+
+  /* The page: the portrait, in the home page's gradient frame shaped like an app icon, centred above the text */
+  body.mads-ambient { min-height: 100vh; min-height: 100svh; }
+  .nf { min-height: calc(100svh - var(--ma-nav-h)); display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center;
+    padding: clamp(32px, 6vh, 72px) var(--gutter) clamp(48px, 8vh, 96px); }
+  /* a square with the rounded corners of an iPhone app icon (about 22.4% of its side), so the whole picture shows, hands included */
+  .nf-avatar { width: clamp(200px, 24vw, 280px); aspect-ratio: 1; border-radius: 22.37%; margin-bottom: clamp(28px, 4vh, 44px); }
+  .nf .eyebrow { color: var(--mads-theme-text-amber-gold); }
+  .nf h1 { margin-top: 14px; font: var(--mads-heading-xxlarge); letter-spacing: -.02em; max-width: 22ch; }
+  .nf-lede { margin-top: 18px; max-width: 52ch; color: var(--mads-theme-text-muted); }
+  .nf .cta { justify-content: center; margin-top: 30px; }
+
+  /* The shrug holds 3s, fades to the smile (1s), the smile holds 3s, fades back (1s), and again: 8s a loop */
+  .nf-smile { opacity: 0; animation: nf-smile 8s infinite; }
+  @keyframes nf-smile {
+    0%, 37.5% { opacity: 0; animation-timing-function: var(--mads-motion-easing-standard); }
+    50%, 87.5% { opacity: 1; animation-timing-function: var(--mads-motion-easing-standard); }
+    100% { opacity: 0; }
+  }
+  @media (prefers-reduced-motion: reduce) { .nf-smile { animation: none; } }
+</style>
