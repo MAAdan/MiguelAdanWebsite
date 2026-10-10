@@ -1,0 +1,72 @@
+---
+/* One chapter of the career timeline: the dates, the title with a subtitle, an introduction with highlighted words,
+   then optionally a big number, a MADS diamond list, a row of MADS chips and the product screens rail.
+   The content comes from timeline-chapters.js; the data-… attributes are what the stage beside the chapters shows
+   while this chapter scrolls past (the page script reads them). */
+import DiamondList from '@maadan/mads/components/DiamondList.astro';
+import Chip from '@maadan/mads/components/Chip.astro';
+import ProductRail from './ProductRail.astro';
+import { texts, asset } from '../i18n.js';
+
+type Text = string | { key: string };
+interface Props {
+  lang: 'en' | 'es';
+  color: string;
+  state: string;
+  years: Text;
+  ghost: string;
+  role: Text;
+  org: Text;
+  photo: string;
+  mix: string;
+  place: Text;
+  kicker: string;
+  title: string;
+  subtitle: string;
+  lede: (string | { strong: string })[];
+  stat?: { value: string; text: string };
+  items?: string[];
+  chips?: string[];
+  rail?: boolean;
+}
+
+const { lang, color, state, years, ghost, role, org, photo, mix, place, kicker, title, subtitle, lede, stat, items, chips, rail } = Astro.props;
+const { T, A } = texts(lang);
+const plain = (v: Text) => (typeof v === 'string' ? v : A(v.key));   // for the data-… attributes
+---
+<article class="chapter" style={`--c:var(--mads-color-${color});--ct:var(--mads-theme-text-${color})`} data-state={state} data-years={plain(years)} data-ghost={ghost} data-role={plain(role)} data-org={plain(org)} data-photo={photo} data-mix={mix} data-place={plain(place)}>
+          <header class="ch-head mads-reveal">
+            <div class="mads-frame-gradient capsule ch-avatar"><img src={asset(lang, photo)} alt="" loading="lazy" width="768" height="768"></div>
+            <div class="ch-text"><p class="kicker" set:html={T(kicker)} /><h3><Fragment set:html={T(title)} /><small set:html={T(subtitle)} /></h3></div>
+          </header>
+          <p class="lede mads-reveal">{lede.map(part => typeof part === 'string' ? (part === ' ' ? ' ' : <Fragment set:html={T(part)} />) : <strong set:html={T(part.strong)} />)}</p>
+          {stat && <div class="big-stat mads-reveal"><b class="mads-text-gradient" set:html={T(stat.value)} /><span set:html={T(stat.text)} /></div>}
+          {items && <DiamondList class="mads-reveal">{items.map(item => <li set:html={T(item)} />)}</DiamondList>}
+          {chips && <div class="chip-row mads-reveal">{chips.map(chip => <Chip><Fragment set:html={T(chip)} /></Chip>)}</div>}
+          {rail && <ProductRail lang={lang} />}
+        </article>
+
+<style is:global>
+  .chapter { --accent: var(--c); min-height: 110vh; padding-block: 12vh; display: flex; flex-direction: column; gap: 22px; justify-content: center; min-width: 0; }
+  .ch-head { display: grid; grid-template-columns: auto minmax(0,1fr); gap: clamp(16px,2vw,28px); align-items: center; }
+  .ch-avatar { width: clamp(76px,7vw,108px); aspect-ratio: 9/13; }
+  .ch-text { display: grid; gap: 10px; min-width: 0; }
+  .chapter .kicker { font: var(--mads-label-small); color: var(--ct,var(--c)); letter-spacing: .08em; }
+  .chapter h3 { font: var(--mads-heading-xxlarge); }
+  .chapter h3 small { display: block; font: var(--mads-text-xlarge); color: var(--mads-theme-text-muted); margin-top: 12px; }
+  .chapter .lede { font: var(--mads-text-xlarge); max-width: 62ch; }
+  .chapter .lede strong { color: var(--ct,var(--c)); font-weight: 600; }
+  .big-stat { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap; }
+  .big-stat b { font: var(--mads-heading-xxlarge); letter-spacing: -.02em; }
+  .big-stat span { font: var(--mads-text-default); color: var(--mads-theme-text-muted); max-width: 28ch; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 8px; }
+  /* two-column layout: the stage beside the chapters already shows the portrait, so the chapter header drops it */
+  @media (min-width: 981px) {
+    .ch-head { grid-template-columns: minmax(0, 1fr); }
+    .ch-avatar { display: none; }
+  }
+  @media (max-width: 980px) {
+    .chapter { min-height: auto; padding-block: 8vh; }
+    .ch-avatar { width: 68px; }
+  }
+</style>

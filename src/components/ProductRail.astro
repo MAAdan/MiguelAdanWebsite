@@ -1,0 +1,40 @@
+---
+/* The product screens rail in the latest chapter: screenshots and recordings of the Sportsbook app in phone frames,
+   scrolled sideways by the MADS icon buttons (the page script scrolls #rail and plays the videos while in view).
+   The screens are listed in timeline-chapters.js (rail). */
+import IconButton from '@maadan/mads/components/IconButton.astro';
+import Tag from '@maadan/mads/components/Tag.astro';
+import { rail } from './timeline-chapters.js';
+import { texts, asset } from '../i18n.js';
+
+interface Props {
+  lang: 'en' | 'es';
+}
+
+const { lang } = Astro.props;
+const { T, A } = texts(lang);
+---
+<div class="rail-wrap mads-reveal">
+            <div class="rail-head"><p set:html={T(rail.label)} /><div class="rail-btns"><IconButton icon="chevron-left" label={A(rail.previous)} dir="prev" /><IconButton icon="chevron-right" label={A(rail.next)} dir="next" /></div></div>
+            <div class="rail" id="rail" tabindex="0" aria-label={A(rail.ariaLabel)}>
+              {rail.shots.map(shot => (
+                <figure class="phone"><div class="frame">{shot.video
+                  ? <Fragment><video muted loop playsinline preload="none" poster={asset(lang, shot.poster)} src={asset(lang, shot.video)}></video><Tag class="tag"><Fragment set:html={T(shot.tag)} /></Tag></Fragment>
+                  : <img loading="lazy" src={asset(lang, shot.image)} alt={A(shot.alt)}>}</div><figcaption><b set:html={T(shot.title)} /><Fragment set:html={T(shot.text)} /></figcaption></figure>
+              ))}
+            </div>
+          </div>
+
+<style is:global>
+  .rail-wrap { margin-top: 8px; }
+  .rail-head { display: flex; justify-content: space-between; align-items: end; gap: 12px; margin-bottom: 14px; }
+  .rail-head p { font: var(--mads-label-xsmall); letter-spacing: .12em; text-transform: uppercase; color: var(--mads-theme-text-muted); }
+  .rail-btns { display: flex; gap: 8px; }
+  .rail { display: flex; gap: 18px; overflow-x: auto; padding-top: 12px; scroll-snap-type: x mandatory; padding-bottom: 14px; scrollbar-width: thin; scrollbar-color: var(--mads-theme-surface-raised) transparent; }
+  .phone { flex: none; width: clamp(170px,17vw,220px); scroll-snap-align: start; margin: 0; }
+  .phone .frame { position: relative; aspect-ratio: 1206/2622; border-radius: 30px; padding: 7px; background: linear-gradient(160deg,#2c2450,#120e24); box-shadow: var(--mads-shadow-raised),inset 0 0 0 1px rgba(255,255,255,.08); }
+  .phone .frame > video, .phone .frame > img { width: 100%; height: 100%; object-fit: cover; border-radius: 24px; background: #000; }
+  .phone .tag { position: absolute; top: -9px; right: 18px; z-index: 1; box-shadow: 0 0 0 3px var(--mads-theme-background); }
+  .phone figcaption { margin-top: 12px; font: var(--mads-text-default); color: var(--mads-theme-text-muted); }
+  .phone figcaption b { display: block; color: var(--mads-theme-text); font-weight: 600; margin-bottom: 2px; }
+</style>
