@@ -48,32 +48,13 @@ p{margin:0}
 @media (max-width:1279px){.nav .links a.li span:not(.flag){display:none}.nav .links a.li{width:36px;min-width:36px;padding:0}}
 .nav::before{content:"";position:absolute;inset:0;background:color-mix(in srgb,var(--mads-theme-background) 94%,transparent);border-bottom:1px solid var(--mads-theme-line);z-index:-1}
 
-/* hero */
-.hero{padding-block:clamp(110px,16vh,170px) clamp(56px,8vh,96px)}
-.hero .wrap{max-width:none;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:clamp(24px,5vw,80px);align-items:center}
-.hero h1{margin-top:18px}
-.hero h1 span{display:block}
-.hero .role{margin-top:22px;font:var(--mads-label-default);color:var(--mads-theme-text-amber-gold)}
-.hero .lede{margin-top:22px;font:var(--mads-text-xlarge);max-width:60ch;color:var(--mads-theme-text)}
-.hero .lede em{font-style:normal;color:var(--mads-theme-text-amber-gold)}
+/* a row of buttons (hero and contact) */
 .cta{margin-top:34px;display:flex;gap:12px;flex-wrap:wrap}
-.hero-art{position:relative;display:flex;align-items:flex-end;justify-content:flex-end;gap:clamp(10px,2vw,22px);min-width:0}
-.hero-art .emblem{flex:0 1 auto;min-width:0;width:clamp(240px,30vw,560px);height:auto;overflow:visible}
 .capsule{position:relative;border-radius:var(--mads-radius-full);overflow:hidden;background:var(--mads-gradient-surface-raised);flex:none}
 .capsule img{position:absolute;inset:0;width:100%;height:100%;max-width:none;object-fit:cover;object-position:50% 38%}
 .capsule img.blink{opacity:0;transition:opacity 40ms linear}
 .capsule.blinking img.blink{opacity:1}
-.hero .capsule{width:clamp(110px,12vw,220px);aspect-ratio:9/15}
 
-/* assembly animation for hero emblem */
-.assemble .p{animation:drop 1s var(--mads-motion-easing-entrance) both}
-.assemble .p1{animation-delay:.05s}.assemble .p2{animation-delay:.18s}.assemble .p3{animation-delay:.34s;animation-name:swing}
-.assemble .p4{animation-delay:.5s;animation-name:slide}.assemble .p5{animation-delay:.7s;animation-name:slidex}
-@keyframes drop{from{transform:translateY(-60px);opacity:0}}
-@keyframes swing{from{transform:scaleY(0);opacity:0}}
-@keyframes slide{from{transform:translateY(50px);opacity:0}}
-@keyframes slidex{from{transform:translateX(60px);opacity:0}}
-.assemble .p3{transform-origin:92px 30px;transform-box:view-box}
 
 
 section{position:relative}
@@ -136,6 +117,7 @@ footer{border-top:1px solid var(--mads-theme-line);padding-block:26px;color:var(
 footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 
 /* emblem internals */
+@keyframes ping{from{transform:scale(.6);opacity:1}to{transform:scale(3.2);opacity:0}}
 .emblem .click circle{fill:none;stroke:var(--mads-color-amber-gold);stroke-width:1.4;transform-box:fill-box;transform-origin:center;animation:ping 1.8s ease-out infinite}
 .emblem .click circle+circle{animation-delay:.6s}
 .emblem .mover{animation:move 6s cubic-bezier(.6,0,.3,1) infinite}
@@ -145,9 +127,6 @@ footer .wrap{display:flex;justify-content:space-between;gap:16px;flex-wrap:wrap}
 .offscreen *,.offscreen *::before,.offscreen *::after{animation-play-state:paused!important}
 
 @media (max-width:980px){
-  .hero .wrap{grid-template-columns:1fr}
-  .hero-art{order:-1;justify-content:flex-start}
-  .hero-art .emblem{width:min(62vw,340px)}
   .timeline .wrap{grid-template-columns:1fr;gap:0}
   .stage{height:auto;top:env(safe-area-inset-top,0px);z-index:5;flex-direction:row;align-items:center;gap:14px;padding:72px 0 12px;background:var(--mads-gradient-scrim)}
   .stage .ghost-year,.stage .mix,.stage .capsule{display:none}

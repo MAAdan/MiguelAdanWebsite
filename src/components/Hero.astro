@@ -1,0 +1,64 @@
+---
+/* Hero: the name, the roles, a short introduction, two MADS buttons (Button.astro), the MA logo (the page script draws it
+   in #heroEmblem and plays its assembly) and the portrait (the script makes it blink by toggling .blinking on #heroAvatar).
+   The text comes from translations/. */
+import Button from '@maadan/mads/components/Button.astro';
+import { texts, asset } from '../i18n.js';
+
+interface Props {
+  lang: 'en' | 'es';
+}
+
+const { lang } = Astro.props;
+const { T, A } = texts(lang);
+---
+<section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow" set:html={T('hero.product_manager_engineering_leader')} />
+        <h1 class="mads-heading-hero"><span set:html={T('hero.miguel')} /><span class="mads-text-gradient" set:html={T('hero.adan')} /></h1>
+        <p class="role" set:html={T('hero.computer_engineer_tech_lead')} />
+        <p class="lede"><Fragment set:html={T('hero.twenty_years_ive_built')} />{' '}<em set:html={T('hero.what_gets_built_why')} /><Fragment set:html={T('hero.international_teams_across_five')} /></p>
+        <div class="cta">
+          <Button href="#story" icon="chevron-down"><Fragment set:html={T('hero.scroll_back_through_career')} /></Button>
+          <Button variant="secondary" href="#contact"><Fragment set:html={T('hero.get_touch')} /></Button>
+        </div>
+      </div>
+      <div class="hero-art">
+        <svg class="emblem assemble" id="heroEmblem" data-emblem="ma" data-static="1" viewBox="36 12 200 116" role="img" aria-label={A('hero.ma_logo')}></svg>
+        <div class="mads-frame-gradient capsule" id="heroAvatar"><img src={asset(lang, 'avatar-main.webp')} alt={A('hero.illustrated_portrait_miguel_adan')} width="768" height="768"><img class="blink" src={asset(lang, 'avatar-main-blink.webp')} alt="" aria-hidden="true" width="768" height="768"></div>
+      </div>
+    </div>
+  </section>
+
+<style is:global>
+  .hero { padding-block: clamp(110px, 16vh, 170px) clamp(56px, 8vh, 96px); }
+  .hero .wrap { max-width: none; display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: clamp(24px, 5vw, 80px); align-items: center; }
+  .hero h1 { margin-top: 18px; }
+  .hero h1 span { display: block; }
+  .hero .role { margin-top: 22px; font: var(--mads-label-default); color: var(--mads-theme-text-amber-gold); }
+  .hero .lede { margin-top: 22px; font: var(--mads-text-xlarge); max-width: 60ch; color: var(--mads-theme-text); }
+  .hero .lede em { font-style: normal; color: var(--mads-theme-text-amber-gold); }
+  .hero-art { position: relative; display: flex; align-items: flex-end; justify-content: flex-end; gap: clamp(10px, 2vw, 22px); min-width: 0; }
+  .hero-art .emblem { flex: 0 1 auto; min-width: 0; width: clamp(240px, 30vw, 560px); height: auto; overflow: visible; }
+  .hero .capsule { width: clamp(110px, 12vw, 220px); aspect-ratio: 9/15; }
+
+  /* the logo assembles itself when the page opens: its parts drop, swing and slide into place */
+  .assemble .p { animation: drop 1s var(--mads-motion-easing-entrance) both; }
+  .assemble .p1 { animation-delay: .05s; }
+  .assemble .p2 { animation-delay: .18s; }
+  .assemble .p3 { animation-delay: .34s; animation-name: swing; }
+  .assemble .p4 { animation-delay: .5s; animation-name: slide; }
+  .assemble .p5 { animation-delay: .7s; animation-name: slidex; }
+  @keyframes drop { from { transform: translateY(-60px); opacity: 0; } }
+  @keyframes swing { from { transform: scaleY(0); opacity: 0; } }
+  @keyframes slide { from { transform: translateY(50px); opacity: 0; } }
+  @keyframes slidex { from { transform: translateX(60px); opacity: 0; } }
+  .assemble .p3 { transform-origin: 92px 30px; transform-box: view-box; }
+
+  @media (max-width: 980px) {
+    .hero .wrap { grid-template-columns: 1fr; }
+    .hero-art { order: -1; justify-content: flex-start; }
+    .hero-art .emblem { width: min(62vw, 340px); }
+  }
+</style>

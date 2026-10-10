@@ -50,7 +50,7 @@ const cities = [
   @keyframes dash { to { stroke-dashoffset: -20; } }
   .city circle.core { stroke: var(--mads-theme-background); stroke-width: 2; }
   .city .ping { fill: none; stroke-width: 1.5; transform-box: fill-box; transform-origin: center; animation: ping 2.4s ease-out infinite; }
-  @keyframes ping { from { transform: scale(.6); opacity: 1; } to { transform: scale(3.2); opacity: 0; } }
+  /* the ping animation is in site.css: the logo's click ripple uses it too */
   .city text { font: var(--mads-label-weight) var(--mads-label-xsmall-size) var(--mads-font-mono); fill: var(--mads-theme-text); letter-spacing: .04em; }
   .city text.sub { font-weight: 400; fill: var(--mads-theme-text-muted); font-size: 9px; }
   .cities { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 28px; }
