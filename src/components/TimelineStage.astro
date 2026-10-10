@@ -1,0 +1,68 @@
+---
+/* The career timeline's stage: it stays in view while the chapters scroll past and shows the current one. The page script
+   fills it in from each chapter's data-… attributes: the year behind (#ghostYear), the morphing logo (#stageEmblem), the
+   portrait (#stagePhoto), the years, role, company and place (a MADS location chip, #stPlace) and the focus mix as three
+   MADS progress bars (#mxT/#mxP/#mxD and their numbers). The starting text is the first chapter's, from translations/. */
+import Chip from '@maadan/mads/components/Chip.astro';
+import Progress from '@maadan/mads/components/Progress.astro';
+import { texts, asset } from '../i18n.js';
+
+interface Props {
+  lang: 'en' | 'es';
+}
+
+const { lang } = Astro.props;
+const { T } = texts(lang);
+
+const mix = [
+  { label: 'stage.technology', bar: 'mxT', fill: 'violet-azure' },
+  { label: 'stage.people', bar: 'mxP', fill: 'pink-violet' },
+  { label: 'evo.product', bar: 'mxD', fill: 'orange-amber' },
+];
+---
+<aside class="stage" aria-hidden="true">
+        <div class="ghost-year" id="ghostYear">2021</div>
+        <svg class="emblem" id="stageEmblem" data-emblem="tickets" viewBox="36 12 200 116"></svg>
+        <div class="stage-info">
+          <div class="mads-frame-gradient capsule" id="stagePhoto">
+            <img src={asset(lang, 'avatar-00.webp')} alt="" width="768" height="768">
+            <img src={asset(lang, 'avatar-00.webp')} alt="" style="opacity:0" width="768" height="768">
+          </div>
+          <div class="stage-meta">
+            <div class="stage-years" id="stYears" set:html={T('stage.2021_today')} />
+            <div class="stage-role" id="stRole" set:html={T('stage.product_manager')} />
+            <div class="stage-org" id="stOrg" set:html={T('stage.current_company')} />
+            <Chip location as="div" class="stage-place" id="stPlace"><Fragment set:html={T('stage.madrid_stockholm_london_paris')} /></Chip>
+          </div>
+        </div>
+        <div class="mix">
+          <div class="mix-title" set:html={T('stage.focus_mix_this_stage')} />
+          {mix.map(m => <Progress label={T(m.label)} fill={m.fill} barId={m.bar} outputId={`${m.bar}o`} animate />)}
+        </div>
+      </aside>
+
+<style is:global>
+  .stage { position: sticky; top: 0; height: 100vh; display: flex; flex-direction: column; justify-content: center; gap: 22px; padding-block: 80px 40px; }
+  .stage .ghost-year { position: absolute; left: -2%; top: 50%; transform: translateY(-50%); font: 800 clamp(120px,15vw,230px)/.8 var(--mads-font-display); color: transparent; -webkit-text-stroke: 1px var(--mads-theme-fill-ghost); pointer-events: none; letter-spacing: -.04em; z-index: -1; white-space: nowrap; }
+  .stage .emblem { width: 100%; max-width: 480px; height: auto; overflow: visible; }
+  .stage-info { display: flex; gap: 20px; align-items: center; }
+  .stage .capsule { width: 92px; aspect-ratio: 9/13; }
+  .stage .capsule img { transition: opacity var(--mads-motion-duration-slow); }
+  .stage-meta { min-width: 0; }
+  .stage-years { font: var(--mads-label-small); color: var(--mads-theme-text-amber-gold); letter-spacing: .06em; }
+  .stage-role { font: var(--mads-heading-xlarge); margin-top: 8px; }
+  .stage-org { color: var(--mads-theme-text-muted); font: var(--mads-text-large); margin-top: 6px; }
+  /* .stage .stage-place, not .stage-place: it must win over .mads-chip's white-space whatever the stylesheet order */
+  .stage .stage-place { margin-top: 10px; white-space: normal; line-height: 1.3; max-width: 100%; }
+  .mix { display: grid; gap: 9px; max-width: 440px; }
+  .mix-title { font: var(--mads-label-xsmall); letter-spacing: .14em; text-transform: uppercase; color: var(--mads-theme-text-faint); }
+  @media (max-width: 980px) {
+    .stage { height: auto; top: env(safe-area-inset-top, 0px); z-index: 5; flex-direction: row; align-items: center; gap: 14px; padding: 72px 0 12px; background: var(--mads-gradient-scrim); }
+    .stage .ghost-year, .stage .mix, .stage .capsule { display: none; }
+    .stage .emblem { width: 118px; flex: none; }
+    .stage-info { gap: 12px; }
+    .stage-role { font: var(--mads-heading-small); margin-top: 4px; }
+    .stage-org { display: none; }
+    .stage .stage-place { margin-top: 6px; font-size: var(--mads-label-xsmall-size); }
+  }
+</style>

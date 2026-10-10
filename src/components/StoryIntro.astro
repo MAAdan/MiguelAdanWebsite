@@ -1,0 +1,23 @@
+---
+/* The career timeline's introduction: "The story, told backwards". The text comes from translations/. */
+import { texts } from '../i18n.js';
+
+interface Props {
+  lang: 'en' | 'es';
+}
+
+const { T } = texts(Astro.props.lang);
+---
+<section class="tl-intro" id="story">
+    <div class="wrap">
+      <div class="sec-head" style="margin-bottom:0">
+        <p class="eyebrow" set:html={T('story.story_told_backwards')} />
+        <h2 set:html={T('story.start_today_scroll_into')} />
+        <p set:html={T('story.each_stage_below_shows')} />
+      </div>
+    </div>
+  </section>
+
+<style is:global>
+  .tl-intro { padding-bottom: clamp(20px, 4vh, 40px); }
+</style>
